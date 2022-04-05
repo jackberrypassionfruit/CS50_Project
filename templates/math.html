@@ -1,0 +1,147 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Math
+{% endblock %}
+
+
+{% block javascript %}
+<script>
+    function tfq() 
+        {
+            let checker = document.getElementsByClassName("tfq")[0].getElementsByTagName("h3")[0];
+            if (typeof(checker) != 'undefined' && checker != null)
+                {
+                checker.remove();
+                }
+
+            ans = document.getElementsByClassName("tfq")[0].getElementsByTagName("select")[0].value;
+            if (ans == 1)
+            {
+            
+                const correct = document.createElement("h3")
+                correct.innerHTML = "Correct!";
+                correct.setAttribute("class", "correct")
+
+                document.getElementsByClassName("tfq")[0].getElementsByClassName("answer")[0].appendChild(correct);
+            }
+            else
+            {
+                
+                const incorrect = document.createElement("h3")
+                incorrect.innerHTML = "Incorrect";
+                incorrect.setAttribute("class", "incorrect")
+
+                document.getElementsByClassName("tfq")[0].getElementsByClassName("answer")[0].appendChild(incorrect);
+            }
+        }
+
+    function mcq()
+    {
+        let checker = document.getElementsByClassName("mcq")[0].getElementsByTagName("h3")[0];
+        if (typeof(checker) != 'undefined' && checker != null)
+            {
+            checker.remove();
+            }
+
+        ans = document.getElementsByClassName("mcq")[0].getElementsByTagName("select")[0].value;
+        if (ans == 4)
+        {
+            const correct = document.createElement("h3")
+            correct.innerHTML = "Correct!";
+            correct.setAttribute("class", "correct")
+
+            document.getElementsByClassName("mcq")[0].getElementsByClassName("answer")[0].appendChild(correct);
+        }
+        else
+        {
+            const incorrect = document.createElement("h3")
+            incorrect.innerHTML = "Incorrect";
+            incorrect.setAttribute("class", "incorrect")
+
+            document.getElementsByClassName("mcq")[0].getElementsByClassName("answer")[0].appendChild(incorrect);
+        }
+    }
+
+    function frq(ans)
+    {
+        let checker = document.getElementsByClassName("frq")[0].getElementsByTagName("h3")[0];
+        if (typeof(checker) != 'undefined' && checker != null)
+            {
+            checker.remove();
+            }
+
+        ans = document.getElementsByClassName("frq")[0].getElementsByTagName("input")[0].value;
+        ans = parseInt(ans);
+
+        if (ans === 5)
+        {
+            // show the Correct div
+            const correct = document.createElement("h3")
+            correct.innerHTML = "Correct!";
+            correct.setAttribute("class", "correct")
+
+            document.getElementsByClassName("frq")[0].getElementsByClassName("answer")[0].appendChild(correct);
+        }
+        else
+        {
+            // show the Incorrect div
+            const incorrect = document.createElement("h3")
+            incorrect.innerHTML = "Incorrect";
+            incorrect.setAttribute("class", "incorrect")
+
+            document.getElementsByClassName("frq")[0].getElementsByClassName("answer")[0].appendChild(incorrect);
+        }
+    }
+
+</script>
+
+{% endblock %}
+
+{% block main %}
+<div class="questions">  
+    <div class="tfq">
+        <p>Question 1</p>
+        <img src="./images/TFQ.png" id="tfq" alt="Are the 2 functions, f(x) and g(x), inverses of each other?">
+            
+        <div class="answer">
+            <select class="form-select" onchange="tfq()" aria-label="Default select example">
+                <option selected>Select</option>
+                <option value="1">True</option>
+                <option value="2">False</option>
+            </select>
+        </div>
+
+    </div>
+
+    <br><br><br><br>
+
+    <div class="mcq">
+        <p>Question 2</p>
+        <img src="./images/MCQ.png" id="mcq" alt="Which expression is equal to 0?">
+        
+        <div class="answer">
+            <select class="form-select" onchange="mcq()" aria-label="Default select example">
+                <option selected>Select</option>
+                <option value="1">A</option>
+                <option value="2">B</option>
+                <option value="3">C</option>
+                <option value="4">D</option>
+            </select>
+        </div>
+    </div>
+
+    <br><br><br><br>
+
+    <div class="frq">
+        <p>Question 3</p>
+        <img src="./images/FRQ.png" id="frq" alt="Use the graph to identify the function of ?">
+        
+        <div class="answer">
+            <input autocomplete="off" id="frq" placeholder="Answer" type="text">
+            <input type="submit" onclick="frq()">
+        </div>
+
+    </div>
+</div> 
+{% endblock %}

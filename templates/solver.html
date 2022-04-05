@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+
+{% block title %}
+    Solver
+{% endblock %}
+
+
+{% block javascript%}
+    <script>
+        function solver() {
+            let eq = document.getElementsByClassName("tosolve")[0].getElementsByTagName("input")[0].value
+            console.log(eq)
+    }
+    </script>
+{% endblock %}
+
+
+{% block main %}
+    <div class="tosolve">
+        <input autocomplete="off" id="solver" placeholder="Equation to Solve" type="text">
+        <input type="submit" onclick="solver()">
+    </div>
+{% endblock %}
