@@ -63,7 +63,8 @@ def solver():
             4) If still none True, test determinate for solutions, and return expected result (ex. 2 real, 1 real, 2 imaginary sol.)
             """
             
-            # 1) check over each number from 1 to C to see if it's a factor, and make a list of them
+            # 1) 
+            """ Check over each number from 1 to C to see if it's a factor, and make a list of them """
             factors_C = [x for x in range(1, abs(coeffC) + 1) if abs(coeffC) % x == 0]
             
             # 2)
@@ -75,7 +76,7 @@ def solver():
                 
             # 3)
             op = 1 # to account for a negative B term, create variable to multiply by 2nd factor in pair check if they add to B, to simulate subtracting
-            flip = 1 # This one also for account if C is positive AND B negative, meaning both zeroes become negative in the end
+            flip = 1 # This one also for account if C is positive AND B is negative, meaning both zeroes become negative in the end
             if coeffC < 0:
                 op = -1
             elif coeffB < 0:

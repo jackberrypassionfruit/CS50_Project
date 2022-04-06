@@ -12,5 +12,43 @@
 
 
 {% block main %}
-    It works!
+    <div>
+        <table class="table table-striped table-dark table-bordered">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Solving Quadratics</th>
+                    <th>Activity 2</th>
+                    <th>Activity 3</th>
+                    <th>Activity 4</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <!-- List all holdings for the given user -->
+                {% for row in range(5) %}
+                    <tr>
+                        <td>Something</td>
+                        <td>Something</td>
+                        <td>Something</td>
+                        <td>Something</td>
+                        <td>Something</td>
+                    </tr>
+
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3"></td>
+                    <td><strong>Cash</strong></td>
+                    <td><em>Money</em></td>
+                </tr>
+                <tr>
+                    <td colspan="3"></td>
+                    <td><strong>Total</strong></td>
+                    <td><em>Power</em></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
 {% endblock %}
