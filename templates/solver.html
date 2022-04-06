@@ -7,18 +7,18 @@
 
 
 {% block javascript%}
-    <script>
-        function solver() {
-            let eq = document.getElementsByClassName("tosolve")[0].getElementsByTagName("input")[0].value
-            console.log(eq)
-    }
-    </script>
+    
 {% endblock %}
 
 
 {% block main %}
-    <div class="tosolve">
-        <input autocomplete="off" id="solver" placeholder="Equation to Solve" type="text">
-        <input type="submit" onclick="solver()">
-    </div>
+    <img src="../static/quadraticEQs.png" id="quad" alt="Example of a Quadratic Function">
+
+    <form class="tosolve" method="post" action="/solver">
+        <input autocomplete="off" name="coeffA" placeholder="Coeffient of A" type="number">
+        <input autocomplete="off" name="coeffB" placeholder="Coeffient of B" type="number">
+        <input autocomplete="off" name="coeffC" placeholder="Coeffient of C" type="number">
+
+        <input type="submit" value="Solve">
+    </form>
 {% endblock %}
