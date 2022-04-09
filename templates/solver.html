@@ -30,12 +30,17 @@
 
             console.log(factors_C);
 
-            
-            let step1 = document.createElement("div");
+            // Add nodes to hidden divs for solution, to be displayed when button is pressed
+            let step1 = document.getElementsByClassName("step1")[0];
+            let instruct1 = document.createElement("h4");
             let list1 = document.createTextNode(factors_C);
+            let button1 = document.createElement("button");
+            button1.setAttribute("textContent", "Next");
+            button1.setAttribute("class", "btn btn-secondary");
+            step1.appendChild(instruct1);
             step1.appendChild(list1);
-            document.getElementsByClassName("step1")[0].appendChild(step1);
-            document.getElementsByClassName("step1")[0].removeAttribute("hidden");
+            step1.appendChild(button1);
+            step1.removeAttribute("hidden");
             //
             // TODO here!
             // Make button that continues unhiding the steps to the solution
@@ -46,12 +51,34 @@
             let iter = Math.ceil(factors_C.length / 2);
 
             let factor_pairs = [];
-            for (let i = 0; i <= iter; i++) 
+            for (let i = 0; i <= iter / 2; i++) 
             {
                 factor_pairs.push([factors_C[i], factors_C[factors_C.length - i - 1]]);
             }
 
             console.log(factor_pairs[0], factor_pairs[1], factor_pairs[2]);
+
+
+            let step2 = document.getElementsByClassName("step2")[0];
+            let instruct2 = document.createElement("h4");
+
+            // Creating an unordeered list to show the pairs
+            
+            let list2 = document.createElement("ul");
+            for (i in factor_pairs)
+            {
+                let item = document.createElement("li");
+                let text = document.createTextNode(factor_pairs[i]);
+                item.appendChild(text);
+                list2.appendChild(item);
+            }
+
+            let button2 = document.createElement("button");
+            button2.setAttribute("textContent", "Next");
+            button2.setAttribute("class", "btn btn-secondary");
+            step2.appendChild(instruct2);
+            step2.appendChild(list2);
+            step2.appendChild(button2);
             
 
             // Step 3 - Test which pairs add to B, if any
@@ -76,16 +103,33 @@
                 {
                     roots.push(flip * pair0);
                     roots.push(flip * op * pair1);
+                    break;
                 }
                 else if (flip * pair1 + (flip * op * pair0) == coeffB)
                 {
                     roots.push(flip * pair1);
                     roots.push(flip * op * pair0);
+                    break;
                 }
             }
 
             console.log(roots[0], roots[1]);
 
+            let step3 = document.getElementsByClassName("step3")[0];
+            let instruct3 = document.createElement("h4");
+            let list3 = document.createTextNode(roots);
+            step3.appendChild(instruct3);
+            step3.appendChild(list3);
+
+            button1.addEventListener("click", function()
+            {
+                document.getElementsByClassName("step2")[0].removeAttribute("hidden");
+            });
+
+            button2.addEventListener("click", function()
+            {
+                document.getElementsByClassName("step3")[0].removeAttribute("hidden");
+            });
         }
         
     </script>
@@ -161,23 +205,24 @@
         <button class="btn btn-primary" onclick="solve()">Solve</button>
     </div>
 
-    <div class="step1" hidden>
-        <div>
-            First, make a list of the factors of the coefficient C:
+    <div class="steps">
+        <div class="step1" hidden>
+            <div>
+                First, make a list of the factors of the coefficient C:
+            </div>
+        </div>
+
+        <div class="step2" hidden>
+            <div>
+                Then, find all the pairs of factors that multiply to C:
+            </div>
+        </div>
+
+        <div class="step3" hidden>
+            <div>
+                Finally, find which pairs of factors add up to the coefficient B:
+            </div>
         </div>
     </div>
-
-    <div class="step2" hidden>
-        <div>
-            Then, find all the pairs of factors that multiply to C:
-        </div>
-    </div>
-
-    <div class="step3" hidden>
-        <div>
-            Finally, find which pairs of factors add up to the coefficient B:
-        </div>
-    </div>
-
 
 {% endblock %}

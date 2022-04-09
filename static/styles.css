@@ -37,4 +37,15 @@ nav .navbar-brand .green {
   text-align: left;
 }
 
+.steps {
+  display: flex;
+}
+
+.step1, .step2, .step3 {
+  display: flex;
+  flex-flow: column nowrap;
+  width: 25vw;
+  margin: 2vw;
+}
+
 /*# sourceMappingURL=styles.css.map */
