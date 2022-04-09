@@ -2,11 +2,11 @@ CREATE TABLE users (
     id INTEGER NOT NULL,
     username TEXT NOT NULL,
     hash TEXT NOT NULL,
-    tot_points INTEGER NOT NULL,
+    tot_points INTEGER NOT NULL DEFAULT 0,
     PRIMARY KEY(id)
 );
 
-CREATE TABLE activity_solving_quadratics (
+CREATE TABLE math_activities (
     user_id INTEGER NOT NULL,
     title TEXT NOT NULL,
     points INTEGER NOT NULL,

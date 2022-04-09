@@ -7,18 +7,177 @@
 
 
 {% block javascript%}
-    
+    <script>
+        function difficulty() {
+            let hard = document.getElementsByClassName("aValue")[0].getElementsByTagName("select")[0].value;
+            document.getElementsByName(hard)[0].removeAttribute("hidden");
+        }
+
+        function solve() {
+            let coeffA = document.getElementById("coeffA").value;
+            let coeffB = document.getElementById("coeffB").value;
+            let coeffC = document.getElementById("coeffC").value;
+            
+            // Step 1 - Create factors list for C coefficient
+            let factors_C = [];
+            for (let x = 0; x <= Math.abs(coeffC); x++)
+            {
+                if ((Math.abs(coeffC) % x) == 0) 
+                {
+                    factors_C.push(x);
+                }
+            }
+
+            console.log(factors_C);
+
+            
+            let step1 = document.createElement("div");
+            let list1 = document.createTextNode(factors_C);
+            step1.appendChild(list1);
+            document.getElementsByClassName("step1")[0].appendChild(step1);
+            document.getElementsByClassName("step1")[0].removeAttribute("hidden");
+            //
+            // TODO here!
+            // Make button that continues unhiding the steps to the solution
+
+
+
+            // Step 2 - CHeck which pairs of factors multiply to make C
+            let iter = Math.ceil(factors_C.length / 2);
+
+            let factor_pairs = [];
+            for (let i = 0; i <= iter; i++) 
+            {
+                factor_pairs.push([factors_C[i], factors_C[factors_C.length - i - 1]]);
+            }
+
+            console.log(factor_pairs[0], factor_pairs[1], factor_pairs[2]);
+            
+
+            // Step 3 - Test which pairs add to B, if any
+            let op = 1;
+            let flip = 1;
+            if (coeffC < 0)
+            {
+                op = -1;
+            }
+            else if (coeffB < 0)
+            {
+                flip = -1;
+            }
+
+            let roots = []
+            for (let i = 0; i < factor_pairs.length; i++)
+            {
+                let pair0 = factor_pairs[i][0];
+                let pair1 = factor_pairs[i][1];
+                // console.log(flip * pair0);
+                if (flip * pair0 + (flip * op * pair1) == coeffB)
+                {
+                    roots.push(flip * pair0);
+                    roots.push(flip * op * pair1);
+                }
+                else if (flip * pair1 + (flip * op * pair0) == coeffB)
+                {
+                    roots.push(flip * pair1);
+                    roots.push(flip * op * pair0);
+                }
+            }
+
+            console.log(roots[0], roots[1]);
+
+        }
+        
+    </script>
 {% endblock %}
 
 
 {% block main %}
-    <img src="../static/quadraticEQs.png" id="quad" alt="Example of a Quadratic Function">
+<div class="todo">
+    Todo: Find a way to make the website extract the coefficients itself, so user doesn't have to    
+</div>
 
-    <form class="tosolve" method="post" action="/solver">
+<img src="../static/quadraticEQs.png" id="quad" alt="Example of a Quadratic Function">
+
+    <br>
+
+    <div class="aValue"> 
+        <label for="difficulty">Pick a difficulty:</label>
+        <select name="diffculty">
+            <option value="selector" selected></option>
+            <option value="easy">Easy</option>
+            <option value="hard">Hard</option>
+        </select>
+        <button class="btn btn-primary" onclick="difficulty()">Start</button>
+    </div>
+
+
+    <div class="problems">
+        <div name="easy" hidden="true">
+            <br>
+            <h4><em>New Easier Problem</em></h4>
+            <br>
+            <h3>{{ problems[0][0] }}</h3>
+        </div>
+
+        <div name="hard" hidden="true">
+            <br>
+            <h4><em>New Harder Problem</em></h4>
+            <br>
+            <h3>{{ problems[1][0].replace("Zeros of the Quadratic Equation ", "") }}</h3>
+        </div>
+    </div>
+
+
+    {% for i in range(5) %}
+    <br>
+    {% endfor %}
+
+    <h2>Enter the coefficients here please</h2>
+
+    <br>
+
+    <h2>Enter your Solution here!</h2>
+    <form class="answer" method="post" action="/solver">
+    <div>
         <input autocomplete="off" name="coeffA" placeholder="Coeffient of A" type="number">
         <input autocomplete="off" name="coeffB" placeholder="Coeffient of B" type="number">
         <input autocomplete="off" name="coeffC" placeholder="Coeffient of C" type="number">
-
-        <input type="submit" value="Solve">
+    </div>
+    <div>
+        <input autocomplete="off" name="ans1" placeholder="1st Root" type="number">
+        <input autocomplete="off" name="ans2" placeholder="2nd Root" type="number">
+        <button class="btn btn-primary">Check</button>
+    </div>
     </form>
+
+    <br>
+
+    <h2>Or use the Solution solver!</h2>
+    <div class="tosolve">
+        <input autocomplete="off" id="coeffA" placeholder="Coeffient of A" type="number">
+        <input autocomplete="off" id="coeffB" placeholder="Coeffient of B" type="number">
+        <input autocomplete="off" id="coeffC" placeholder="Coeffient of C" type="number">
+        <button class="btn btn-primary" onclick="solve()">Solve</button>
+    </div>
+
+    <div class="step1" hidden>
+        <div>
+            First, make a list of the factors of the coefficient C:
+        </div>
+    </div>
+
+    <div class="step2" hidden>
+        <div>
+            Then, find all the pairs of factors that multiply to C:
+        </div>
+    </div>
+
+    <div class="step3" hidden>
+        <div>
+            Finally, find which pairs of factors add up to the coefficient B:
+        </div>
+    </div>
+
+
 {% endblock %}

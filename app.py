@@ -6,7 +6,10 @@ from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
-from math import ceil
+from math import ceil, floor
+from helpers import * # Right now, just apology() & login_required()
+from mathgenerator import mathgen
+
 
 
 # Configure application
@@ -21,7 +24,12 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # Configure CS50 Library to use SQLite database
-db = SQL("sqlite:///solver.db")
+db = SQL("sqlite:///omegaMath.db")
+
+# Make sure API key is set
+if not os.environ.get("API_KEY"):
+    raise RuntimeError("API_KEY not set")
+
 
 @app.after_request
 def after_request(response):
@@ -33,21 +41,64 @@ def after_request(response):
 
 
 @app.route("/")
+@login_required
 def index():
+    """Show dashboard of student's progress"""
+    if not session.get("name"):
+        return redirect("/login")
+    
     return render_template("index.html")
 
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == "POST":
+        """Register user"""
+
+        username = request.form.get("username")
+        password = request.form.get("password")
+        confirmation = request.form.get("confirmation")
+
+        users = db.execute("SELECT * FROM users")
+
+        if username in [user["username"] for user in users] or username == "":
+            return apology("Username blank or already exists", 400)
+
+        if password != confirmation or password == "":
+            return apology("Passwords do not match or are blank", 400)
+
+        db.execute("INSERT INTO users (username, hash) VALUES(?, ?)", username, generate_password_hash(password))
+
+        # Query database for username
+        rows = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
+
+        # Remember which user has logged in
+        session["user_id"] = rows[0]["id"]
+        session["name"] = rows[0]["username"]
+
+        # Showing up now, but wasn't before I made sure to log in user on registration
+        flash(f"{session['name']} has been registered and logged in!")
+
+        return redirect("/")
+    else:
+        return render_template("register.html")
 
 
-@app.route("/math")
-def math():
-    return render_template("math.html")
 
 @app.route("/solver", methods=["GET", "POST"])
 def solver():
     if request.method == "POST":
+        problems = [mathgen.genById(21), mathgen.genById(50)]
+        
         coeffA = int(request.form.get("coeffA"))
         coeffB = int(request.form.get("coeffB"))
         coeffC = int(request.form.get("coeffC"))
+
+        ans1 = int(request.form.get("ans1"))
+        ans2 = int(request.form.get("ans2"))
+
+        roots = []
+
+
         if int(coeffA) == 1:
             """ Easy mode
             Steps:
@@ -85,16 +136,32 @@ def solver():
             
             for pair in factor_pairs:
                 if flip * pair[0] + (flip * op * pair[1]) == coeffB:
-                    flash("Roots of the solution are: ")
-                    flash([flip * pair[0], flip * op * pair[1]])
+                    # flash("Roots of the solution are: ")
+                    # flash([flip * pair[0], flip * op * pair[1]])
+                    roots = [flip * pair[0], flip * op * pair[1]]
                 elif flip * pair[1] + (flip * op * pair[0]) == coeffB:
-                    flash("Roots of the solution are: ")
-                    flash([flip * pair[1], flip * op * pair[0]])
+                    # flash("Roots of the solution are: ")
+                    # flash([flip * pair[1], flip * op * pair[0]])
+                    roots = [flip * pair[1], flip * op * pair[0]]
+
+            
             
         else:
             """ Hard mode"""
             pass
+
+        if ans1 in roots and ans2 in roots:
+            flash("Yup!")
+        else:
+            flash("Nah")
         
-        return render_template("solver.html")
+        return render_template("solver.html", problems=problems)
     else:
-        return render_template("solver.html")
+        problems = [mathgen.genById(21), mathgen.genById(50)]
+
+        return render_template("solver.html", problems=problems)
+
+
+@app.route("/math")
+def math():
+    return render_template("math.html")
