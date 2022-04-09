@@ -1,0 +1,8 @@
+cs50
+Flask
+Flask-Session
+requests
+
+-- New Packages, not uses in CS50 problem sets
+mathgenerator
+    - API used to supply practice math questions

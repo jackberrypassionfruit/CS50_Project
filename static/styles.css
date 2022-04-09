@@ -1,3 +1,27 @@
+/* Size for brand */
+nav .navbar-brand {
+  font-size: xx-large;
+}
+nav .navbar-brand .blue {
+  color: #537fbe;
+}
+nav .navbar-brand .red {
+  color: #ea433b;
+}
+nav .navbar-brand .yellow {
+  color: #f5b82e;
+}
+nav .navbar-brand .green {
+  color: #2e944b;
+}
+
+.table, td {
+  margin-left: auto;
+  margin-right: auto;
+  width: fit-content;
+  text-align: right;
+}
+
 .hello div {
   color: blue;
 }
@@ -7,6 +31,10 @@
 
 #quad {
   width: 50vw;
+}
+
+.todo {
+  text-align: left;
 }
 
 /*# sourceMappingURL=styles.css.map */
