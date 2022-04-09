@@ -75,8 +75,8 @@ def solver():
                 factor_pairs.append([factors_C[i], factors_C[-i - 1]])
                 
             # 3)
-            op = 1 # to account for a negative B term, create variable to multiply by 2nd factor in pair check if they add to B, to simulate subtracting
-            flip = 1 # This one also for account if C is positive AND B is negative, meaning both zeroes become negative in the end
+            op, flip = 1, 1 # to account for a negative C term, create variable named op to multiply by 2nd factor in pair check if they add to B, to simulate subtracting
+                            # Flip also accounts for if C is positive AND B is negative, meaning both zeroes become negative in the end
             if coeffC < 0:
                 op = -1
             elif coeffB < 0:
@@ -86,10 +86,10 @@ def solver():
             for pair in factor_pairs:
                 if flip * pair[0] + (flip * op * pair[1]) == coeffB:
                     flash("Roots of the solution are: ")
-                    flash([flip * pair[0], flip * op * pair[1]])
+                    flash([-1 * flip * pair[0], -1 * flip * op * pair[1]])
                 elif flip * pair[1] + (flip * op * pair[0]) == coeffB:
                     flash("Roots of the solution are: ")
-                    flash([flip * pair[1], flip * op * pair[0]])
+                    flash([-1 * flip * pair[1], -1 * flip * op * pair[0]])
             
         else:
             """ Hard mode"""
