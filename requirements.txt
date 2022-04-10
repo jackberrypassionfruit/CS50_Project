@@ -6,3 +6,4 @@ requests
 -- New Packages, not uses in CS50 problem sets
 mathgenerator
     - API used to supply practice math questions
+    - https://github.com/lukew3/mathgenerator

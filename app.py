@@ -96,6 +96,8 @@ def solver():
         ans1 = int(request.form.get("ans1"))
         ans2 = int(request.form.get("ans2"))
 
+
+
         roots = []
 
 
@@ -138,11 +140,11 @@ def solver():
                 if flip * pair[0] + (flip * op * pair[1]) == coeffB:
                     # flash("Roots of the solution are: ")
                     # flash([flip * pair[0], flip * op * pair[1]])
-                    roots = [flip * pair[0], flip * op * pair[1]]
+                    roots = [-1 * flip * pair[0], -1 *  flip * op * pair[1]]
                 elif flip * pair[1] + (flip * op * pair[0]) == coeffB:
                     # flash("Roots of the solution are: ")
                     # flash([flip * pair[1], flip * op * pair[0]])
-                    roots = [flip * pair[1], flip * op * pair[0]]
+                    roots = [-1 * flip * pair[1], -1 *  flip * op * pair[0]]
 
             
             
@@ -153,7 +155,8 @@ def solver():
         if ans1 in roots and ans2 in roots:
             flash("Yup!")
         else:
-            flash("Nah")
+            flash(f"Nah, they were {roots}")
+            flash(problems[0])
         
         return render_template("solver.html", problems=problems)
     else:
