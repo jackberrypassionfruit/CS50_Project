@@ -1,4 +1,9 @@
 *.
+<<<<<<< HEAD
 __pycache__/
 flasksession
+=======
+__pycache__
+flasksession/
+>>>>>>> 8de146fc35aa3d013f1e707ad964212e83447162
 !.gitignore
