@@ -19,7 +19,7 @@ nav .navbar-brand .green {
   margin-left: auto;
   margin-right: auto;
   width: fit-content;
-  text-align: right;
+  text-align: left;
 }
 
 .hello div {
@@ -29,15 +29,15 @@ nav .navbar-brand .green {
   color: purple;
 }
 
-#quad {
-  width: 50vw;
+.quadEQ {
+  width: 40vw;
 }
 
 .todo {
   text-align: left;
 }
 
-.steps {
+.regular, .cWasZero {
   display: flex;
 }
 
@@ -46,6 +46,19 @@ nav .navbar-brand .green {
   flex-flow: column nowrap;
   width: 25vw;
   margin: 2vw;
+  align-items: flex-end;
+}
+
+.btn {
+  width: fit-content;
+}
+
+.contents {
+  display: flex;
+}
+
+.card {
+  margin: 25px;
 }
 
 /*# sourceMappingURL=styles.css.map */
