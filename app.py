@@ -219,6 +219,6 @@ def quadratics():
         return render_template("quadraticsEasy.html", problems=problems)
 
 
-@app.route("/math")
-def math():
-    return render_template("math.html")
+@app.route("/practiceQuiz")
+def practiceQuiz():
+    return render_template("practiceQuiz.html")
