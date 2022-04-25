@@ -140,7 +140,8 @@ def activities():
 
 
 @app.route("/quadraticsEasy", methods=["GET", "POST"])
-def quadratics():
+@login_required
+def quadraticsEasy():
     if request.method == "POST":
         problems = [mathgen.genById(21), mathgen.genById(50)]
         
@@ -212,13 +213,21 @@ def quadratics():
         else:
             flash(f"Nah, answers are {roots}")
         
-        return render_template("quadraticsEasy.html", problems=problems)
+        return render_template("activities/quadraticsEasy.html", problems=problems)
     else:
         problems = [mathgen.genById(21), mathgen.genById(50)]
 
-        return render_template("quadraticsEasy.html", problems=problems)
+        return render_template("activities/quadraticsEasy.html", problems=problems)
 
+@app.route("/quadraticsHard")
+@login_required
+def quadraticsHard():
+    if request.method == "POST":
+        pass
+    else:
+        return render_template("activities/quadraticsHard.html")
 
 @app.route("/practiceQuiz")
+@login_required
 def practiceQuiz():
     return render_template("practiceQuiz.html")
