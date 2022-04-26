@@ -215,9 +215,9 @@ def quadraticsEasy():
 
         return render_template("activities/quadraticsEasy.html", problems=problems)
 
-@app.route("/quadraticsHard")
+@app.route("/acMethod", methods=["GET", "POST"])
 @login_required
-def quadraticsHard():
+def acMethod():
     if request.method == "POST":
         pass
     else:
