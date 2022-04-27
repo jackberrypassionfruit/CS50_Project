@@ -17,11 +17,26 @@
             coeffA = Math.floor(Math.random() * 5) + 1;
             document.getElementById("coeffA").innerHTML = coeffA;
 
-            const roots = [Math.floor(Math.random() * 11) -5, Math.floor(Math.random() * 11) - 5];
+            let frac = Math.random();
+            if (frac < 0.2)
+            {
+                frac = (Math.floor(Math.random() * 8 ) + 1) / 8;
+            }
+            else
+            {
+                frac = 0;
+            }
+            // This is me creating a way for roots to be fractions, as small as 1/8
+
+
+            // const roots = [(Math.floor(Math.random() * 9) -4) + frac, (Math.floor(Math.random() * 9) -4) + frac];
+            const roots = [(Math.floor(Math.random() * 9) -4), (Math.floor(Math.random() * 9) -4)];
+
             console.log(roots);
 
 
-            // This part if not working
+
+            // This part is not working
             // Assumes form (x - p)(x - q) but that is not the case, x will have coefficients
             // How to create intercept form of EQ from just knowing roots?
             const p = -1 * roots[0];
@@ -30,10 +45,10 @@
 
             coeffB = p + q;
             document.getElementById("coeffB").innerHTML = `(${coeffB})`;
-            const coeffC = p * q;
+            coeffC = p * q;
             document.getElementById("coeffC").innerHTML = `(${coeffC})`;
 
-
+            console.log(coeffA, coeffB, coeffC);
         }
 
     
@@ -46,11 +61,13 @@
                 // Step2: and divide neg B by A
                 
                 
-                let xOut = `x(${coeffA}x + (${coeffB}))`
+                let xOut = `x(${coeffA}x + (${coeffB}))`;
+                console.log(xOut);
 
                 let step1 = document.getElementsByClassName("cWasZero")[0].getElementsByClassName("step1")[0];
-                let instruct1 = document.createElement("h4");
-                let list
+                let list1 = document.createTextNode(xOut);
+                step1.appendChild(list1);
+                step1.removeAttribute("hidden");
 
             }
             
@@ -231,5 +248,12 @@
         </div>
     </div>
 
+    <div class="cWasZero">
+        <div class="step1" hidden>
+            <div>
+                First, factor x out of the function
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
