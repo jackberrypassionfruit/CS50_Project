@@ -8,16 +8,36 @@
 
 {% block javascript%}
     <script>
+        let coeffA;
+        let coeffB;
+        let coeffC;
+
+
         function newproblem() {
-            document.getElementById("coeffA").innerHTML = Math.floor(Math.random() * 5) + 1;
+            coeffA = Math.floor(Math.random() * 5) + 1;
+            document.getElementById("coeffA").innerHTML = coeffA;
+
+            const roots = [Math.floor(Math.random() * 11) -5, Math.floor(Math.random() * 11) - 5];
+            console.log(roots);
+
+
+            // This part if not working
+            // Assumes form (x - p)(x - q) but that is not the case, x will have coefficients
+            // How to create intercept form of EQ from just knowing roots?
+            const p = -1 * roots[0];
+            const q = -1 * roots[1];
+            // Wrong!
+
+            coeffB = p + q;
+            document.getElementById("coeffB").innerHTML = `(${coeffB})`;
+            const coeffC = p * q;
+            document.getElementById("coeffC").innerHTML = `(${coeffC})`;
+
+
         }
 
     
         function solve() {
-            let coeffA = document.getElementById("coeffA").value;
-            let coeffB = document.getElementById("coeffB").value;
-            let coeffC = document.getElementById("coeffC").value;
-
             if (coeffC == 0) 
             {
                 // Write something simple for if C is 0
@@ -34,22 +54,22 @@
 
             }
             
-            // Step 1 - Create factors list for C coefficient
-            let factors_C = [];
-            for (let x = 0; x <= Math.abs(coeffC); x++)
+            // Step 1 - Create factors list for product of coefficients A and C
+            let factors_AC = [];
+            for (let x = 0; x <= Math.abs(coeffA * coeffC); x++)
             {
-                if ((Math.abs(coeffC) % x) == 0) 
+                if ((Math.abs(coeffAC) % x) == 0) 
                 {
-                    factors_C.push(x);
+                    factors_AC.push(x);
                 }
             }
 
-            console.log(factors_C);
+            console.log(factors_AC);
 
             // Add nodes to hidden divs for solution, to be displayed when button is pressed
             let step1 = document.getElementsByClassName("regular")[0].getElementsByClassName("step1")[0];
             let instruct1 = document.createElement("h4");
-            let list1 = document.createTextNode(factors_C);
+            let list1 = document.createTextNode(factors_AC);
             let button1 = document.createElement("button");
             let buttonText1 = document.createTextNode("Next");
             button1.appendChild(buttonText1);
@@ -80,17 +100,17 @@
 
             if (op == -1)
             {
-                iter = Math.ceil(factors_C.length - 1);
+                iter = Math.ceil(factors_AC.length - 1);
             }
             else
             {
-                iter = Math.ceil(factors_C.length / 2);
+                iter = Math.ceil(factors_AC.length / 2);
             }
 
             let factor_pairs = [];
             for (let i = 0; i < iter; i++) 
             {
-                factor_pairs.push([op * factors_C[i], factors_C[factors_C.length - i - 1]]);
+                factor_pairs.push([op * factors_AC[i], factors_AC[factors_AC.length - i - 1]]);
             }
 
             console.log(factor_pairs[0], factor_pairs[1], factor_pairs[2]);
@@ -165,55 +185,31 @@
 
 {% block main %}
 
-
-    <img src="../static/quadraticEQs.png" class="quadEQ" alt="Example of a Quadratic Function">
-
-    <br>
-
     <div class="aValue"> 
         <button class="btn btn-primary" onclick="newproblem()">Start</button>
     </div>
 
+    <br>
+
     <div>
-        <span id="equation"> y = 
-            <span id="coeffA"></span>
-            x
-            <sup>2</sup>
+        <span id="equation">
+            <h2>
+                y = <span id="coeffA"> A</span> x <sup>2</sup> + <span id="coeffB"> B </span> x + <span id="coeffC"> C </span>
+
+            </h2>
         </span>    
     </div>
 
-    {% for i in range(5) %}
     <br>
-    {% endfor %}
-
     <br>
-
-    <h2>Enter your Solution here!</h2>
-    <form class="answer" method="post" action="/quadraticsEasy">
-    <div>
-        <input autocomplete="off" name="coeffA" placeholder="Coeffient of A" type="number">
-        <input autocomplete="off" name="coeffB" placeholder="Coeffient of B" type="number">
-        <input autocomplete="off" name="coeffC" placeholder="Coeffient of C" type="number">
-    </div>
-    <div>
-        <input autocomplete="off" name="ans1" placeholder="1st Root" type="number">
-        <input autocomplete="off" name="ans2" placeholder="2nd Root" type="number">
-        <button class="btn btn-primary">Check</button>
-    </div>
-    </form>
-
     <br>
     <br>
     <br>
 
 
-    <h2>Or practice with the Solution solver!</h2>
-    <div class="tosolve">
-        <input autocomplete="off" id="coeffA" placeholder="Coeffient of A" type="number">
-        <input autocomplete="off" id="coeffB" placeholder="Coeffient of B" type="number">
-        <input autocomplete="off" id="coeffC" placeholder="Coeffient of C" type="number">
-        <button class="btn btn-primary" onclick="solve()">Solve</button>
-    </div>
+    <h2>Practice with the Solution solver!</h2>
+    <button class="btn btn-primary" onclick="solve()">Solve</button>
+
 
     <div class="regular">
         <div class="step1" hidden>
@@ -235,14 +231,5 @@
         </div>
     </div>
 
-    <div class="CWasZero">
-        <div class="step1" hidden>
-            First factor, x out of the binomial
-        </div>
-
-        <div class="step2" hidden>
-            
-        </div>
-    </div>
 
 {% endblock %}

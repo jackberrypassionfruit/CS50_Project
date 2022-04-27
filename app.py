@@ -221,8 +221,7 @@ def acMethod():
     if request.method == "POST":
         pass
     else:
-        problems = [mathgen.genById(21), mathgen.genById(50)]
-        return render_template("activities/quadraticsHard.html", problems=problems)
+        return render_template("activities/quadraticsHard.html")
 
 @app.route("/practiceQuiz")
 @login_required
