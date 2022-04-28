@@ -2,15 +2,14 @@
 
 
 {% block title %}
-    Quadratics (a=1)
+    Quadratics Solver (a=1)
 {% endblock %}
 
 
 {% block javascript%}
     <script>
         function difficulty() {
-            let hard = document.getElementsByClassName("aValue")[0].getElementsByTagName("select")[0].value;
-            document.getElementsByName(hard)[0].removeAttribute("hidden");
+            document.getElementsByClassName("problems")[0].removeAttribute("hidden");
         }
 
         function solve() {
@@ -164,57 +163,20 @@
 
 
 {% block main %}
-    <ol class="todo">
-        Todo Sam:
-        <li>
-            Find a way to make the website extract the coefficients itself, so user doesn't have to    
-        </li>
-
-        <li>
-            Implement solving when a != 1. You're the math guy! Need be, we always fall back on the quadratic formula, but that's boring
-        </li>
-
-        <li>
-            It's also showing the next questions/answer on each page too early, the one from the question API
-        </li>
-
-        <li>
-            
-                Instead of hard or easy problems, let's make it just refresh the page with new easy problems. A hidden get request behind the scenes
-                To do this, we'll need to pass parameters to the render_tempalte function, like it is already
-                BUT, now it will have to show the problem if there is one passes, and nothing if their is not.
-                Probably some sort of "does problem exist" logic
-        </li>
-    </ol>
-
+    
     <img src="../static/quadraticEQs.png" class="quadEQ" alt="Example of a Quadratic Function">
 
     <br>
 
     <div class="aValue"> 
-        <label for="difficulty">Pick a difficulty:</label>
-        <select name="diffculty">
-            <option value="selector" selected></option>
-            <option value="easy">Easy</option>
-            <option value="hard">Hard</option>
-        </select>
-        <button class="btn btn-primary" onclick="difficulty()">Start</button>
+        <button class="btn btn-primary" onclick="difficulty()">Show the Problem</button>
     </div>
 
 
-    <div class="problems">
-        <div name="easy" hidden="true">
+    <div class="problems" hidden="true">
+        <div name="easy">
             <br>
-            <h4><em>New Easier Problem</em></h4>
-            <br>
-            <h3>{{ problems[0][0] }}</h3>
-        </div>
-
-        <div name="hard" hidden="true">
-            <br>
-            <h4><em>New Harder Problem</em></h4>
-            <br>
-            <h3>{{ problems[1][0].replace("Zeros of the Quadratic Equation ", "") }}</h3>
+            <h1>y = {{ problems[0][0] }}</h1>
         </div>
     </div>
 
@@ -224,27 +186,11 @@
     {% endfor %}
 
     <br>
-
-    <h2>Enter your Solution here!</h2>
-    <form class="answer" method="post" action="/quadraticsEasy">
-    <div>
-        <input autocomplete="off" name="coeffA" placeholder="Coeffient of A" type="number">
-        <input autocomplete="off" name="coeffB" placeholder="Coeffient of B" type="number">
-        <input autocomplete="off" name="coeffC" placeholder="Coeffient of C" type="number">
-    </div>
-    <div>
-        <input autocomplete="off" name="ans1" placeholder="1st Root" type="number">
-        <input autocomplete="off" name="ans2" placeholder="2nd Root" type="number">
-        <button class="btn btn-primary">Check</button>
-    </div>
-    </form>
-
-    <br>
     <br>
     <br>
 
 
-    <h2>Or practice with the Solution solver!</h2>
+    <h2>Practice with the Solution solver!</h2>
     <div class="tosolve">
         <input autocomplete="off" id="coeffA" placeholder="Coeffient of A" type="number">
         <input autocomplete="off" id="coeffB" placeholder="Coeffient of B" type="number">

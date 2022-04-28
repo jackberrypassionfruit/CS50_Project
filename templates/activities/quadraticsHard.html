@@ -43,7 +43,7 @@
             const q = -1 * roots[1];
             // Wrong!
 
-            coeffB = p + q;
+            coeffB = p + (q * coeffA);
             document.getElementById("coeffB").innerHTML = `(${coeffB})`;
             coeffC = p * q;
             document.getElementById("coeffC").innerHTML = `(${coeffC})`;

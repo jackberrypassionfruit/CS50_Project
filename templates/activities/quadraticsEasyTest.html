@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+
+{% block title %}
+    Quadratics Test (a=1)
+{% endblock %}
+
+
+{% block javascript%}
+    <script>
+        function difficulty() {
+            document.getElementsByClassName("problems")[0].removeAttribute("hidden");
+        }
+        
+    </script>
+{% endblock %}
+
+
+{% block main %}
+
+    <img src="../static/quadraticEQs.png" class="quadEQ" alt="Example of a Quadratic Function">
+
+    <br>
+
+    <div class="aValue"> 
+        <button class="btn btn-primary" onclick="difficulty()">Show the Problem</button>
+    </div>
+
+
+    <div class="problems" hidden="true">
+        <div name="easy">
+            <br>
+            <h1>y = {{ problems[0][0] }}</h1>
+        </div>
+    </div>
+
+
+    {% for i in range(5) %}
+    <br>
+    {% endfor %}
+
+    <br>
+
+    <h2>Enter your Solution here!</h2>
+    <form class="answer" method="post" action="/quadraticsEasy">
+    <div>
+        <input autocomplete="off" name="coeffA" placeholder="Coeffient of A" type="number">
+        <input autocomplete="off" name="coeffB" placeholder="Coeffient of B" type="number">
+        <input autocomplete="off" name="coeffC" placeholder="Coeffient of C" type="number">
+    </div>
+    <div>
+        <input autocomplete="off" name="ans1" placeholder="1st Root" type="number">
+        <input autocomplete="off" name="ans2" placeholder="2nd Root" type="number">
+        <button class="btn btn-primary">Check</button>
+    </div>
+    </form>
+{% endblock %}

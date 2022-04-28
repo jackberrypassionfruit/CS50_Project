@@ -135,9 +135,9 @@ def activities():
     return render_template("activities.html")
 
 
-@app.route("/quadraticsEasy", methods=["GET", "POST"])
+@app.route("/quadraticsEasyTest", methods=["GET", "POST"])
 @login_required
-def quadraticsEasy():
+def quadraticsEasyTest():
     if request.method == "POST":
         problems = [mathgen.genById(21), mathgen.genById(50)]
         
@@ -209,11 +209,20 @@ def quadraticsEasy():
         else:
             flash(f"Nah, answers are {roots}")
         
-        return render_template("activities/quadraticsEasy.html", problems=problems)
+        return render_template("activities/quadraticsEasyTest.html", problems=problems)
     else:
         problems = [mathgen.genById(21), mathgen.genById(50)]
 
-        return render_template("activities/quadraticsEasy.html", problems=problems)
+        return render_template("activities/quadraticsEasyTest.html", problems=problems)
+    
+@app.route("/quadraticsEasySolver", methods=["GET", "POST"])
+@login_required
+def quadraticsEasySolver():
+    if request.method == "POST":
+        pass
+    else:
+        problems = [mathgen.genById(21), mathgen.genById(50)]
+        return render_template("activities/quadraticsEasySolver.html", problems=problems)
 
 @app.route("/acMethod", methods=["GET", "POST"])
 @login_required
