@@ -7,7 +7,7 @@
 
 
 {% block javascript%}
-    <script src="quadratics">
+    <script>
         let coeffA;
         let coeffB;
         let coeffC;
@@ -75,7 +75,7 @@
             let factors_AC = [];
             for (let x = 0; x <= Math.abs(coeffA * coeffC); x++)
             {
-                if ((Math.abs(coeffAC) % x) == 0) 
+                if ((Math.abs(coeffA * coeffC) % x) == 0) 
                 {
                     factors_AC.push(x);
                 }
@@ -231,13 +231,13 @@
     <div class="regular">
         <div class="step1" hidden>
             <div>
-                First, make a list of the factors of the coefficient C:
+                First, make a list of the factors of the coefficient A times coefficient C:
             </div>
         </div>
 
         <div class="step2" hidden>
             <div>
-                Then, find all the pairs of factors that multiply to C:
+                Then, find all the pairs of factors that multiply to A * C:
             </div>
         </div>
 
