@@ -232,7 +232,10 @@ def acMethod():
     else:
         return render_template("activities/quadraticsHard.html")
 
-@app.route("/practiceQuiz")
+@app.route("/practiceQuiz", methods=["GET", "POST"])
 @login_required
 def practiceQuiz():
-    return render_template("practiceQuiz.html")
+    if request.method == "POST":
+        pass
+    else:
+        return render_template("practiceQuiz.html")
