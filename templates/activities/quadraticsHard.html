@@ -21,6 +21,10 @@
                 factCoeff[i] = Math.floor(Math.random() * 16) - 8;
             } 
 
+            factCoeff["A"] = Math.abs(factCoeff["A"]);
+            factCoeff["C"] = Math.abs(factCoeff["C"]);
+
+
             console.log("factCoeff is:");
             console.log(factCoeff);
 
@@ -79,7 +83,6 @@
 
             // Add nodes to hidden divs for solution, to be displayed when button is pressed
             let step1 = document.getElementsByClassName("regular")[0].getElementsByClassName("step1")[0];
-            let instruct1 = document.createElement("h4");
             let list1 = document.createElement("ul");
             for (i in factors_A)
             {
@@ -92,7 +95,6 @@
             let buttonText1 = document.createTextNode("Next");
             button1.appendChild(buttonText1);
             button1.setAttribute("class", "btn btn-secondary");
-            step1.appendChild(instruct1);
             step1.appendChild(list1);
             step1.appendChild(button1);
             step1.removeAttribute("hidden");
@@ -112,7 +114,6 @@
 
 
             let step2 = document.getElementsByClassName("step2")[0];
-            let instruct2 = document.createElement("h4");
 
             // Creating an unordeered list to show the pairs
             
@@ -129,7 +130,6 @@
             let buttonText2 = document.createTextNode("Next");
             button2.appendChild(buttonText2);     
             button2.setAttribute("class", "btn btn-secondary");
-            step2.appendChild(instruct2);
             step2.appendChild(list2);
             step2.appendChild(button2);
             
@@ -152,7 +152,6 @@
 
             // Add nodes to hidden divs for solution, to be displayed when button is pressed
             let step3 = document.getElementsByClassName("regular")[0].getElementsByClassName("step3")[0];
-            let instruct3 = document.createElement("h4");
             let list3 = document.createElement("ul");
             for (i in factors_C)
             {
@@ -165,7 +164,6 @@
             let buttonText3 = document.createTextNode("Next");
             button3.appendChild(buttonText3);
             button3.setAttribute("class", "btn btn-secondary");
-            step3.appendChild(instruct1);
             step3.appendChild(list3);
             step3.appendChild(button3);
 
@@ -204,7 +202,6 @@
 
 
             let step4 = document.getElementsByClassName("step4")[0];
-            let instruct4 = document.createElement("h4");
 
             // Creating an unordeered list to show the pairs
             
@@ -221,7 +218,6 @@
             let buttonText4 = document.createTextNode("Next");
             button4.appendChild(buttonText4);     
             button4.setAttribute("class", "btn btn-secondary");
-            step4.appendChild(instruct4);
             step4.appendChild(list4);
             step4.appendChild(button4);
 
@@ -231,14 +227,46 @@
             // Display the correct factor pairs of A and C
             // and
             // Display the factored form of the EQ
-            // But first
-            // Go back and make sure the factored Coeffs and Standard coeffs have a positive coeff early on
+
 
             let step5 = document.getElementsByClassName("step5")[0];
-            let instruct5 = document.createElement("h4");
-            let list5 = document.createTextNode(roots);
-            step5.appendChild(instruct3);
-            step5.appendChild(list5);
+            
+            let para = document.createElement("p");
+            let A5Check = document.createTextNode(`${factCoeff["A"]}x * ${factCoeff["C"]}x = ${standCoeff["A"]}x^2`);
+            para.appendChild(A5Check);
+            step5.appendChild(para);
+
+            para = document.createElement("p");
+            let C5Check = document.createTextNode(`${factCoeff["B"]} * ${factCoeff["D"]} = ${standCoeff["C"]}`);
+            para.appendChild(C5Check);
+            step5.appendChild(para);
+
+            para = document.createElement("p");
+            let B5Check = document.createTextNode(`${factCoeff["A"]}x * ${factCoeff["D"]}x + ${factCoeff["B"]}x * ${factCoeff["C"]}x = ${standCoeff["B"]}`);
+            para.appendChild(B5Check);
+            step5.appendChild(para);
+
+            let button5 = document.createElement("button");
+            let buttonText5 = document.createTextNode("Next");
+            button5.appendChild(buttonText5);
+            button5.setAttribute("class", "btn btn-secondary");
+            step5.appendChild(button5);
+
+
+            // Step 6 - Display the factored form
+            let step6 = document.getElementsByClassName("step6")[0];
+
+            let factoredEQ = document.createTextNode(`(${factCoeff["A"]}x + ${factCoeff["B"]})(${factCoeff["C"]}x + ${factCoeff["D"]})`);
+            
+            para = document.createElement("p");
+            para.appendChild(factoredEQ);
+            step6.appendChild(para);
+
+            para = document.createElement("p");
+            para.append(document.createTextNode(roots));
+            step6.appendChild(para);
+            
+
 
 
 
@@ -262,7 +290,10 @@
                 document.getElementsByClassName("step5")[0].removeAttribute("hidden");
             });
 
-
+            button5.addEventListener("click", function()
+            {
+                document.getElementsByClassName("step6")[0].removeAttribute("hidden");
+            });
 
         }
         
@@ -325,12 +356,19 @@
 
         <div class="step5" hidden>
             <div>
-                5) Finally, find which pairs of factors for A and C create a factored form of the equation with the correct B coefficient:
+                5) Nearing the end, find which pairs of factors for A and C create a factored form of the equation with the correct B coefficient:
             </div>
         </div>
+
+        <div class="step6" hidden>
+            <div>
+                6) Finally, write the quadratic equation in factored form, and find the roots
+            </div>
+        </div>
+        
     </div>
 
-    <div class="cWasZero">
+    <div class="cWasZero" hidden>
         <div class="step1">
             <div>
                 First, factor x out of the function
