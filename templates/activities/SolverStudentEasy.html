@@ -15,7 +15,11 @@
 
 
         function difficulty() {
-             
+            
+            document.getElementsByClassName("solutionSolver")[0].removeAttribute("hidden");
+            document.getElementsByClassName("tosolve")[0].removeAttribute("hidden");
+
+
             const roots = [(Math.floor(Math.random() * 9) -4), (Math.floor(Math.random() * 9) -4)];
 
             const p = -1 * roots[0];
@@ -36,6 +40,18 @@
         }
 
         function solve() {
+
+            //check if input coefficients were correct
+            let checkA = document.querySelector("#coeffA").value;
+            let checkB = document.querySelector("#coeffB").value;
+            let checkC = document.querySelector("#coeffC").value;
+            console.log(checkA)
+            console.log(checkB)
+            console.log(checkC)
+
+            if (checkA != coeffA || checkB != coeffB || checkC != coeffC){
+                console.log("n");
+            }
 
             if (coeffC == 0) 
             {
@@ -69,6 +85,25 @@
             let step1 = document.getElementsByClassName("regular")[0].getElementsByClassName("step1")[0];
             let instruct1 = document.createElement("h4");
             let list1 = document.createTextNode(factors_C);
+
+            // create form for factor input
+            let form1 = document.createElement("form");
+            form1.setAttribute("method", "post");
+            form1.setAttribute("action", "submit.php");
+            var form1input = document.createElement("input");
+            form1input.setAttribute("type", "text");
+            form1input.setAttribute("name", "Factors_of_)C");
+            form1input.setAttribute("placeholder", "Factors of C");
+            // create a submit button
+            var s = document.createElement("input");
+            s.setAttribute("type", "submit");
+            s.setAttribute("value", "Submit");
+            // Append the full name input to the form
+            form1.appendChild(form1input);
+            // Append the submit button to the form
+            form1.appendChild(s);
+            step1.appendChild(form1);
+
             let button1 = document.createElement("button");
             let buttonText1 = document.createTextNode("Next");
             button1.appendChild(buttonText1);
@@ -77,10 +112,6 @@
             step1.appendChild(list1);
             step1.appendChild(button1);
             step1.removeAttribute("hidden");
-            //
-            // TODO here!
-            // Make button that continues unhiding the steps to the solution
-
 
 
             // Step 2 - Check which pairs of factors multiply to make C
@@ -116,9 +147,7 @@
                 }
             }
 
-
             console.log(factor_pairs[0], factor_pairs[1], factor_pairs[2]);
-
 
             let step2 = document.getElementsByClassName("step2")[0];
             let instruct2 = document.createElement("h4");
@@ -126,11 +155,17 @@
             // Creating an unordeered list to show the pairs
             
             let list2 = document.createElement("ul");
+
             for (i in factor_pairs)
             {
-                let item = document.createElement("li");
+                let item = document.createElement("button");
+                if (factor_pairs[i][0] + factor_pairs[i][1] == coeffB){
+                    item.setAttribute("id", "correct");
+                    item.setAttribute("type", "button");
+                }
                 let text = document.createTextNode(factor_pairs[i]);
                 item.appendChild(text);
+                item.setAttribute("class", "btn btn-secondary");
                 list2.appendChild(item);
 
             }
@@ -184,7 +219,7 @@
             document.getElementById("first_factor").innerHTML = `(${roots[0]})`;
             document.getElementById("second_factor").innerHTML = `(${roots[1]})`;
 
-
+            //step 4 show button to show solution
 
             document.getElementById("first_solution").innerHTML = `(${-roots[0]})`;
             document.getElementById("second_solution").innerHTML = `(${-roots[1]})`;
@@ -228,69 +263,74 @@
     <img src="../static/quadraticEQs.png" class="quadEQ" alt="Example of a Quadratic Function">
 
     <br>
+    <br>
 
     <div class="aValue"> 
-        <button class="btn btn-primary" onclick="difficulty()">Show the Problem</button>
+        <button class="btn btn-primary" onclick="difficulty()">Lets get started</button>
     </div>
 
 
     <div class="problems" hidden="true">
-        <div name="easy">
+        <div id="question">
             <br>
             Solve x <sup>2</sup> + <span id="coeffB"></span> x + <span id="coeffC"></span> = 0
         </div>
     </div>
 
- 
-    </div>
-    {% for i in range(5) %}
     <br>
-    {% endfor %}
+    <br>
 
+    <h2 class = "solutionSolver" hidden>First we need to identify our coefficients:</h2>
 
-    <h2>Practice with the Solution solver!</h2>
-    <div class="tosolve">
-        <input autocomplete="off" id="coeffA" placeholder="Coeffient of A" type="number">
-        <input autocomplete="off" id="coeffB" placeholder="Coeffient of B" type="number">
-        <input autocomplete="off" id="coeffC" placeholder="Coeffient of C" type="number">
-        <button class="btn btn-primary" onclick="solve()">Solve</button>
+    <br>
+
+    <div id="error" hidden>Those coefficients weren't quite correct! Have another go!</div>
+
+    <div class="tosolve" hidden>
+        <input autocomplete="off" id="coeffA" placeholder="Coeffient A" type="number">
+        <input autocomplete="off" id="coeffB" placeholder="Coeffient B" type="number">
+        <input autocomplete="off" id="coeffC" placeholder="Coeffient C" type="number">
+        <button class="btn btn-primary" onclick="solve()">Check</button>
     </div>
 
     <div class="regular">
         <div class="step1" hidden>
-            <div>
-                First, make a list of the factors of the coefficient C:
-            </div>
+            <h2>
+                Now, we make a list of the factors of the coefficient C:
+            </h2>
         </div>
 
         <div class="step2" hidden>
-            <div>
-                Then, find all the pairs of factors that multiply to C:
-            </div>
+            <h2>
+                Find all the pairs of factors that multiply to C:
+            </h2>
         </div>
 
         <div class="step3" hidden>
-            <div>
-                Finally, find which pairs of factors add up to B:
-            </div>
+            <h2>
+                And choose which factor pair sums to B:
+            </h2>
         </div>
     </div>
 
 
     <div class="step4" hidden>
         <div>
-            Factor the quadratic 
+            You can now factor the quadratic: 
         </div>
-        <div>
+        <div id="factor">
             (x - <span id="first_factor"></span>)(x - <span id="second_factor"></span>) = 0
         </div>
     </div>
 
+    <br>
+    <br>
+
     <div class="step5" hidden>
         <div>
-            Solve the quadratic 
+            And finally we can solve the quadratic: 
         </div>
-        <div>
+        <div id = "solve">
             x = <span id="first_solution"></span> x = <span id="second_solution"></span>
         </div>
     </div>

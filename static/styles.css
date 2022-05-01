@@ -61,4 +61,40 @@ nav .navbar-brand .green {
   margin: 25px;
 }
 
+span {
+  font-size: larger;
+  color:#55482a
+}
+
+sup {
+  font-size: medium;
+}
+
+div {
+  font-size: larger;
+}
+
+h2 {
+  font-size: large;
+}
+
+#easy {
+  font-size: medium;
+}
+
+#question {
+  font-size: larger;
+  color:#ea433b;
+}
+
+#factor, #solve {
+  font-size: larger;
+  color:#ea433b;
+}
+
+#error{
+  font-size: large;
+  color:#2e944b;
+}
+
 /*# sourceMappingURL=styles.css.map */
