@@ -44,8 +44,9 @@ nav {
 
 .regular, .cWasZero {
     display: flex;
+    flex-flow: row wrap;
 }
-.step1, .step2, .step3 {
+.step1, .step2, .step3, .step4, .step5, .step6 {
     display: flex;
     flex-flow: column nowrap;
     width: 25vw;
