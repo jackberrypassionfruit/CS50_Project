@@ -37,16 +37,20 @@
             }
         }
 
+        /*
         function factorsCheck() {
             //check if input factors were correct
             console.log("factorcheck");
+            let factorCheck = document.querySelector("#factors").value;
 
+            if (factorCheck == 1)
+            {
             step1.removeAttribute("hidden");
 
 
             }
-
-
+        */
+        
         function difficulty() {
             
             document.getElementsByClassName("solutionSolver")[0].removeAttribute("hidden");
@@ -167,7 +171,6 @@
             form1input.setAttribute("placeholder", "factors");
             // create a submit button
             var submitbutton = document.createElement("button");
-            submitbutton.setAttribute("type", "submit");
             submitbutton.setAttribute("class", "btn btn-secondary");
             submitbutton.setAttribute("value", "submit");
             submitbutton.setAttribute("onclick", "factorsCheck()")
@@ -176,8 +179,8 @@
             // Append the full name input to the form
             form1.appendChild(form1input);
             // Append the submit button to the form
-            form1.appendChild(submitbutton);
             step1.appendChild(form1);
+            step1.appendChild(submitbutton);
 
             let button1 = document.createElement("button");
             let buttonText1 = document.createTextNode("Next");
@@ -373,7 +376,8 @@
     <div class="tosolve" hidden>
         <form><input autocomplete="off" id="coeffAcheck" placeholder="Coeffient A" type="number"></form>
         <form><input autocomplete="off" id="coeffBcheck" placeholder="Coeffient B" type="number"></form>
-        <form><input autocomplete="off" id="coeffCcheck" placeholder="Coeffient C" type="number"></form>         <button class="btn btn-primary" value ="submit" onclick="coeffCheck()">Check</button>
+        <form><input autocomplete="off" id="coeffCcheck" placeholder="Coeffient C" type="number"></form>
+        <button class="btn btn-primary" value ="submit" onclick="coeffCheck()">Check</button>
 
     </div>
 
