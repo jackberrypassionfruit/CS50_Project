@@ -232,7 +232,6 @@ def acMethod():
     else:
         return render_template("activities/quadraticsHard.html")
 
-<<<<<<< HEAD
 @app.route("/SolverStudentEasy", methods=["GET", "POST"])
 @login_required
 def SolverStudentEasy():
@@ -242,9 +241,6 @@ def SolverStudentEasy():
         return render_template("activities/SolverStudentEasy.html")
 
 @app.route("/practiceQuiz")
-=======
-@app.route("/practiceQuiz", methods=["GET", "POST"])
->>>>>>> d7c141a5f525a969eb3e8d7fad542d3cdfeead3f
 @login_required
 def practiceQuiz():
     if request.method == "POST":
