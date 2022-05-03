@@ -14,6 +14,8 @@
         var p;
         var q;
         let list1;
+        let factors_C = [];
+
 
         function coeffCheck() {
             //check if input coefficients were correct
@@ -37,14 +39,7 @@
             }
         }
 
-        function factorsCheck() {
-            //check if input factors were correct
-            console.log("factorcheck");
 
-            step1.removeAttribute("hidden");
-
-
-            }
 
 
         function difficulty() {
@@ -70,6 +65,21 @@
 
             document.getElementsByClassName("problems")[0].removeAttribute("hidden");
 
+        }
+
+        function factorsCheck() {
+            //check if input factors were correct
+            console.log("factorcheck");
+            let factorCheck = document.querySelector("#factors").value;
+            if (factorCheck == factors_C){
+                console.log("y");
+                factorListError.setAttribute("hidden", true);
+                document.getElementsByClassName("step2")[0].removeAttribute("hidden");
+            }
+            else{
+                factorListError.removeAttribute("hidden");
+                console.log("n");
+            }
         }
 
         function incorrect() {
@@ -143,7 +153,6 @@
             }
             
             // Step 1 - Create factors list for C coefficient
-            let factors_C = [];
             for (let x = 0; x <= Math.abs(coeffC); x++)
             {
                 if ((Math.abs(coeffC) % x) == 0) 
@@ -165,9 +174,11 @@
             form1input.setAttribute("type", "text");
             form1input.setAttribute("id", "factors");
             form1input.setAttribute("placeholder", "factors");
+            form1input.setAttribute("class", "form-control");
+            form1input.setAttribute("display", "flex");
+
             // create a submit button
             var submitbutton = document.createElement("button");
-            submitbutton.setAttribute("type", "submit");
             submitbutton.setAttribute("class", "btn btn-secondary");
             submitbutton.setAttribute("value", "submit");
             submitbutton.setAttribute("onclick", "factorsCheck()")
@@ -176,15 +187,15 @@
             // Append the full name input to the form
             form1.appendChild(form1input);
             // Append the submit button to the form
-            form1.appendChild(submitbutton);
+            step1.appendChild(submitbutton);
             step1.appendChild(form1);
 
             let button1 = document.createElement("button");
             let buttonText1 = document.createTextNode("Next");
             button1.appendChild(buttonText1);
             button1.setAttribute("class", "btn btn-secondary");
+            button1.setAttribute("hidden", true);
             step1.appendChild(instruct1);
-            step1.appendChild(list1);
             step1.appendChild(button1);
             step1.removeAttribute("hidden");
 
@@ -368,29 +379,30 @@
 
     <br>
 
-    <div id="error" hidden>Those coefficients weren't quite correct! Have another go!</div>
+    <div id="error" class="error" hidden>Those coefficients weren't quite correct! Have another go!</div>
 
     <div class="tosolve" hidden>
-        <form><input autocomplete="off" id="coeffAcheck" placeholder="Coeffient A" type="number"></form>
-        <form><input autocomplete="off" id="coeffBcheck" placeholder="Coeffient B" type="number"></form>
-        <form><input autocomplete="off" id="coeffCcheck" placeholder="Coeffient C" type="number"></form>         <button class="btn btn-primary" value ="submit" onclick="coeffCheck()">Check</button>
+        <form><input class="form-control" autocomplete="off" id="coeffAcheck" placeholder="Coeffient A" type="number"></form>
+        <form><input class="form-control"autocomplete="off" id="coeffBcheck" placeholder="Coeffient B" type="number"></form>
+        <form><input class="form-control" autocomplete="off" id="coeffCcheck" placeholder="Coeffient C" type="number"></form>     <br>    <button class="btn btn-primary" value ="submit" onclick="coeffCheck()">Check</button>
 
     </div>
 
     <div class="regular">
         <div class="step1" hidden>
             <h2>
-                Now, we make a list of the factors of the coefficient C:
+                Now, we make a list of the factors of |C|. Dont include spaces!
             </h2>
         </div>
+        <div id="factorListError" class="error" hidden>Those factors weren't quite correct! Rememeber to list all factors in ascending with no spaces! For example 1,2,3,6 </div>
 
         <div class="step2" hidden>
             <h2>
-                Find all the pairs of factors that multiply to C:
+                Select the factor pair whose product is equal to C:
             </h2>
         </div>
 
-        <div id="factorPairError" hidden>Those factors don't add to the coefficient B! Have another go!</div>
+        <div id="factorPairError" class="error" hidden>Those factors don't add to the coefficient B! Have another go!</div>
 
 
         <div class="step3" hidden>
@@ -405,7 +417,7 @@
                 </form>) = 0                     
                 <button class="btn btn-primary" value ="submit" onclick="factoringCheck()">Check</button>
             </div>
-            <div id="factoringError" hidden>That's not quite how you factor! Have another go!</div>
+            <div id="factoringError" class="error" hidden>That's not quite how you factor! Have another go!</div>
         </div>
     </div>
 
@@ -422,14 +434,14 @@
             </form>)                   
             <button class="btn btn-primary" value ="submit" onclick="solvingCheck()">Check</button>
         </div>
-        <div id="solvingError" hidden>That's not quite how you solve for x! Have another go!</div>
+        <div id="solvingError" class="error" hidden>That's not quite how you solve for x! Have another go!</div>
     </div>
     </div>
 
     <br>
     <br>
 
-    <div class="step5" hidden>
+    <div class="step5"  hidden>
         <div>
             Great Work        
         </div>
