@@ -99,9 +99,27 @@ h2 {
   text-align: center;
 }
 
+.imgContainer {
+  position: relative;
+  text-align: center;
+  color: white;
+}
+.imgContainer img {
+  border: 3px solid black;
+  width: 100vw;
+}
+
+.bottom {
+  position: absolute;
+  left: 150px;
+  bottom: 1px;
+  text-shadow:0 0 5px #f00, 0 0 10px #f90, 0 0 15px #f00;
+  font-size: 64px;
+}
+
+/*# sourceMappingURL=styles.css.map */
+
 div.insameline {
   display: inline-block
   margin-block-end: 0.83em;
 }
-
-/*# sourceMappingURL=styles.css.map */

@@ -129,6 +129,10 @@ def logout():
     # Redirect user to login form
     return redirect("/")
 
+@app.route("/profile")
+def profile():
+    """ Shows current user's profile"""
+    return render_template("profile.html")
 
 @app.route("/activities")
 def activities():
