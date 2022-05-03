@@ -35,7 +35,7 @@
             else {
                 solve()
                 error.setAttribute("hidden", true);
-
+                solveButton.setAttribute("hidden", true);
             }
         }
 
@@ -72,13 +72,12 @@
             console.log("factorcheck");
             let factorCheck = document.querySelector("#factors").value;
             if (factorCheck == factors_C){
-                console.log("y");
                 factorListError.setAttribute("hidden", true);
                 document.getElementsByClassName("step2")[0].removeAttribute("hidden");
+                listCheck.setAttribute("hidden", true);
             }
             else{
                 factorListError.removeAttribute("hidden");
-                console.log("n");
             }
         }
 
@@ -88,6 +87,7 @@
 
         function correct() {
             factorPairError.setAttribute("hidden", true);
+            document.getElementById("correct").setAttribute("class", "btn btn-success");
             document.getElementsByClassName("step3")[0].removeAttribute("hidden");
 
         }
@@ -115,13 +115,8 @@
         
         function solvingCheck() {
             //check if input coefficients were correct
-            console.log("solvingcheck");
             let first_soln = document.querySelector("#first_solution").value;
             let second_soln = document.querySelector("#second_solution").value;
-            console.log(first_factor);
-            console.log(second_factor);
-            console.log(p);
-            console.log(q);
             if (first_soln != -p && first_soln != -q){
                 solvingError.removeAttribute("hidden");
             }
@@ -143,13 +138,11 @@
                 // Step1: factor c out and rewrite EQ
                 // Step2: and divide neg B by A
                 
-                
                 let xOut = `x(${coeffA}x + (${coeffB}))`
 
                 let step1 = document.getElementsByClassName("cWasZero")[0].getElementsByClassName("step1")[0];
                 let instruct1 = document.createElement("h4");
                 let list
-
             }
             
             // Step 1 - Create factors list for C coefficient
@@ -179,7 +172,8 @@
 
             // create a submit button
             var submitbutton = document.createElement("button");
-            submitbutton.setAttribute("class", "btn btn-secondary");
+            submitbutton.setAttribute("class", "btn btn-info");
+            submitbutton.setAttribute("id", "listCheck");
             submitbutton.setAttribute("value", "submit");
             submitbutton.setAttribute("onclick", "factorsCheck()")
             submitbutton.innerHTML="Check";
@@ -187,13 +181,14 @@
             // Append the full name input to the form
             form1.appendChild(form1input);
             // Append the submit button to the form
-            step1.appendChild(submitbutton);
             step1.appendChild(form1);
+            step1.appendChild(submitbutton);
+
 
             let button1 = document.createElement("button");
             let buttonText1 = document.createTextNode("Next");
             button1.appendChild(buttonText1);
-            button1.setAttribute("class", "btn btn-secondary");
+            button1.setAttribute("class", "btn btn-info");
             button1.setAttribute("hidden", true);
             step1.appendChild(instruct1);
             step1.appendChild(button1);
@@ -257,7 +252,7 @@
                 }
                 let text = document.createTextNode(factor_pairs[i]);
                 item.appendChild(text);
-                item.setAttribute("class", "btn btn-secondary");
+                item.setAttribute("class", "btn btn-info");
                 list2.appendChild(item);
 
             }
@@ -265,7 +260,7 @@
             let button2 = document.createElement("button");
             let buttonText2 = document.createTextNode("Next");
             button2.appendChild(buttonText2);     
-            button2.setAttribute("class", "btn btn-secondary");
+            button2.setAttribute("class", "btn btn-info");
             button2.setAttribute("hidden", "true");
             step2.appendChild(instruct2);
             step2.appendChild(list2);
@@ -304,8 +299,8 @@
             let button3 = document.createElement("button");
             let buttonText3 = document.createTextNode("Next");
             button3.appendChild(buttonText3);     
-            button3.setAttribute("class", "btn btn-secondary");
-            button2.setAttribute("hidden", "true");
+            button3.setAttribute("class", "btn btn-info");
+            button3.setAttribute("hidden", "true");
             step3.appendChild(instruct3);
             step3.appendChild(list3);
             step3.appendChild(button3);
@@ -324,7 +319,7 @@
             let button4 = document.createElement("button");
             let buttonText4 = document.createTextNode("Next");
             button4.appendChild(buttonText4);     
-            button4.setAttribute("class", "btn btn-secondary");
+            button4.setAttribute("class", "btn btn-info");
             button4.setAttribute("hidden", "true");
             step4.appendChild(button4);
 
@@ -384,9 +379,13 @@
     <div class="tosolve" hidden>
         <form><input class="form-control" autocomplete="off" id="coeffAcheck" placeholder="Coeffient A" type="number"></form>
         <form><input class="form-control"autocomplete="off" id="coeffBcheck" placeholder="Coeffient B" type="number"></form>
-        <form><input class="form-control" autocomplete="off" id="coeffCcheck" placeholder="Coeffient C" type="number"></form>     <br>    <button class="btn btn-primary" value ="submit" onclick="coeffCheck()">Check</button>
+        <form><input class="form-control" autocomplete="off" id="coeffCcheck" placeholder="Coeffient C" type="number"></form>     
+        <br>    
+        <button id="solveButton" class="btn btn-info" value ="submit" onclick="coeffCheck()">Check</button>
 
     </div>
+
+    <br>
 
     <div class="regular">
         <div class="step1" hidden>
@@ -398,7 +397,7 @@
 
         <div class="step2" hidden>
             <h2>
-                Select the factor pair whose product is equal to C:
+                Select the factor pair whose sum is equal to the coefficient B:
             </h2>
         </div>
 
@@ -409,14 +408,14 @@
             <h2>
                 Those factors work! We can now factor the quadratic:
             </h2>
-            <div id="factor">
+            <div id="factor" class="factor">
                 (x - <form>
-                    <input autocomplete="off" id="first_factor" placeholder="First Factor" type="number">
+                    <input autocomplete="off" id="first_factor" class="form-control" placeholder="First Factor" type="number">
                 </form>)(x - <form>
-                    <input autocomplete="off" id="second_factor" placeholder="Second Factor" type="number">
-                </form>) = 0                     
-                <button class="btn btn-primary" value ="submit" onclick="factoringCheck()">Check</button>
-            </div>
+                    <input autocomplete="off" id="second_factor" class="form-control" placeholder="Second Factor" type="number">
+                </form>) = 0     
+            </div>  <button class="btn btn-info" value ="submit" onclick="factoringCheck()">Check</button>
+
             <div id="factoringError" class="error" hidden>That's not quite how you factor! Have another go!</div>
         </div>
     </div>
@@ -426,13 +425,13 @@
         <h2>
             Great. Now we just need to solve for x:
         </h2>
-        <div>
+        <div class="solve">
             (x = <form>
-                <input autocomplete="off" id="first_solution" placeholder="First Solution" type="number">
+                <input autocomplete="off" class="form-control" id="first_solution" placeholder="First Solution" type="number">
             </form>)(x = <form>
-                <input autocomplete="off" id="second_solution" placeholder="Second Solution" type="number">
+                <input autocomplete="off" id="second_solution" class="form-control" placeholder="Second Solution" type="number">
             </form>)                   
-            <button class="btn btn-primary" value ="submit" onclick="solvingCheck()">Check</button>
+            <button class="btn btn-info" value ="submit" onclick="solvingCheck()">Check</button>
         </div>
         <div id="solvingError" class="error" hidden>That's not quite how you solve for x! Have another go!</div>
     </div>

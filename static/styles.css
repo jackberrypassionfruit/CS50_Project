@@ -37,12 +37,20 @@ nav .navbar-brand .green {
   text-align: left;
 }
 
-.regular, .cWasZero {
+.regular, .cWasZero, .factor {
+  justify-content: space-around;
   display: flex;
   flex-flow: row wrap;
 }
 
-.step1, .step2, .step3, .step4, .step5, .step6 {
+.solve {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.step1, .step2, .step3, .step4, .step5, .step6, {
   display: flex;
   flex-flow: column nowrap;
   width: 25vw;
@@ -110,7 +118,6 @@ div.insameline {
   display: block;
   text-align: center;
 }
-
 
 
 /*# sourceMappingURL=styles.css.map */
