@@ -37,7 +37,7 @@ nav .navbar-brand .green {
   text-align: left;
 }
 
-.regular, .cWasZero, .factor {
+.regular, .cWasZero, .aWasZero, .factor {
   justify-content: space-around;
   display: flex;
   flex-flow: row wrap;
@@ -50,7 +50,7 @@ nav .navbar-brand .green {
   justify-content: center;
 }
 
-.step1, .step2, .step3, .step4, .step5, .step6, {
+.step1, .step2, .step3, .step4, .step5, .step6 {
   display: flex;
   flex-flow: column nowrap;
   width: 25vw;
@@ -68,6 +68,12 @@ nav .navbar-brand .green {
 
 .card {
   margin: 25px;
+  border: 3px dashed black;
+  padding: 15px;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: space-between;
 }
 
 span {
@@ -136,6 +142,10 @@ h2 {
 /*# sourceMappingURL=styles.css.map */
 
 div.insameline {
-  display: inline-block
+  display: inline-block;
   margin-block-end: 0.83em;
+}
+
+.equation, .equation sup {
+  font-size: 50px;
 }
