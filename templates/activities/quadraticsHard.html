@@ -31,6 +31,9 @@
         {
             
             annihilation();
+
+            roots = [];
+
             document.getElementsByClassName("cWasZero")[0].setAttribute("hidden", true);
             document.getElementsByClassName("aWasZero")[0].setAttribute("hidden", true);
 
@@ -39,7 +42,7 @@
             const factCoeffsByLetter = ["A", "B", "C", "D"];
             for (i of factCoeffsByLetter)
             {
-                factCoeff[i] = Math.floor(Math.random() * 16) - 8;
+                factCoeff[i] = Math.floor(Math.random() * 32) - 16;
             } 
 
             factCoeff["A"] = Math.abs(factCoeff["A"]);
@@ -62,8 +65,10 @@
             document.getElementById("standCoeffB").innerHTML = standCoeff["B"];
             document.getElementById("standCoeffC").innerHTML = standCoeff["C"];
 
+            const rounder = 10**4;
 
-            roots = [-1 * factCoeff["B"] / factCoeff["A"], -1 * factCoeff["D"] / factCoeff["C"]];
+            roots.push(Math.round(rounder * -1 * factCoeff["B"] / factCoeff["A"]) / rounder);
+            roots.push(Math.round(rounder * -1 * factCoeff["D"] / factCoeff["C"]) / rounder);
 
             console.log("roots are:");
             console.log(roots);
@@ -341,14 +346,14 @@
                 factorSolve6.setAttribute("class", "solution")
 
 
-                let factoredEQ = document.createTextNode(`(${factCoeff["A"]}x + ${factCoeff["B"]})(${factCoeff["C"]}x + ${factCoeff["D"]})`);
+                let factoredEQ = document.createTextNode(`(${factCoeff["A"]}x + ${factCoeff["B"]})(${factCoeff["C"]}x + ${factCoeff["D"]}) = 0`);
                 
                 para = document.createElement("p");
                 para.appendChild(factoredEQ);
                 factorSolve6.appendChild(para);
 
                 para = document.createElement("p");
-                para.append(document.createTextNode(roots));
+                para.append(document.createTextNode(`x = ${roots}`));
                 factorSolve6.appendChild(para);
                 
                 step6.appendChild(factorSolve6);
