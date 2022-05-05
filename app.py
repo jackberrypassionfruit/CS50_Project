@@ -228,13 +228,21 @@ def quadraticsEasySolver():
         problems = [mathgen.genById(21), mathgen.genById(50)]
         return render_template("activities/quadraticsEasySolver.html", problems=problems)
 
-@app.route("/acMethod", methods=["GET", "POST"])
+@app.route("/teacherSolverHard", methods=["GET", "POST"])
 @login_required
-def acMethod():
+def teacherSolverHard():
     if request.method == "POST":
         pass
     else:
-        return render_template("activities/quadraticsHard.html")
+        return render_template("activities/teacherSolverHard.html")
+    
+@app.route("/studentSolverHard", methods=["GET", "POST"])
+@login_required
+def studentSolverHard():
+    if request.method == "POST":
+        pass
+    else:
+        return render_template("activities/studentSolverHard.html")
 
 @app.route("/SolverStudentEasy", methods=["GET", "POST"])
 @login_required
