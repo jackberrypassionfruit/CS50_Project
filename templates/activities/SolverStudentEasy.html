@@ -11,8 +11,8 @@
         let coeffA = 1;
         let coeffB; 
         let coeffC;
-        var p;
-        var q;
+        let p;
+        let q;
         let list1;
         let factors_C = [];
         let started = false;
@@ -54,14 +54,14 @@
             p = -1 * roots[0];
             q = -1 * roots[1];
 
-            if (p*q == 0){
-                difficulty();
-                pass;
-            }
             coeffB = p + q;
             document.getElementById("coeffB").innerHTML = `(${coeffB})`;
             coeffC = p * q;
             document.getElementById("coeffC").innerHTML = `(${coeffC})`;
+
+            if (p*q == 0){
+                difficulty();
+            }
 
             document.getElementsByClassName("problems")[0].removeAttribute("hidden");
 
@@ -72,7 +72,6 @@
             document.getElementById('coeffAcheck').value="";
             document.getElementById('coeffBcheck').value="";
             document.getElementById('coeffCcheck').value="";
-            solveButton.setAttribute("hidden", false);
             removeChildren(step1);
         }
 
@@ -141,7 +140,7 @@
             }
             else {
                 solvingError.setAttribute("hidden", true);
-                document.getElementsByClassName("step5")[0].removeAttribute("hidden");
+                document.getElementById("greatwork").removeAttribute("hidden");
                 solvingCheckBtn.setAttribute("hidden", true);
             }
         }
@@ -451,7 +450,7 @@
     <br>
     <br>
 
-    <div class="step5 error" hidden>
+    <div id="greatwork" hidden>
         <div>
             Great work!        
         </div>
