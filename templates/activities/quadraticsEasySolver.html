@@ -55,14 +55,16 @@
             p = -1 * roots[0];
             q = -1 * roots[1];
 
-            if (p*q == 0){
-                difficulty();
-                pass;
-            }
             coeffB = p + q;
             document.getElementById("coeffB").innerHTML = `(${coeffB})`;
             coeffC = p * q;
             document.getElementById("coeffC").innerHTML = `(${coeffC})`;
+
+            if (p*q == 0){
+                difficulty();
+                solveButton.setAttribute("hidden", false);
+
+            }
 
             document.getElementsByClassName("problems")[0].removeAttribute("hidden");
 
@@ -97,7 +99,7 @@
                 listCheck.setAttribute("hidden", true);
                 document.getElementById("correct").setAttribute("class", "btn btn-success");
             }
-            else{
+            else {
                 factorListError.removeAttribute("hidden");
             }
         }
@@ -151,7 +153,7 @@
             }
             else {
                 solvingError.setAttribute("hidden", true);
-                document.getElementsByClassName("step5")[0].removeAttribute("hidden");
+                document.getElementById("greatwork").removeAttribute("hidden");
                 solvingCheckBtn.setAttribute("hidden", true);
             }
         }
@@ -418,19 +420,19 @@
                 Select the factor pair whose sum is equal to the coefficient B:
             </h2>
         </div>
+    </div>
 
-        <div class="step3" hidden>
-            <h2>
-                Those factors work! We can now factor the quadratic:
-            </h2>
-            <div id="factor" class="factor">
-                (x +  <form>
-                    <input autocomplete="off" id="first_factor" class="form-control" placeholder="First Factor" type="number">
-                </form>) (x + <form>
-                    <input autocomplete="off" id="second_factor" class="form-control" placeholder="Second Factor" type="number">
-                </form>) = 0     
-            </div>  <button id="factoringCheckBtn" class="btn btn-info" value ="submit" onclick="factoringCheck()">Check</button>
-        </div>
+    <div class="step3" hidden>
+        <h2>
+            Those factors work! We can now factor the quadratic:
+        </h2>
+        <div id="factor" class="factorPresent">
+            (x +  <form>
+                <input autocomplete="off" id="first_factor" class="form-control" placeholder="First Factor" type="number">
+            </form>) (x + <form>
+                <input autocomplete="off" id="second_factor" class="form-control" placeholder="Second Factor" type="number">
+            </form>) = 0     
+        </div>  <button id="factoringCheckBtn" class="btn btn-info" value ="submit" onclick="factoringCheck()">Check</button>
     </div>
 
     <br>
@@ -439,7 +441,7 @@
         <h2>
             Great. Now we just need to solve for x:
         </h2>
-        <div class="solve">
+        <div id="factor" class="solve">
             x = <form>
                 <input autocomplete="off" class="form-control" id="first_solution" placeholder="First Solution" type="number">
             </form>   x = <form>
@@ -454,7 +456,7 @@
     <br>
     <br>
 
-    <div class="step5 error" hidden>
+    <div id="greatwork" hidden>
         <div>
             Great work!        
         </div>

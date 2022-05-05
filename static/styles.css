@@ -43,7 +43,7 @@ nav .navbar-brand .green {
   flex-flow: row wrap;
 }
 
-.solve {
+.solve, .factorPresent {
   display: flex;
   flex-flow: row wrap;
   align-items: center;
@@ -52,12 +52,16 @@ nav .navbar-brand .green {
   color:#ea433b;
 }
 
-.step1, .step2, .step3, .step4, .step5, .step6 {
+.step1, .step2, .step5, .step6 {
   display: flex;
   flex-flow: column nowrap;
   width: 25vw;
-  margin: 2vw;
-  align-items: flex-end;
+  align-items: center;
+}
+
+.step3, .step4,
+{
+  display: flex;
 }
 
 .btn {
@@ -110,9 +114,21 @@ h2 {
 }
 
 .error{
+  display: flex;
+  flex-flow: column;
   font-size: larger;
   color:#2e944b;
   text-align: center;
+  justify-content: center;
+}
+
+#greatwork {
+  display: flex;
+  flex-flow: column;
+  font-size: larger;
+  color:#2e944b;
+  text-align: center;
+  justify-content: center;
 }
 
 .imgContainer {
@@ -120,6 +136,7 @@ h2 {
   text-align: center;
   color: white;
 }
+
 .imgContainer img {
   border: 3px solid black;
   width: 100vw;
@@ -139,7 +156,6 @@ h2 {
   display: block;
   text-align: center;
 }
-
 
 /*# sourceMappingURL=styles.css.map */
 
