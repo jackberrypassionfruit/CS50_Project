@@ -1,0 +1,590 @@
+{% extends "layout.html" %}
+
+
+{% block title %}
+    Quadratics (a<1 or a>1)
+{% endblock %}
+
+
+{% block javascript%}
+    <script>
+        let factCoeff = {};
+        let standCoeff = {};
+        let roots = [];
+
+        let factors_A = [];
+        let factors_C = [];
+        let factor_pairsA = [];
+        let factor_pairsC = [];
+
+        const maxCoeff = 8;
+        const rounder = 4
+
+        function arrayEquals(arr1, arr2)
+        {
+            if (arr1.length != arr2.length)
+            {
+                return false;
+            }
+
+            for (let i = 0; i < arr1.length; i++)
+            {
+                if (arr1[i] != arr2[i])
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        // Erase all steps of solution
+        function annihilation()
+        {
+            let allSteps = document.getElementsByClassName("solution");
+            let allCards = document.getElementsByClassName("card");
+
+            let i = 0
+            
+            while (allSteps.length != 0)
+            {
+                allSteps[0].remove();
+                allCards[i++].setAttribute("hidden", true);
+            }
+        }
+        
+        function newproblem() 
+        {
+            
+            annihilation();
+
+            roots = [];
+
+            document.getElementsByClassName("cWasZero")[0].setAttribute("hidden", true);
+            document.getElementsByClassName("aWasZero")[0].setAttribute("hidden", true);
+
+
+
+            const factCoeffsByLetter = ["A", "B", "C", "D"];
+            for (i of factCoeffsByLetter)
+            {
+                factCoeff[i] = Math.floor(Math.random() * maxCoeff * 2) - maxCoeff;
+            } 
+
+            factCoeff["A"] = Math.abs(factCoeff["A"]);
+            factCoeff["C"] = Math.abs(factCoeff["C"]);
+
+
+            console.log("factCoeff is:");
+            console.log(factCoeff);
+
+            
+            standCoeff["A"] = factCoeff["A"] * factCoeff["C"];
+            standCoeff["B"] = factCoeff["A"] * factCoeff["D"] + factCoeff["B"] * factCoeff["C"];
+            standCoeff["C"] = factCoeff["B"] * factCoeff["D"];
+            
+            console.log("standCoeff is:");
+            console.log(standCoeff);
+            
+
+            document.getElementById("standCoeffA").innerHTML = standCoeff["A"];
+            document.getElementById("standCoeffB").innerHTML = standCoeff["B"];
+            document.getElementById("standCoeffC").innerHTML = standCoeff["C"];
+
+            roots.push(Math.round(10**rounder * -1 * factCoeff["B"] / factCoeff["A"]) / 10**rounder);
+            roots.push(Math.round(10**rounder * -1 * factCoeff["D"] / factCoeff["C"]) / 10**rounder);
+
+            console.log("roots are:");
+            console.log(roots);
+        }
+
+    
+        function solve() {
+            annihilation();
+
+            let button1 = document.createElement("button");
+            let button2 = document.createElement("button");
+            let button3 = document.createElement("button");
+            let button4 = document.createElement("button");
+            let button5 = document.createElement("button");
+
+
+            if (standCoeff["A"] == 0) 
+            {
+                // Step 1
+                document.getElementsByClassName("aWasZero")[0].removeAttribute("hidden");
+
+                let step1 = document.getElementsByClassName("aWasZero")[0].getElementsByClassName("step1")[0];
+
+                let subC = `${standCoeff["B"]}x = ${-1 * standCoeff["C"]}`;
+                let list1 = document.createElement("div");
+                list1.setAttribute("class", "solution");
+                list1.appendChild(document.createTextNode(subC));
+                step1.appendChild(list1);
+
+                // Step 2
+
+                let step2 = document.getElementsByClassName("aWasZero")[0].getElementsByClassName("step2")[0];
+
+                let ans = `x = ${-1 * standCoeff["C"] / standCoeff["B"]}`;
+                let list2 = document.createElement("div");
+                list2.setAttribute("class", "solution");
+                list2.appendChild(document.createTextNode(ans));
+                step2.appendChild(list2);
+
+            }
+            else if (standCoeff["C"] == 0)
+            {
+                // Write something simple for if C is 0
+                // Should just:
+                    // Step 1: factor c out and rewrite EQ
+                    // Step 2: and divide neg B by A
+
+                document.getElementsByClassName("cWasZero")[0].removeAttribute("hidden");
+                
+                // Step1
+                let xOut = `x(${standCoeff["A"]}x + (${standCoeff["B"]})) = 0`;
+
+                let step1 = document.getElementsByClassName("cWasZero")[0].getElementsByClassName("step1")[0];
+                let list1 = document.createElement("div");
+                list1.setAttribute("class", "solution");
+
+                list1.appendChild(document.createTextNode(xOut));
+
+                step1.appendChild(list1);
+
+                // Step 2
+                let rightFactor = `${standCoeff["A"]}x + (${standCoeff["B"]}) = 0`;
+
+                let step2 = document.getElementsByClassName("cWasZero")[0].getElementsByClassName("step2")[0];
+                let list2 = document.createElement("div");
+                list2.setAttribute("class", "solution");
+
+                list2.append(document.createTextNode(rightFactor));
+
+                step2.appendChild(list2);
+
+                // Step 3
+                let secondSol = -1 * standCoeff["B"] / standCoeff["A"];
+
+                let step3 = document.getElementsByClassName("cWasZero")[0].getElementsByClassName("step3")[0];
+                let list3 = document.createElement("div");
+                list3.setAttribute("class", "solution");
+
+                list3.append(document.createTextNode(secondSol));
+                
+                step3.appendChild(list3);
+
+            }
+
+            else
+            {
+                // Step 1 - Create factors list for product of coefficients A
+                
+                // Where factors_A was originally declared
+                for (let x = 0; x <= Math.abs(standCoeff["A"]); x++)
+                {
+                    if ((Math.abs(standCoeff["A"]) % x) == 0) 
+                    {
+                        factors_A.push(x);
+                    }
+                }
+
+                console.log("factors_A are:");
+                console.log(factors_A);
+
+                // Add nodes to hidden divs for solution, to be displayed when button is pressed
+                let step1 = document.getElementsByClassName("regular")[0].getElementsByClassName("step1")[0];
+                let list1 = document.createElement("p");
+                list1.setAttribute("class", "solution")
+                
+                let buttonText1 = document.createTextNode("Check");
+                button1.appendChild(buttonText1);
+                button1.setAttribute("class", "btn btn-secondary");
+                list1.appendChild(button1);
+
+                for (i in factors_A)
+                {
+                    let item = document.createElement("li");
+                    let text = document.createTextNode(factors_A[i]);
+                    item.appendChild(text);
+                    list1.appendChild(item);
+                }
+
+                step1.appendChild(list1);
+                step1.removeAttribute("hidden");
+
+
+                
+                // Step 2 - Create factors list for product of coefficients C
+                
+                // Where factors_C was orignally declared
+                for (let x = 0; x <= Math.abs(standCoeff["C"]); x++)
+                {
+                    if ((Math.abs(standCoeff["C"]) % x) == 0) 
+                    {
+                        factors_C.push(x);
+                    }
+                }
+                
+                console.log("factors_C are:");
+                console.log(factors_C);
+                
+                // Add nodes to hidden divs for solution, to be displayed when button is pressed
+                let step2 = document.getElementsByClassName("regular")[0].getElementsByClassName("step2")[0];
+                let list2 = document.createElement("ul");
+                list2.setAttribute("class", "solution")
+                for (i in factors_C)
+                {
+                    let item = document.createElement("li");
+                    let text = document.createTextNode(factors_C[i]);
+                    item.appendChild(text);
+                    list2.appendChild(item);
+                }
+                let buttonText2 = document.createTextNode("Next");
+                button2.appendChild(buttonText2);
+                button2.setAttribute("class", "btn btn-secondary");
+                list2.appendChild(button2);
+                step2.appendChild(list2);
+                
+                
+                // Step 3 - Check which pairs of factors multiply to make A
+                let iter3 = Math.ceil(factors_A.length / 2);
+        
+                //Where factor_pairs_A was originally declared
+
+                for (let i = 0; i < iter3; i++) 
+                {
+                    factor_pairsA.push([factors_A[i], factors_A[factors_A.length - i - 1]]);
+                }
+
+                console.log("factor_pairs are:");
+                console.log(factor_pairsA[0], factor_pairsA[1], factor_pairsA[2]);
+
+
+                let step3 = document.getElementsByClassName("step3")[0];
+
+                // Creating an unordeered list to show the pairs
+                
+                let list3 = document.createElement("div");
+                list3.setAttribute("class", "solution")
+                for (i in factor_pairsA)
+                {
+                    let item3 = document.createElement("p");
+                    let button3 = document.createElement("button");
+                    button3.appendChild(document.createTextNode(factor_pairsA[i]));
+                    button3.setAttribute("class", "btn btn-secondary");
+
+                    if (arrayEquals(factor_pairsA[i], [factCoeff["A"], factCoeff["C"]]) || arrayEquals(factor_pairsA[i], [factCoeff["C"], factCoeff["A"]]))
+                    {
+                        button3.addEventListener("click", function()
+                        {
+                            button3.setAttribute("style", "color: green");
+                            document.getElementsByClassName("step4")[0].removeAttribute("hidden");
+                            document.getElementsByClassName("step3")[0].getElementsByTagName("button")[0].setAttribute("hidden", true);
+                        });
+                    }
+                    else
+                    {
+                        button3.addEventListener("click", function() 
+                        {
+                            button3.setAttribute("style", "color: red");
+                            let para = document.createElement(document.createTextNode("Sorry, that's not it"));
+                        });
+                    }
+
+                    item3.appendChild(button3);
+                    list3.appendChild(item3);
+                }
+
+                step3.appendChild(list3);
+                
+                // Step 4 - Check which pairs of factors multiply to make C
+                let op = 1;
+                let flip = 1;
+                if (standCoeff["C"] < 0) // if C is negative, op makes you check factor pairs where one is negative 
+                {
+                    op = -1;
+                }
+                else if (standCoeff["B"] < 0) // if B is negative, and C was also positive, then makes all your final answers the flipped sign of what they would have been
+                {
+                    flip = -1;
+                }
+                
+                let iter4;
+
+                if (op == -1)
+                {
+                    iter4 = Math.ceil(factors_C.length - 1);
+                }
+                else
+                {
+                    iter4 = Math.ceil(factors_C.length / 2);
+                }
+
+                // Where factor_pairsC was orignally declared
+
+                for (let i = 0; i < iter4; i++) 
+                {
+                    factor_pairsC.push([op * factors_C[i], factors_C[factors_C.length - i - 1]]);
+                }
+
+                console.log("factor_pairsC are:");
+                console.log(factor_pairsC[0], factor_pairsC[1], factor_pairsC[2]);
+
+
+                let step4 = document.getElementsByClassName("step4")[0];
+
+                // Creating an unordeered list to show the pairs
+                
+                let list4 = document.createElement("ul");
+                list4.setAttribute("class", "solution")
+                for (i in factor_pairsC)
+                {
+                    let item4 = document.createElement("li");
+                    let text4 = document.createTextNode(factor_pairsC[i]);
+                    item4.appendChild(text4);
+                    list4.appendChild(item4);
+                }
+
+                let buttonText4 = document.createTextNode("Next");
+                button4.appendChild(buttonText4);     
+                button4.setAttribute("class", "btn btn-secondary");
+                list4.appendChild(button4);
+                step4.appendChild(list4);
+
+                
+                // Step 5 - Test which pairs add to B, if any
+
+                // Display the correct factor pairs of A and C
+                // and
+                // Display the factored form of the EQ
+
+
+                let step5 = document.getElementsByClassName("step5")[0];
+                let factorCheck5 = document.createElement("div");
+                factorCheck5.setAttribute("class", "solution");
+                
+                let para = document.createElement("p");
+                let A5Check = document.createTextNode(`${factCoeff["A"]}x * ${factCoeff["C"]}x = ${standCoeff["A"]}x^2`);
+                para.appendChild(A5Check);
+                factorCheck5.appendChild(para);
+
+                para = document.createElement("p");
+                let C5Check = document.createTextNode(`${factCoeff["B"]} * ${factCoeff["D"]} = ${standCoeff["C"]}`);
+                para.appendChild(C5Check);
+                factorCheck5.appendChild(para);
+
+                para = document.createElement("p");
+                let B5Check = document.createTextNode(`${factCoeff["A"]}x * ${factCoeff["D"]}x + ${factCoeff["B"]}x * ${factCoeff["C"]}x = ${standCoeff["B"]}`);
+                para.appendChild(B5Check);
+                factorCheck5.appendChild(para);
+                
+                let buttonText5 = document.createTextNode("Next");
+                button5.appendChild(buttonText5);
+                button5.setAttribute("class", "btn btn-secondary");
+                factorCheck5.appendChild(button5);
+
+                step5.appendChild(factorCheck5);
+
+
+                // Step 6 - Display the factored form
+                let step6 = document.getElementsByClassName("step6")[0];
+                let factorSolve6 = document.createElement("div");
+                factorSolve6.setAttribute("class", "solution")
+
+
+                let factoredEQ = document.createTextNode(`(${factCoeff["A"]}x + ${factCoeff["B"]})(${factCoeff["C"]}x + ${factCoeff["D"]}) = 0`);
+                
+                para = document.createElement("p");
+                para.appendChild(factoredEQ);
+                factorSolve6.appendChild(para);
+
+                para = document.createElement("p");
+                para.append(document.createTextNode(`x = ${roots}`));
+                factorSolve6.appendChild(para);
+                
+                step6.appendChild(factorSolve6);
+            }
+
+
+
+            button1.addEventListener("click", function()
+            {
+                let step1 = document.getElementsByClassName("regular")[0].getElementsByClassName("step1")[0];
+                
+                step1.getElementsByClassName("message")[0].remove();
+                let ans = step1.getElementsByTagName("input")[0].value;
+                ans = ans.split(",");
+
+                let para = document.createElement("p");
+                para.setAttribute("class", "message");
+                
+
+                if (arrayEquals(ans, factors_A))
+                {
+                    para.appendChild(document.createTextNode("Good job!"));
+                    step1.appendChild(para);
+                    document.getElementsByClassName("step2")[0].removeAttribute("hidden");
+                    document.getElementsByClassName("step1")[0].getElementsByTagName("button")[0].setAttribute("hidden", true);
+                }
+                else
+                {
+                    para.appendChild(document.createTextNode("Not quite, try again"));
+                    step1.appendChild(para);
+                }
+            });
+
+            button2.addEventListener("click", function()
+            {
+                document.getElementsByClassName("step3")[0].removeAttribute("hidden");
+                document.getElementsByClassName("step2")[0].getElementsByTagName("button")[0].setAttribute("hidden", true);
+            });
+
+            button3.addEventListener("click", function()
+            {
+                document.getElementsByClassName("step4")[0].removeAttribute("hidden");
+                document.getElementsByClassName("step3")[0].getElementsByTagName("button")[0].setAttribute("hidden", true);
+            });
+
+            button4.addEventListener("click", function()
+            {
+                document.getElementsByClassName("step5")[0].removeAttribute("hidden");
+                document.getElementsByClassName("step4")[0].getElementsByTagName("button")[0].setAttribute("hidden", true);
+            });
+
+            button5.addEventListener("click", function()
+            {
+                document.getElementsByClassName("step6")[0].removeAttribute("hidden");
+                document.getElementsByClassName("step5")[0].getElementsByTagName("button")[0].setAttribute("hidden", true);
+            });
+
+        }
+        
+    </script>
+{% endblock %}
+
+
+{% block main %}
+
+    <div class="aValue"> 
+        <button class="btn btn-primary" onclick="newproblem()">Start</button>
+    </div>
+
+    <br>
+
+    <div>
+        <span class="equation">
+            <div>
+                <span id="standCoeffA"> A</span> x <sup>2</sup> + <span id="standCoeffB"> B </span> x + <span id="standCoeffC"> C </span> = 0
+            </div>
+        </span>    
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+
+    <h1>Practice with the Solution solver!</h1>
+    <button class="btn btn-primary" onclick="solve()">Solve</button>
+
+
+    <div class="regular">
+        <div class="step1 card" hidden>
+            <div class="card-body">
+                1) First, make a list of the positive factors of the coefficient A:
+            </div>
+            <input type="text"></input>
+            <p class="message"></p>
+        </div>
+
+        <div class="step2 card" hidden>
+            <div class="card-body">
+                2) Now, make a list of the positive factors of the coefficient C:
+            </div>
+        </div>
+        
+        <div class="step3 card" hidden>
+            <div class="card-body">
+                3) Then, find all the pairs of these factors that multiply to A:
+            </div>
+        </div>
+
+        <div class="step4 card" hidden>
+            <div class="card-body">
+                4) Then, find all the pairs of these factors that multiply to C:
+            </div>
+        </div>
+
+        <div class="step5 card" hidden>
+            <div class="card-body">
+                5) Nearing the end, find which pairs of factors for A and C create a factored form of the equation with the correct B coefficient:
+                <br>
+            </div>
+            <div id="factorCheck5">
+            </div>
+        </div>
+
+        <div class="step6 card" hidden>
+            <div class="card-body">
+                6) Finally, write the quadratic equation in factored form, and use the Zero Product Property to solve for the roots
+                <br>
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="aWasZero" hidden>
+        
+        <div class="step1 card">
+            <div class="card-body">
+                1) First, Subtract C from both sides of the Equation:
+                <br>
+            </div>
+        </div>
+
+        <div class="step2 card">
+            <div class="card-body">
+                2) Divide both sides by B, and there's your answer
+                <br>
+                Solution is: 
+                <br><br>
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="cWasZero" hidden>
+        <div class="step1 card">
+            <div class="card-body">
+                1) First, factor x out of the function:
+            </div>
+        </div>
+
+        <div class="step2 card">
+            <div class="card-body">
+                2) Then, using the Zero Product Rule, set each factor equal to 0:
+                <br>
+                x = 0
+                <br>
+                &
+            </div>
+        </div>
+
+        <div class="step3 card">
+            <div class="card-body">
+                3) Solve each equation for your 2 solutions
+                <br>
+                Solutions are: 
+                <br><br>
+                0
+                <br>
+                and 
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
