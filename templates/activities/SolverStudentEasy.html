@@ -15,6 +15,7 @@
         var q;
         let list1;
         let factors_C = [];
+        let started = false;
 
 
         function coeffCheck() {
@@ -23,12 +24,8 @@
             let checkA = document.querySelector("#coeffAcheck").value;
             let checkB = document.querySelector("#coeffBcheck").value;
             let checkC = document.querySelector("#coeffCcheck").value;
-            console.log(checkA);
-            console.log(checkB);
-            console.log(checkC);
 
             if (checkA != coeffA || checkB != coeffB || checkC != coeffC ){
-                console.log("n");
                 error.removeAttribute("hidden");
 
             }
@@ -40,19 +37,22 @@
         }
 
 
-
-
         function difficulty() {
-            
+
+            if (started == false){
+                started = true;
+            }
+            else {
+                blankForm()
+            }
+
             document.getElementsByClassName("solutionSolver")[0].removeAttribute("hidden");
             document.getElementsByClassName("tosolve")[0].removeAttribute("hidden");
 
-
-            const roots = [(Math.floor(Math.random() * 9) -4), (Math.floor(Math.random() * 9) -4)];
+            roots = [(Math.floor(Math.random() * 9) -4), (Math.floor(Math.random() * 9) -4)];
 
             p = -1 * roots[0];
             q = -1 * roots[1];
-
 
             if (p*q == 0){
                 difficulty();
@@ -65,6 +65,21 @@
 
             document.getElementsByClassName("problems")[0].removeAttribute("hidden");
 
+        }
+
+        function blankForm(){
+            console.log(started);
+            document.getElementById('coeffAcheck').value="";
+            document.getElementById('coeffBcheck').value="";
+            document.getElementById('coeffCcheck').value="";
+            solveButton.setAttribute("hidden", false);
+            removeChildren(step1);
+        }
+
+        function removeChildren(parent) {
+            while (parent.firstChild) {
+                parent.removeChild(parent.firstChild);
+                }
         }
 
         function factorsCheck() {
@@ -110,6 +125,7 @@
             else {
                 factoringError.setAttribute("hidden", true);
                 document.getElementsByClassName("step4")[0].removeAttribute("hidden");
+               factoringCheckBtn.setAttribute("hidden", true);
             }
         }
         
@@ -117,15 +133,16 @@
             //check if input coefficients were correct
             let first_soln = document.querySelector("#first_solution").value;
             let second_soln = document.querySelector("#second_solution").value;
-            if (first_soln != -p && first_soln != -q){
+            if (first_soln != p && first_soln != q){
                 solvingError.removeAttribute("hidden");
             }
-            if (second_soln != p && second_soln != q){
+            if (second_soln != -p && second_soln != -q){
                 solvingError.removeAttribute("hidden");
             }
             else {
                 solvingError.setAttribute("hidden", true);
                 document.getElementsByClassName("step5")[0].removeAttribute("hidden");
+                solvingCheckBtn.setAttribute("hidden", true);
             }
         }
 
@@ -166,7 +183,7 @@
             var form1input = document.createElement("input");
             form1input.setAttribute("type", "text");
             form1input.setAttribute("id", "factors");
-            form1input.setAttribute("placeholder", "factors");
+            form1input.setAttribute("placeholder", "example: 1,2,3,6");
             form1input.setAttribute("class", "form-control");
             form1input.setAttribute("display", "flex");
 
@@ -355,7 +372,7 @@
     <br>
 
     <div class="aValue"> 
-        <button class="btn btn-primary" onclick="difficulty()">Lets get started</button>
+        <button class="btn btn-primary" onclick="difficulty()">Let's get started</button>
     </div>
 
 
@@ -366,6 +383,8 @@
         </div>
     </div>
 
+
+
     <br>
     <br>
 
@@ -373,9 +392,7 @@
 
     <br>
 
-    <div id="error" class="error" hidden>Those coefficients weren't quite correct! Have another go!</div>
-
-    <div class="tosolve" hidden>
+    <div id="coeffFinder" class="tosolve" hidden>
         <form><input class="form-control" autocomplete="off" id="coeffAcheck" placeholder="Coeffient A" type="number"></form>
         <form><input class="form-control"autocomplete="off" id="coeffBcheck" placeholder="Coeffient B" type="number"></form>
         <form><input class="form-control" autocomplete="off" id="coeffCcheck" placeholder="Coeffient C" type="number"></form>     
@@ -387,12 +404,11 @@
     <br>
 
     <div class="regular">
-        <div class="step1" hidden>
+        <div id="step1" class="step1" hidden>
             <h2>
                 Now, we make a list of the factors of |C|. Dont include spaces!
             </h2>
         </div>
-        <div id="factorListError" class="error" hidden>Those factors weren't quite correct! Rememeber to list all factors in ascending with no spaces! For example 1,2,3,6 </div>
 
         <div class="step2" hidden>
             <h2>
@@ -400,37 +416,33 @@
             </h2>
         </div>
 
-        <div id="factorPairError" class="error" hidden>Those factors don't add to the coefficient B! Have another go!</div>
-
-
         <div class="step3" hidden>
             <h2>
                 Those factors work! We can now factor the quadratic:
             </h2>
             <div id="factor" class="factor">
-                (x - <form>
+                (x +  <form>
                     <input autocomplete="off" id="first_factor" class="form-control" placeholder="First Factor" type="number">
-                </form>)(x - <form>
+                </form>) (x + <form>
                     <input autocomplete="off" id="second_factor" class="form-control" placeholder="Second Factor" type="number">
                 </form>) = 0     
-            </div>  <button class="btn btn-info" value ="submit" onclick="factoringCheck()">Check</button>
-
-            <div id="factoringError" class="error" hidden>That's not quite how you factor! Have another go!</div>
+            </div>  <button id="factoringCheckBtn" class="btn btn-info" value ="submit" onclick="factoringCheck()">Check</button>
         </div>
     </div>
 
+    <br>
 
     <div class="step4" hidden>
         <h2>
             Great. Now we just need to solve for x:
         </h2>
         <div class="solve">
-            (x = <form>
+            x = <form>
                 <input autocomplete="off" class="form-control" id="first_solution" placeholder="First Solution" type="number">
-            </form>)(x = <form>
+            </form>   x = <form>
                 <input autocomplete="off" id="second_solution" class="form-control" placeholder="Second Solution" type="number">
-            </form>)                   
-            <button class="btn btn-info" value ="submit" onclick="solvingCheck()">Check</button>
+            </form>                  
+            <button id="solvingCheckBtn" class="btn btn-info" value ="submit" onclick="solvingCheck()">Check</button>
         </div>
         <div id="solvingError" class="error" hidden>That's not quite how you solve for x! Have another go!</div>
     </div>
@@ -439,10 +451,17 @@
     <br>
     <br>
 
-    <div class="step5"  hidden>
+    <div class="step5 error" hidden>
         <div>
-            Great Work        
+            Great work!        
         </div>
     </div>
+
+    <br>
+
+    <div id="error" class="error" hidden>Those coefficients weren't quite correct! Have another go!</div>
+    <div id="factorListError" class="error" hidden>Those factors weren't quite correct! Rememeber to list all factors in ascending with no spaces! For example 1,2,3,6 </div>
+    <div id="factorPairError" class="error" hidden>Those factors don't add to the coefficient B! Have another go!</div>
+    <div id="factoringError" class="error" hidden>That's not quite how you factor! Have another go!</div>
 
 {% endblock %}

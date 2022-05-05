@@ -48,6 +48,8 @@ nav .navbar-brand .green {
   flex-flow: row wrap;
   align-items: center;
   justify-content: center;
+  font-size: larger;
+  color:#ea433b;
 }
 
 .step1, .step2, .step3, .step4, .step5, .step6, {
@@ -102,7 +104,7 @@ h2 {
 }
 
 .error{
-  font-size: large;
+  font-size: larger;
   color:#2e944b;
   text-align: center;
 }
@@ -126,7 +128,7 @@ h2 {
 }
 
 .form-control{
-  width: 150px;
+  width: 160px;
   margin: auto;
   display: block;
   text-align: center;
