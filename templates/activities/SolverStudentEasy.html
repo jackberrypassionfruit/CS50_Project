@@ -17,34 +17,12 @@
         let factors_C = [];
         let started = false;
 
-
-        function coeffCheck() {
-            //check if input coefficients were correct
-            console.log("coeffcheck");
-            let checkA = document.querySelector("#coeffAcheck").value;
-            let checkB = document.querySelector("#coeffBcheck").value;
-            let checkC = document.querySelector("#coeffCcheck").value;
-
-            if (checkA != coeffA || checkB != coeffB || checkC != coeffC ){
-                error.removeAttribute("hidden");
-
-            }
-            else {
-                solve()
-                error.setAttribute("hidden", true);
-                solveButton.setAttribute("hidden", true);
-            }
-        }
-
+        //Create a function to a quadratic to be factored.
 
         function difficulty() {
 
-            if (started == false){
-                started = true;
-            }
-            else {
-                blankForm()
-            }
+            console.log("blankform");
+            blankForm();
 
             document.getElementsByClassName("solutionSolver")[0].removeAttribute("hidden");
             document.getElementsByClassName("tosolve")[0].removeAttribute("hidden");
@@ -59,12 +37,12 @@
             coeffC = p * q;
             document.getElementById("coeffC").innerHTML = `(${coeffC})`;
 
+            // re-run the function if coefficient C = 0
+
             if (p*q == 0){
                 difficulty();
             }
-
             document.getElementsByClassName("problems")[0].removeAttribute("hidden");
-
         }
 
         function blankForm(){
@@ -72,17 +50,43 @@
             document.getElementById('coeffAcheck').value="";
             document.getElementById('coeffBcheck').value="";
             document.getElementById('coeffCcheck').value="";
-            removeChildren(step1);
+            removeChildren(document.getElementById('factors'));
+            document.getElementById("step1").setAttribute("hidden", true);
+            solveButton.removeAttribute("hidden");
+            removeChildren(document.getElementById('genFactorList'));
+            document.getElementById("step2").setAttribute("hidden", true);
+
         }
 
         function removeChildren(parent) {
-            while (parent.firstChild) {
-                parent.removeChild(parent.firstChild);
+            if (parent != null) {
+                while (parent.firstChild) {
+                    parent.removeChild(parent.firstChild);
                 }
+            parent.remove();
+            }
         }
 
+        function coeffCheck() {
+            //check if input coefficients were correct
+            console.log("coeffcheck");
+            let checkA = document.querySelector("#coeffAcheck").value;
+            let checkB = document.querySelector("#coeffBcheck").value;
+            let checkC = document.querySelector("#coeffCcheck").value;
+
+            if (checkA != coeffA || checkB != coeffB || checkC != coeffC ){
+                error.removeAttribute("hidden");
+            }
+            else {
+                solve()
+                error.setAttribute("hidden", true);
+                solveButton.setAttribute("hidden", true);
+            }
+        }
+
+        //Create a function to check whether the input factor list is correct
+
         function factorsCheck() {
-            //check if input factors were correct
             console.log("factorcheck");
             let factorCheck = document.querySelector("#factors").value;
             if (factorCheck == factors_C){
@@ -95,6 +99,8 @@
             }
         }
 
+        //Create functions to check whether the correct factor pair has been clicked
+
         function incorrect() {
             factorPairError.removeAttribute("hidden");
         }
@@ -103,18 +109,14 @@
             factorPairError.setAttribute("hidden", true);
             document.getElementById("correct").setAttribute("class", "btn btn-success");
             document.getElementsByClassName("step3")[0].removeAttribute("hidden");
-
         }
 
+        //Create a function to check whether the factored form is correct
+
         function factoringCheck() {
-            //check if input coefficients were correct
             console.log("factoringcheck");
             let first_factor = document.querySelector("#first_factor").value;
             let second_factor = document.querySelector("#second_factor").value;
-            console.log(first_factor);
-            console.log(second_factor);
-            console.log(p);
-            console.log(q);
             if (first_factor != p && first_factor != q){
                 factoringError.removeAttribute("hidden");
             }
@@ -127,9 +129,10 @@
                factoringCheckBtn.setAttribute("hidden", true);
             }
         }
+
+        //Create a function to check whether the input solutions were correct
         
         function solvingCheck() {
-            //check if input coefficients were correct
             let first_soln = document.querySelector("#first_solution").value;
             let second_soln = document.querySelector("#second_solution").value;
             if (first_soln != p && first_soln != q){
@@ -145,21 +148,9 @@
             }
         }
 
+        //Create a master solve function
+
         function solve() {
-
-            if (coeffC == 0) 
-            {
-                // Write something simple for if C is 0
-                // Should just
-                // Step1: factor c out and rewrite EQ
-                // Step2: and divide neg B by A
-                
-                let xOut = `x(${coeffA}x + (${coeffB}))`
-
-                let step1 = document.getElementsByClassName("cWasZero")[0].getElementsByClassName("step1")[0];
-                let instruct1 = document.createElement("h4");
-                let list
-            }
             
             // Step 1 - Create factors list for C coefficient
             for (let x = 0; x <= Math.abs(coeffC); x++)
@@ -170,47 +161,10 @@
                 }
             }
 
-            console.log(factors_C);
+            step1();
+        
+            // Step 2 - Check which pairs of factors multiply to make C and make a list of these factors
 
-            // Add nodes to hidden divs for solution, to be displayed when button is pressed
-            let step1 = document.getElementsByClassName("regular")[0].getElementsByClassName("step1")[0];
-            let instruct1 = document.createElement("h4");
-            let list1 = document.createTextNode(factors_C);
-
-            // create form for factor input
-            let form1 = document.createElement("form");
-            var form1input = document.createElement("input");
-            form1input.setAttribute("type", "text");
-            form1input.setAttribute("id", "factors");
-            form1input.setAttribute("placeholder", "example: 1,2,3,6");
-            form1input.setAttribute("class", "form-control");
-            form1input.setAttribute("display", "flex");
-
-            // create a submit button
-            var submitbutton = document.createElement("button");
-            submitbutton.setAttribute("class", "btn btn-info");
-            submitbutton.setAttribute("id", "listCheck");
-            submitbutton.setAttribute("value", "submit");
-            submitbutton.setAttribute("onclick", "factorsCheck()")
-            submitbutton.innerHTML="Check";
-
-            // Append the full name input to the form
-            form1.appendChild(form1input);
-            // Append the submit button to the form
-            step1.appendChild(form1);
-            step1.appendChild(submitbutton);
-
-            let button1 = document.createElement("button");
-            let buttonText1 = document.createTextNode("Next");
-            button1.appendChild(buttonText1);
-            button1.setAttribute("class", "btn btn-info");
-            button1.setAttribute("hidden", true);
-            step1.appendChild(instruct1);
-            step1.appendChild(button1);
-            step1.removeAttribute("hidden");
-
-
-            // Step 2 - Check which pairs of factors multiply to make C
             let op = 1;
             let flip = 1;
             if (coeffC < 0) // if C is negative, op makes you check factor pairs where one is negative 
@@ -243,14 +197,16 @@
                 }
             }
 
-            console.log(factor_pairs[0], factor_pairs[1], factor_pairs[2]);
+            // Create step 2
 
             let step2 = document.getElementsByClassName("step2")[0];
             let instruct2 = document.createElement("h4");
 
-            // Creating an unordeered list to show the pairs
+            // Create an unordeered list to show the factor pairs
             
             let list2 = document.createElement("ul");
+            list2.setAttribute("id", "genFactorList");
+            
 
             for (i in factor_pairs)
             {
@@ -269,8 +225,9 @@
                 item.appendChild(text);
                 item.setAttribute("class", "btn btn-info");
                 list2.appendChild(item);
-
             }
+
+            // Create button 2 and affix attributes
 
             let button2 = document.createElement("button");
             let buttonText2 = document.createTextNode("Next");
@@ -282,13 +239,13 @@
             step2.appendChild(button2);
             
 
-            // Step 3 - Test which pairs add to B, if any
+            // Step 3 - Check factor pairs factorise the quadratic
+
             let roots = []
             for (let i = 0; i < factor_pairs.length; i++)
             {
                 let pair0 = factor_pairs[i][0];
                 let pair1 = factor_pairs[i][1];
-                // console.log(flip * pair0);
                 if (flip * pair0 + (flip  * pair1) == coeffB)
                 {
                     roots.push(flip * pair0);
@@ -303,14 +260,13 @@
                 }
             }
 
-            console.log(roots[0], roots[1]);
+            // Create step 3 and button 3 and affix attributes
 
             let step3 = document.getElementsByClassName("step3")[0];
             let instruct3 = document.createElement("h4");
             let list3 = document.createTextNode("");
             step3.appendChild(instruct3);
             step3.appendChild(list3);
-
             let button3 = document.createElement("button");
             let buttonText3 = document.createTextNode("Next");
             button3.appendChild(buttonText3);     
@@ -320,43 +276,57 @@
             step3.appendChild(list3);
             step3.appendChild(button3);
 
-            document.getElementById("first_factor").innerHTML = `(${roots[0]})`;
-            document.getElementById("second_factor").innerHTML = `(${roots[1]})`;
-
-            //step 4 show button to show solution
-
-            document.getElementById("first_solution").innerHTML = `(${-roots[0]})`;
-            document.getElementById("second_solution").innerHTML = `(${-roots[1]})`;
+            // Create step 4 and button 4 and affix attributes
 
             let step4 = document.getElementsByClassName("step4")[0];
             let list4 = document.createTextNode(roots);
-
             let button4 = document.createElement("button");
             let buttonText4 = document.createTextNode("Next");
             button4.appendChild(buttonText4);     
             button4.setAttribute("class", "btn btn-info");
             button4.setAttribute("hidden", "true");
             step4.appendChild(button4);
+        }
 
-            button1.addEventListener("click", function()
-            {
-                document.getElementsByClassName("step2")[0].removeAttribute("hidden");
-            });
+        function step1() {
+        // Add nodes to hidden divs for solution, to be displayed when button is pressed
+            let step1 = document.getElementsByClassName("regular")[0].getElementsByClassName("step1")[0];
+            let instruct1 = document.createElement("h4");
+            let list1 = document.createTextNode(factors_C);
 
-            button2.addEventListener("click", function()
-            {
-                document.getElementsByClassName("step3")[0].removeAttribute("hidden");
-            });
+            // create form for factor input
+            let form1 = document.createElement("form");
+            var form1input = document.createElement("input");
+            form1input.setAttribute("type", "text");
+            form1input.setAttribute("id", "factors");
+            form1input.setAttribute("placeholder", "example: 1,2,3,6");
+            form1input.setAttribute("class", "form-control");
+            form1input.setAttribute("display", "flex");
 
-            button3.addEventListener("click", function()
-            {
-                document.getElementsByClassName("step4")[0].removeAttribute("hidden");
-            });
+            // create a submit button
+            let submitbutton = document.createElement("button");
+            submitbutton.setAttribute("class", "btn btn-info");
+            submitbutton.setAttribute("id", "listCheck");
+            submitbutton.setAttribute("value", "submit");
+            submitbutton.setAttribute("onclick", "factorsCheck()")
+            submitbutton.innerHTML="Check";
 
-            button4.addEventListener("click", function()
-            {
-                document.getElementsByClassName("step5")[0].removeAttribute("hidden");
-            });
+            // Append the full name input to the form
+            form1.appendChild(form1input);
+            // Append the submit button to the form
+            step1.appendChild(form1);
+            step1.appendChild(submitbutton);
+
+            // Create button for step 1
+
+            let button1 = document.createElement("button");
+            let buttonText1 = document.createTextNode("Next");
+            button1.appendChild(buttonText1);
+            button1.setAttribute("class", "btn btn-info");
+            button1.setAttribute("hidden", true);
+            step1.appendChild(instruct1);
+            step1.appendChild(button1);
+            step1.removeAttribute("hidden");
         }
         
     </script>
@@ -370,10 +340,13 @@
     <br>
     <br>
 
+    <! Create the start button>
+
     <div class="aValue"> 
         <button class="btn btn-primary" onclick="difficulty()">Let's get started</button>
     </div>
 
+    <! Display the problem>
 
     <div class="problems" hidden="true">
         <div id="question">
@@ -382,8 +355,6 @@
         </div>
     </div>
 
-
-
     <br>
     <br>
 
@@ -391,16 +362,21 @@
 
     <br>
 
-    <div id="coeffFinder" class="tosolve" hidden>
-        <form><input class="form-control" autocomplete="off" id="coeffAcheck" placeholder="Coeffient A" type="number"></form>
-        <form><input class="form-control"autocomplete="off" id="coeffBcheck" placeholder="Coeffient B" type="number"></form>
-        <form><input class="form-control" autocomplete="off" id="coeffCcheck" placeholder="Coeffient C" type="number"></form>     
-        <br>    
-        <button id="solveButton" class="btn btn-info" value ="submit" onclick="coeffCheck()">Check</button>
+    <! Create forms to check input coefficients>
 
+    <div id="coeffFinder" class="tosolve" hidden>
+        <form method="post" action="/SolverStudentEasy">
+            <input class="form-control" autocomplete="off" id="coeffAcheck" placeholder="Coeffient A" type="number" name="CoeffA">
+            <input class="form-control"autocomplete="off" id="coeffBcheck" placeholder="Coeffient B" type="number" name="CoeffB">
+            <input class="form-control" autocomplete="off" id="coeffCcheck" placeholder="Coeffient C" type="number" name="CoeffC">   
+            <br>    
+            <button id="solveButton" class="btn btn-info" value ="submit" onclick="coeffCheck()">Check</button>
+        </form>  
     </div>
 
     <br>
+
+    <! Create the first three steps to be revealed>
 
     <div class="regular">
         <div id="step1" class="step1" hidden>
@@ -409,7 +385,7 @@
             </h2>
         </div>
 
-        <div class="step2" hidden>
+        <div id="step2" class="step2" hidden>
             <h2>
                 Select the factor pair whose sum is equal to the coefficient B:
             </h2>
@@ -422,26 +398,29 @@
             <div id="factor" class="factor">
                 (x +  <form>
                     <input autocomplete="off" id="first_factor" class="form-control" placeholder="First Factor" type="number">
-                </form>) (x + <form>
+                )(x + 
                     <input autocomplete="off" id="second_factor" class="form-control" placeholder="Second Factor" type="number">
-                </form>) = 0     
-            </div>  <button id="factoringCheckBtn" class="btn btn-info" value ="submit" onclick="factoringCheck()">Check</button>
+                 = 0     
+                <button id="factoringCheckBtn" class="btn btn-info" value ="submit" onclick="factoringCheck()">Check</button> </form>)
+            </div> 
         </div>
     </div>
 
     <br>
+
+    <! Create the final step to be revealed>
 
     <div class="step4" hidden>
         <h2>
             Great. Now we just need to solve for x:
         </h2>
         <div class="solve">
-            x = <form>
+            x = <form method="post" action="/SolverStudentEasy">
                 <input autocomplete="off" class="form-control" id="first_solution" placeholder="First Solution" type="number">
-            </form>   x = <form>
+            </form>   x = <form method="post" action="/SolverStudentEasy">
                 <input autocomplete="off" id="second_solution" class="form-control" placeholder="Second Solution" type="number">
             </form>                  
-            <button id="solvingCheckBtn" class="btn btn-info" value ="submit" onclick="solvingCheck()">Check</button>
+            <button id="solvingCheckBtn" class="btn btn-info" type="submit" onclick="solvingCheck()">Check</button>
         </div>
         <div id="solvingError" class="error" hidden>That's not quite how you solve for x! Have another go!</div>
     </div>
@@ -449,6 +428,8 @@
 
     <br>
     <br>
+
+    <! Success message>
 
     <div id="greatwork" hidden>
         <div>
@@ -458,9 +439,13 @@
 
     <br>
 
-    <div id="error" class="error" hidden>Those coefficients weren't quite correct! Have another go!</div>
-    <div id="factorListError" class="error" hidden>Those factors weren't quite correct! Rememeber to list all factors in ascending with no spaces! For example 1,2,3,6 </div>
-    <div id="factorPairError" class="error" hidden>Those factors don't add to the coefficient B! Have another go!</div>
-    <div id="factoringError" class="error" hidden>That's not quite how you factor! Have another go!</div>
+    <! Error messages>
+
+    <div class="error">
+        <div id="error" hidden>Those coefficients weren't quite correct! Have another go!</div>
+        <div id="factorListError" hidden>Those factors weren't quite correct! Rememeber to list all factors in ascending with no spaces! For example 1,2,3,6 </div>
+        <div id="factorPairError" hidden>Those factors don't add to the coefficient B! Have another go!</div>
+        <div id="factoringError" hidden>That's not quite how you factor! Have another go!</div>
+    </div>
 
 {% endblock %}
