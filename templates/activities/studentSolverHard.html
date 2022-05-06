@@ -20,6 +20,8 @@
         const maxCoeff = 4;
         const rounder = 4
 
+        let currentGuess = {"A": undefined, "B": undefined, "C": undefined, "D": undefined};
+
         function arrayEquals(arr1, arr2)
         {
             if (arr1.length != arr2.length)
@@ -38,9 +40,34 @@
             return true;
         }
 
-        function jedsVictory(A, B, C, D)
+        // In Step 3, change the printed factored form, standard form, ad EQs to show current state of guessing
+        // This function handles just the buttons for the coeffA factor_pairs
+        function jedsVictoryA(factA1, factA2)
         {
-
+            document.getElementById("factCoeffA").innerHTML = factA1;
+            document.getElementById("factCoeffC").innerHTML = factA2;
+            document.getElementById("standCoeffA").innerHTML - factA1 * factA2;
+            currentGuess["A"] = factA1;
+            currentGuess["C"] = factA2;
+            if (currentGuess["B"] != undefined)
+            {
+                // Change standard form guess to show new B value
+                document.getElementById("standCoeffB").innerHTML = factA1 * currentGuess["D"] + currentGuess["B"] * factA2;
+            }
+        }
+        // This function handles just the buttons for the coeffC factor_pairs
+        function jedsVictoryC(factC1, factC2)
+        {
+            document.getElementById("factCoeffB").innerHTML = factC1;
+            document.getElementById("factCoeffD").innerHTML = factC2;
+            document.getElementById("standCoeffC").innerHTML - factC1 * factC2;
+            currentGuess["B"] = factC1;
+            currentGuess["D"] = factC2;
+            if (currentGuess["A"] != undefined)
+            {
+                // Change standard form guess to show new B value
+                document.getElementById("standCoeffB").innerHTML = currentGuess["A"] * factC2 + factC1 * currentGuess["C"];
+            }
         }
 
 
@@ -97,9 +124,9 @@
             console.log(standCoeff);
             
 
-            document.getElementById("standCoeffA").innerHTML = standCoeff["A"];
-            document.getElementById("standCoeffB").innerHTML = standCoeff["B"];
-            document.getElementById("standCoeffC").innerHTML = standCoeff["C"];
+            document.getElementById("problemStandCoeffA").innerHTML = standCoeff["A"];
+            document.getElementById("problemStandCoeffB").innerHTML = standCoeff["B"];
+            document.getElementById("problemStandCoeffC").innerHTML = standCoeff["C"];
 
             roots.push(Math.round(10**rounder * -1 * factCoeff["B"] / factCoeff["A"]) / 10**rounder);
             roots.push(Math.round(10**rounder * -1 * factCoeff["D"] / factCoeff["C"]) / 10**rounder);
@@ -357,6 +384,8 @@
                                 but.setAttribute("style", "background-color: white; font-size: 40px; color: black")
                             }
                             button3.setAttribute("style", "color: green; background-color: #CCCCFF; font-size: 40px");
+
+                            jedsVictoryA(factor_pairsA[i][0], factor_pairsA[i][1]);
                         });
                     }
                     else
@@ -368,6 +397,8 @@
                                 but.setAttribute("style", "background-color: white; font-size: 40px; color: black")
                             }
                             button3.setAttribute("style", "color: red; background-color: #CCCCFF; font-size: 40px");
+
+                            jedsVictoryA(factor_pairsA[i][0], factor_pairsA[i][1]);
                         });
                     }
 
@@ -398,7 +429,9 @@
                                 but.setAttribute("style", "background-color: white; font-size: 40px; color: black")
                             }
                             button3.setAttribute("style", "color: green; background-color: #CCCCFF; font-size: 40px");
-                            docum
+                            
+                            jedsVictoryC(factor_pairsC[i][0], factor_pairsC[i][1]);
+
                         });
                     }
                     else
@@ -410,6 +443,8 @@
                                 but.setAttribute("style", "background-color: white; font-size: 40px; color: black")
                             }
                             button3.setAttribute("style", "color: red; background-color: #CCCCFF; font-size: 40px");
+                        
+                            jedsVictoryC(factor_pairsC[i][0], factor_pairsC[i][1]);
                         });
                     }
                     list3C.appendChild(button3);
@@ -549,7 +584,7 @@
     <div>
         <span class="equation">
             <div>
-                <span id="standCoeffA"> A</span> x <sup>2</sup> + <span id="standCoeffB"> B </span> x + <span id="standCoeffC"> C </span> = 0
+                <span id="problemStandCoeffA"> A</span> x <sup>2</sup> + <span id="problemStandCoeffB"> B </span> x + <span id="problemStandCoeffC"> C </span> = 0
             </div>
         </span>    
     </div>
@@ -570,7 +605,7 @@
             <div class="card-body">
                 1) First, make a list of the positive factors of the coefficient A:
             </div>
-            <input type="text"></input>
+            <input type="text">
             <p class="message"></p>
         </div>
 
@@ -578,7 +613,7 @@
             <div class="card-body">
                 2) Now, make a list of the positive factors of the coefficient C:
             </div>
-            <input type="text"></input>
+            <input type="text">
             <p class="message"></p>
         </div>
         
@@ -593,11 +628,11 @@
             </div>
             <div class="jedsVictory">
                 <div class="factoredForm">
-                    <span> A </span> x <sup>2</sup> + <span> B </span> x + <span> C </span> = 0
+                    (<span id="factCoeffA"> A </span>x +<span id="factCoeffB"> B </span>) (<span id="factCoeffC">C</span> x +<span id="factCoeffD"> D </span>) = 0
                 </div>
                 <br><br>
                 <div class="standardForm">
-                    (<span> A </span>x +<span> B </span>) (<span>C</span> x +<span> D </span>) = 0
+                    <span id="standCoeffA"> A </span> x <sup>2</sup> + <span id="standCoeffB"> B </span> x + <span id="standCoeffC"> C </span> = 0
                 </div>
 
             </div>
