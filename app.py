@@ -154,7 +154,6 @@ def quadraticsEasyTest():
 
         roots = []
 
-
         if int(coeffC == 0):
             roots = [0, -1 * coeffB / coeffA]
         elif int(coeffA) == 1:
@@ -240,9 +239,11 @@ def acMethod():
 @login_required
 def SolverStudentEasy():
     if request.method == "POST":
-        pass
+
+        return render_template("activities/SolverStudentEasy.html")
     else:
         return render_template("activities/SolverStudentEasy.html")
+
 
 @app.route("/practiceQuiz")
 @login_required

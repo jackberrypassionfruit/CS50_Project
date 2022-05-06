@@ -27,7 +27,6 @@
 
             if (checkA != coeffA || checkB != coeffB || checkC != coeffC ){
                 error.removeAttribute("hidden");
-
             }
             else {
                 solve()
@@ -37,15 +36,7 @@
             }
         }
 
-
         function difficulty() {
-
-            if (started == false){
-                started = true;
-            }
-            else {
-                blankForm()
-            }
 
             document.getElementsByClassName("solutionSolver")[0].removeAttribute("hidden");
             document.getElementsByClassName("tosolve")[0].removeAttribute("hidden");
@@ -63,7 +54,6 @@
             if (p*q == 0){
                 difficulty();
                 solveButton.setAttribute("hidden", false);
-
             }
 
             document.getElementsByClassName("problems")[0].removeAttribute("hidden");
@@ -119,13 +109,8 @@
 
         function factoringCheck() {
             //check if input coefficients were correct
-            console.log("factoringcheck");
             let first_factor = document.querySelector("#first_factor").value;
             let second_factor = document.querySelector("#second_factor").value;
-            console.log(first_factor);
-            console.log(second_factor);
-            console.log(p);
-            console.log(q);
             if (first_factor != p && first_factor != q){
                 factoringError.removeAttribute("hidden");
             }
@@ -256,8 +241,6 @@
                 }
             }
 
-            console.log(factor_pairs[0], factor_pairs[1], factor_pairs[2]);
-
             let step2 = document.getElementsByClassName("step2")[0];
             let instruct2 = document.createElement("h4");
 
@@ -315,8 +298,6 @@
                     break;
                 }
             }
-
-            console.log(roots[0], roots[1]);
 
             let step3 = document.getElementsByClassName("step3")[0];
             let instruct3 = document.createElement("h4");
