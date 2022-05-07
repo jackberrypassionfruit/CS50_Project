@@ -247,6 +247,12 @@ def studentSolverHard():
 @login_required
 def SolverStudentEasy():
     if request.method == "POST":
+        CoeffA = int(request.form.get("coeffAcheck"))
+        coeffB = int(request.form.get("coeffBcheck"))
+        coeffC = int(request.form.get("coeffCcheck"))
+
+        ans1 = int(request.form.get("first-solution"))
+        ans2 = int(request.form.get("second-solution"))
 
         return render_template("activities/SolverStudentEasy.html")
     else:

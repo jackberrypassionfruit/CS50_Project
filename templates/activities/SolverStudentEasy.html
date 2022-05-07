@@ -419,12 +419,12 @@
             Great. Now we just need to solve for x:
         </h2>
         <div class="solve">
-            x = <form id="solveForm" action="/StudentSolverEasy">
+            x = <form id="solveForm" action=""/StudentSolverEasy" method="post">
                 <input autocomplete="off" class="form-control" id="first_solution" placeholder="First Solution" type="number">
             x = 
                 <input autocomplete="off" id="second_solution" class="form-control" placeholder="Second Solution" type="number">
             </form>                  
-            <button id="solvingCheckBtn" class="btn btn-info" onclick="solvingCheck()" onclick="submitForm()" >Check</button>
+            <button id="solvingCheckBtn" class="btn btn-info" onclick="submitForm()" onclick="solvingCheck()">Check</button>
         </div>
         <div id="solvingError" class="error" hidden>That's not quite how you solve for x! Have another go!</div>
     </div>
