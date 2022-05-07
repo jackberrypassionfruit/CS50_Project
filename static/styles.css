@@ -37,20 +37,13 @@ nav .navbar-brand .green {
   text-align: left;
 }
 
-.regular, .cWasZero, .aWasZero, .factor {
+.regular, .cWasZero, .aWasZero, .factor,.solve {
   justify-content: space-evenly;
   display: flex;
   flex-flow: row wrap;
 }
 
-.solve, {
-  flex-flow: row wrap;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: larger;
-  color:#ea433b;
-}
+
 
 .step1, .step2, .step5, .step6 {
   display: flex;
@@ -59,7 +52,11 @@ nav .navbar-brand .green {
   align-items: center;
 }
 
-.step3, .step4
+#step4 {
+  align-items: center;
+}
+
+.step3
 {
   display: flex;
   flex-flow: column nowrap;
@@ -110,7 +107,7 @@ h2 {
   color:#ea433b;
 }
 
-#factor, #solve {
+#factor, #solveForm {
   font-size: larger;
   color:#ea433b;
 }
@@ -126,11 +123,12 @@ h2 {
 
 #greatwork {
   display: flex;
-  flex-flow: column;
   font-size: larger;
   color:#2e944b;
   text-align: center;
-  justify-content: center;
+  justify-content: space-evenly;
+  display: flex;
+  flex-flow: row wrap;
 }
 
 .imgContainer {

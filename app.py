@@ -247,16 +247,18 @@ def studentSolverHard():
 @login_required
 def SolverStudentEasy():
     if request.method == "POST":
-        CoeffA = int(request.form.get("coeffAcheck"))
-        coeffB = int(request.form.get("coeffBcheck"))
-        coeffC = int(request.form.get("coeffCcheck"))
+        ans1 = int(request.form.get("first_solution"))
+        ans2 = int(request.form.get("second_solution"))
 
-        ans1 = int(request.form.get("first-solution"))
-        ans2 = int(request.form.get("second-solution"))
-
+        db.execute("UPDATE math_activities SET correct = (correct + 1) WHERE id == 1")
+        db.execute("UPDATE math_activities SET attempted = (attempted + 1) WHERE id == 1")
         return render_template("activities/SolverStudentEasy.html")
     else:
         return render_template("activities/SolverStudentEasy.html")
+
+
+
+
 
 
 @app.route("/practiceQuiz")

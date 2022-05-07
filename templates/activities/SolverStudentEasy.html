@@ -124,8 +124,8 @@
             }
             else {
                 factoringError.setAttribute("hidden", true);
-                document.getElementsByClassName("step4")[0].removeAttribute("hidden");
-               factoringCheckBtn.setAttribute("hidden", true);
+                document.getElementById("step4").removeAttribute("hidden");
+                factoringCheckBtn.setAttribute("hidden", true);
             }
         }
 
@@ -275,16 +275,6 @@
             step3.appendChild(list3);
             step3.appendChild(button3);
 
-            // Create step 4 and button 4 and affix attributes
-
-            let step4 = document.getElementsByClassName("step4")[0];
-            let list4 = document.createTextNode(roots);
-            let button4 = document.createElement("button");
-            let buttonText4 = document.createTextNode("Next");
-            button4.appendChild(buttonText4);     
-            button4.setAttribute("class", "btn btn-info");
-            button4.setAttribute("hidden", "true");
-            step4.appendChild(button4);
         }
 
         function step1() {
@@ -326,11 +316,6 @@
             step1.appendChild(instruct1);
             step1.appendChild(button1);
             step1.removeAttribute("hidden");
-        }
-
-        function submitForm() {
-            document.getElementById("factorForm").submit();
-            document.getElementById("solveForm").submit();
         }
         
     </script>
@@ -414,20 +399,19 @@
 
     <! Create the final step to be revealed>
 
-    <div class="step4" hidden>
-        <h2>
-            Great. Now we just need to solve for x:
-        </h2>
-        <div class="solve">
-            x = <form id="solveForm" action=""/StudentSolverEasy" method="post">
-                <input autocomplete="off" class="form-control" id="first_solution" placeholder="First Solution" type="number">
-            x = 
-                <input autocomplete="off" id="second_solution" class="form-control" placeholder="Second Solution" type="number">
-            </form>                  
-            <button id="solvingCheckBtn" class="btn btn-info" onclick="submitForm()" onclick="solvingCheck()">Check</button>
+    <div id="step4" class="regular" hidden>
+        <div class="step4">
+            <h2>
+                Great. Now we just need to solve for x:
+            </h2>
+            <div id="solve"  class="solve">
+                <form id="solveForm" class="solve">
+                    x = <input autocomplete="off" id="first_solution" name="first_solution" class="form-control" placeholder="First Solution" type="number">
+                    x = <input autocomplete="off" id="second_solution" name="second_solution" class="form-control" placeholder="Second Solution" type="number">
+                </form> 
+                <button id="solvingCheckBtn" class="btn btn-info" type="button" onclick="solvingCheck()">Check</button>
+            </div> 
         </div>
-        <div id="solvingError" class="error" hidden>That's not quite how you solve for x! Have another go!</div>
-    </div>
     </div>
 
     <br>
@@ -436,8 +420,10 @@
     <! Success message>
 
     <div id="greatwork" hidden>
-        <div>
-            Great work!        
+        <div class="factor">
+            Great work! Click <form method="get" action=""/StudentSolverEasy">
+                <button class="btn btn-info" type="submit">here</button> to have another go!
+            </form>    
         </div>
     </div>
 
@@ -450,6 +436,7 @@
         <div id="factorListError" hidden>Those factors weren't quite correct! Rememeber to list all factors in ascending with no spaces! For example 1,2,3,6 </div>
         <div id="factorPairError" hidden>Those factors don't add to the coefficient B! Have another go!</div>
         <div id="factoringError" hidden>That's not quite how you factor! Have another go!</div>
+        <div id="solvingError" hidden>That's not quite how you solve for x! Have another go!</div>
     </div>
 
 {% endblock %}
