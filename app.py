@@ -280,6 +280,32 @@ def SolverStudentEasy():
 
         return render_template("activities/SolverStudentEasy.html", p=p, q=q)
 
+@app.route("/studentTestHard")
+@login_required
+def studentTestHard():
+    if request.method == "POST":
+        # standCoeffA = request.form.get("standCoeffA")
+        # standCoeffB = request.form.get("standCoeffB")
+        # standCoeffC = request.form.get("standCoeffC")
+        pass
+    else:
+
+        factCoeffA = random.randint(-8, 8)
+        factCoeffB = random.randint(-8, 8)
+        factCoeffC = random.randint(-8, 8)
+        factCoeffD = random.randint(-8, 8)
+
+        standCoeffA = factCoeffA * factCoeffC
+        standCoeffC = factCoeffB * factCoeffD
+        standCoeffB = factCoeffA * factCoeffD + factCoeffB * factCoeffC
+
+        factCoeff = [factCoeffA, factCoeffB, factCoeffC, factCoeffD]
+        standCoeff = [standCoeffA, standCoeffB, standCoeffC]
+
+        flash(standCoeffA)
+
+        return render_template("/activities/studentTestHard.html", factCoeff=factCoeff, standCoeff=standCoeff)
+
 
 @app.route("/practiceQuiz")
 @login_required

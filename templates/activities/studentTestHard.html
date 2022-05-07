@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+
+
+{% block title %}
+    Student Test (a<1 or a>1)
+{% endblock %}
+
+
+{% block javascript %}
+   <script>
+        const standCoeffuckfA = document.getElementById("standCoeffA");
+        const standCoeffB = document.getElementById("standCoeffB");
+        const standCoeffC = document.getElementById("standCoeffC");
+
+        const standCoeff = document.getElementsByClassName("standCoeff")[0];
+        const standCoeffA = standCoeff.getElementsByTagName("input")[0].value;
+
+        console.log(standCoeffA)
+    </script>
+{% endblock %}
+
+
+{% block main %}
+    <div id="problem">
+        <h1>
+            <span id="coeffA"> A</span> x <sup style="font-size: 35px">2</sup> + <span id="coeffB"> B </span> x + <span id="coeffC"> C </span> = 0
+        </h1>
+    </div>
+
+    <br>
+
+    <div class="aValue"> 
+        <button class="btn btn-primary" onclick="start()">Show the Problem</button>
+    </div>
+
+    <br>
+    <br>
+
+    <h2>Enter your Solutions here!</h2>
+    
+    
+    
+    <form class="answer" method="post" action="/quadraticsEasyTest">
+        <div>
+            <input autocomplete="off" name="ans1" placeholder="1st Root" type="number">
+            <input autocomplete="off" name="ans2" placeholder="2nd Root" type="number">
+            <button class="btn btn-primary">Check</button>
+        </div>
+    </form>
+
+    <form hidden class="standCoeff">
+        <input id="standCoeffA" name="standCoeffA" value="{{ standCoeff[0] }}">
+        <input id="standCoeffB" name="standCoeffB" value="{{ standCoeff[1] }}">
+        <input id="standCoeffC" name="standCoeffC" value="{{ standCoeff[2] }}">
+    </form>
+{% endblock %}
