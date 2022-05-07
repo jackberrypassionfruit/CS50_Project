@@ -43,9 +43,9 @@ nav .navbar-brand .green {
   flex-flow: row wrap;
 }
 
-.solve, .factorPresent {
-  display: flex;
+.solve, {
   flex-flow: row wrap;
+  display: flex;
   align-items: center;
   justify-content: center;
   font-size: larger;
@@ -62,6 +62,8 @@ nav .navbar-brand .green {
 .step3, .step4
 {
   display: flex;
+  flex-flow: column nowrap;
+
 }
 
 .btn {

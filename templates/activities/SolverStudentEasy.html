@@ -327,6 +327,11 @@
             step1.appendChild(button1);
             step1.removeAttribute("hidden");
         }
+
+        function submitForm() {
+            document.getElementById("factorForm").submit();
+            document.getElementById("solveForm").submit();
+        }
         
     </script>
 {% endblock %}
@@ -364,12 +369,12 @@
     <! Create forms to check input coefficients>
 
     <div id="coeffFinder" class="tosolve" hidden>
-        <form>
+        <form id="coeffSubmit">
             <input class="form-control" autocomplete="off" id="coeffAcheck" placeholder="Coeffient A" type="number" name="CoeffA">
             <input class="form-control"autocomplete="off" id="coeffBcheck" placeholder="Coeffient B" type="number" name="CoeffB">
             <input class="form-control" autocomplete="off" id="coeffCcheck" placeholder="Coeffient C" type="number" name="CoeffC">   
             <br>    
-            <button id="solveButton" class="btn btn-info" type="button" value ="submit" onclick="coeffCheck()">Check</button>
+            <button id="solveButton" class="btn btn-info" type="button" onclick="coeffCheck()">Check</button>
         </form>  
     </div>
 
@@ -395,12 +400,12 @@
                 Those factors work! We can now factor the quadratic:
             </h2>
             <div id="factor" class="factor">
-                (x +  <form class="factor">
+                (x +  <form id="factorForm" class="factor" >
                     <input autocomplete="off" id="first_factor" class="form-control" placeholder="First Factor" type="number">)
                 (x + 
                     <input autocomplete="off" id="second_factor" class="form-control" placeholder="Second Factor" type="number">)
                  = 0     
-                <button id="factoringCheckBtn" class="btn btn-info" type ="button" onclick="factoringCheck()">Check</button> </form>
+                <button id="factoringCheckBtn" class="btn btn-info" type ="button" onclick="factoringCheck()" >Check</button> </form>
             </div> 
         </div>
     </div>
@@ -414,12 +419,12 @@
             Great. Now we just need to solve for x:
         </h2>
         <div class="solve">
-            x = <form >
+            x = <form id="solveForm" action="/StudentSolverEasy">
                 <input autocomplete="off" class="form-control" id="first_solution" placeholder="First Solution" type="number">
-            </form>   x = <form>
+            x = 
                 <input autocomplete="off" id="second_solution" class="form-control" placeholder="Second Solution" type="number">
             </form>                  
-            <button id="solvingCheckBtn" class="btn btn-info" type="submit" onclick="solvingCheck()">Check</button>
+            <button id="solvingCheckBtn" class="btn btn-info" onclick="solvingCheck()" onclick="submitForm()" >Check</button>
         </div>
         <div id="solvingError" class="error" hidden>That's not quite how you solve for x! Have another go!</div>
     </div>
