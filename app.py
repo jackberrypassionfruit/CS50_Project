@@ -9,6 +9,7 @@ from datetime import datetime
 from math import ceil, floor
 from helpers import * # Right now, just apology() & login_required()
 from mathgenerator import mathgen
+import random
 
 
 
@@ -71,8 +72,13 @@ def register():
         session["user_id"] = rows[0]["id"]
         session["name"] = rows[0]["username"]
 
+        user_id = int(session["user_id"])
+
         # Showing up now, but wasn't before I made sure to log in user on registration
         flash(f"{session['name']} has been registered and logged in!")
+
+        # start to populate the math_activities database for this user. 
+        db.execute("INSERT INTO math_activities (user_id, title, id, correct, attempted) values (?, ?, 0, 0, 0)", user_id, "SolverStudentEasy")
 
         return redirect("/")
     else:
@@ -247,18 +253,27 @@ def studentSolverHard():
 @login_required
 def SolverStudentEasy():
     if request.method == "POST":
+        user_no = int(session["user_id"])
         ans1 = int(request.form.get("first_solution"))
         ans2 = int(request.form.get("second_solution"))
 
-        db.execute("UPDATE math_activities SET correct = (correct + 1) WHERE id == 1")
-        db.execute("UPDATE math_activities SET attempted = (attempted + 1) WHERE id == 1")
+        db.execute("UPDATE math_activities SET attempted = (attempted + 1) WHERE user_id = ?", user_no)
+        db.execute("UPDATE math_activities SET correct = (correct + 1) WHERE user_id = ?", user_no)
+
         return render_template("activities/SolverStudentEasy.html")
     else:
-        return render_template("activities/SolverStudentEasy.html")
 
+        list1 = [-5,-4,-3,-2,-1, 1, 2, 3, 4, 5, 6]
+        rootP = random.choice(list1)
+        rootQ = random.choice(list1)
 
+        p = -1 * rootP;
+        q = -1 * rootQ;
 
+        coeffB = p + q;
+        coeffC = p * q;
 
+        return render_template("activities/SolverStudentEasy.html", p=p, q=q)
 
 
 @app.route("/practiceQuiz")

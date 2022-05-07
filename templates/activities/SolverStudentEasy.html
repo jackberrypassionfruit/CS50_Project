@@ -21,49 +21,29 @@
 
         function difficulty() {
 
-            console.log("blankform");
-
             document.getElementsByClassName("solutionSolver")[0].removeAttribute("hidden");
             document.getElementsByClassName("tosolve")[0].removeAttribute("hidden");
 
-            roots = [(Math.floor(Math.random() * 9) -4), (Math.floor(Math.random() * 9) -4)];
+            rootp = {{p}};
+            rootq = {{q}};
 
-            p = -1 * roots[0];
-            q = -1 * roots[1];
+            p = -rootp;
+            q = -rootq;
 
             coeffB = p + q;
-            document.getElementById("coeffB").innerHTML = `(${coeffB})`;
-            coeffC = p * q;
-            document.getElementById("coeffC").innerHTML = `(${coeffC})`;
+            coeffC = p*q;
 
-            // re-run the function if coefficient C = 0
+            console.log(coeffB);
+            console.log(coeffC);
 
-            if (p*q == 0){
-                difficulty();
-            }
+            console.log(p);
+            console.log(q);
+
+
+            document.getElementById("coeffB").innerHTML = coeffB;
+            document.getElementById("coeffC").innerHTML = coeffC;
+
             document.getElementsByClassName("problems")[0].removeAttribute("hidden");
-        }
-
-        function blankForm(){
-            console.log(started);
-            document.getElementById('coeffAcheck').value="";
-            document.getElementById('coeffBcheck').value="";
-            document.getElementById('coeffCcheck').value="";
-            removeChildren(document.getElementById('factors'));
-            document.getElementById("step1").setAttribute("hidden", true);
-            solveButton.removeAttribute("hidden");
-            removeChildren(document.getElementById('genFactorList'));
-            document.getElementById("step2").setAttribute("hidden", true);
-
-        }
-
-        function removeChildren(parent) {
-            if (parent != null) {
-                while (parent.firstChild) {
-                    parent.removeChild(parent.firstChild);
-                }
-            parent.remove();
-            }
         }
 
         function coeffCheck() {
@@ -160,7 +140,44 @@
                 }
             }
 
-            step1();
+            // Add nodes to hidden divs for solution, to be displayed when button is pressed
+            let step1 = document.getElementsByClassName("regular")[0].getElementsByClassName("step1")[0];
+            let instruct1 = document.createElement("h4");
+            let list1 = document.createTextNode(factors_C);
+
+            // create form for factor input
+            let form1 = document.createElement("form");
+            var form1input = document.createElement("input");
+            form1input.setAttribute("type", "text");
+            form1input.setAttribute("id", "factors");
+            form1input.setAttribute("placeholder", "example: 1,2,3,6");
+            form1input.setAttribute("class", "form-control");
+            form1input.setAttribute("display", "flex");
+
+            // create a submit button
+            let submitbutton = document.createElement("button");
+            submitbutton.setAttribute("class", "btn btn-info");
+            submitbutton.setAttribute("id", "listCheck");
+            submitbutton.setAttribute("value", "submit");
+            submitbutton.setAttribute("onclick", "factorsCheck()")
+            submitbutton.innerHTML="Check";
+
+            // Append the full name input to the form
+            form1.appendChild(form1input);
+            // Append the submit button to the form
+            step1.appendChild(form1);
+            step1.appendChild(submitbutton);
+
+            // Create button for step 1
+
+            let button1 = document.createElement("button");
+            let buttonText1 = document.createTextNode("Next");
+            button1.appendChild(buttonText1);
+            button1.setAttribute("class", "btn btn-info");
+            button1.setAttribute("hidden", true);
+            step1.appendChild(instruct1);
+            step1.appendChild(button1);
+            step1.removeAttribute("hidden");
         
             // Step 2 - Check which pairs of factors multiply to make C and make a list of these factors
 
@@ -276,47 +293,6 @@
             step3.appendChild(button3);
 
         }
-
-        function step1() {
-        // Add nodes to hidden divs for solution, to be displayed when button is pressed
-            let step1 = document.getElementsByClassName("regular")[0].getElementsByClassName("step1")[0];
-            let instruct1 = document.createElement("h4");
-            let list1 = document.createTextNode(factors_C);
-
-            // create form for factor input
-            let form1 = document.createElement("form");
-            var form1input = document.createElement("input");
-            form1input.setAttribute("type", "text");
-            form1input.setAttribute("id", "factors");
-            form1input.setAttribute("placeholder", "example: 1,2,3,6");
-            form1input.setAttribute("class", "form-control");
-            form1input.setAttribute("display", "flex");
-
-            // create a submit button
-            let submitbutton = document.createElement("button");
-            submitbutton.setAttribute("class", "btn btn-info");
-            submitbutton.setAttribute("id", "listCheck");
-            submitbutton.setAttribute("value", "submit");
-            submitbutton.setAttribute("onclick", "factorsCheck()")
-            submitbutton.innerHTML="Check";
-
-            // Append the full name input to the form
-            form1.appendChild(form1input);
-            // Append the submit button to the form
-            step1.appendChild(form1);
-            step1.appendChild(submitbutton);
-
-            // Create button for step 1
-
-            let button1 = document.createElement("button");
-            let buttonText1 = document.createTextNode("Next");
-            button1.appendChild(buttonText1);
-            button1.setAttribute("class", "btn btn-info");
-            button1.setAttribute("hidden", true);
-            step1.appendChild(instruct1);
-            step1.appendChild(button1);
-            step1.removeAttribute("hidden");
-        }
         
     </script>
 {% endblock %}
@@ -402,10 +378,10 @@
     <div id="step4" class="regular" hidden>
         <div class="step4">
             <h2>
-                Great. Now we just need to solve for x:
+                Now we just need to solve for x:
             </h2>
             <div id="solve"  class="solve">
-                <form id="solveForm" class="solve">
+                <form id="solveForm" method="post" class="solve" action=""/SolverStudentEasy">
                     x = <input autocomplete="off" id="first_solution" name="first_solution" class="form-control" placeholder="First Solution" type="number">
                     x = <input autocomplete="off" id="second_solution" name="second_solution" class="form-control" placeholder="Second Solution" type="number">
                 </form> 
@@ -421,8 +397,8 @@
 
     <div id="greatwork" hidden>
         <div class="factor">
-            Great work! Click <form method="get" action=""/StudentSolverEasy">
-                <button class="btn btn-info" type="submit">here</button> to have another go!
+            Great work! Click
+                <button class="btn btn-info" form="solveForm" type="submit">here</button> to have another go!
             </form>    
         </div>
     </div>
