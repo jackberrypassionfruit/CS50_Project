@@ -138,7 +138,12 @@ def logout():
 @app.route("/profile")
 def profile():
     """ Shows current user's profile"""
-    return render_template("profile.html")
+
+    user_no = int(session["user_id"])
+
+    rows = db.execute("SELECT * FROM math_activities WHERE user_id = ?", user_no)
+
+    return render_template("profile.html", rows=rows)
 
 @app.route("/activities")
 def activities():
