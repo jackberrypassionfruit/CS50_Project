@@ -43,6 +43,13 @@ nav .navbar-brand .green {
   flex-flow: row wrap;
 }
 
+.easysolve{
+  justify-content: center;
+  display: flex;
+  flex-flow: row wrap;
+  font-size: larger;
+  color:#ea433b;
+}
 
 
 .step1, .step2, .step5, .step6 {

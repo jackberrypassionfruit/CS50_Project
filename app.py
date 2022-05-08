@@ -11,6 +11,10 @@ from helpers import * # Right now, just apology() & login_required()
 from mathgenerator import mathgen
 import random
 
+def strToFrac(string):
+    ls = string.split("/")
+    string = int(ls[0]) / int(ls[1])
+    return string
 
 
 # Configure application
@@ -78,7 +82,10 @@ def register():
         flash(f"{session['name']} has been registered and logged in!")
 
         # start to populate the math_activities database for this user. 
-        db.execute("INSERT INTO math_activities (user_id, title, id, correct, attempted) values (?, ?, 0, 0, 0)", user_id, "SolverStudentEasy")
+        db.execute("INSERT INTO math_activities (user_id, title, id, correct, attempted) values (?, ?, 0, 0, 0)", user_id, "Practice - Easier")
+        db.execute("INSERT INTO math_activities (user_id, title, id, correct, attempted) values (?, ?, 0, 0, 0)", user_id, "Test - Easier")
+        db.execute("INSERT INTO math_activities (user_id, title, id, correct, attempted) values (?, ?, 0, 0, 0)", user_id, "Practice - Harder")
+        db.execute("INSERT INTO math_activities (user_id, title, id, correct, attempted) values (?, ?, 0, 0, 0)", user_id, "Test - Harder")
 
         return redirect("/")
     else:
@@ -153,81 +160,36 @@ def activities():
 @app.route("/quadraticsEasyTest", methods=["GET", "POST"])
 @login_required
 def quadraticsEasyTest():
+
+    list1 = [-5,-4,-3,-2,-1, 1, 2, 3, 4, 5, 6]
+    rootP = int(random.choice(list1))
+    rootQ = int(random.choice(list1))
+
+    p = int(-1 * rootP)
+    q = int(-1 * rootQ)
+
+    coeffB = int(p + q)
+    coeffC = int(p * q)
+
     if request.method == "POST":
-        problems = [mathgen.genById(21), mathgen.genById(50)]
-        
-        coeffA = int(request.form.get("coeffA"))
-        coeffB = int(request.form.get("coeffB"))
-        coeffC = int(request.form.get("coeffC"))
 
-        ans1 = int(request.form.get("ans1"))
-        ans2 = int(request.form.get("ans2"))
+        user_no = int(session["user_id"])
 
-        roots = []
+        ans1 = -int(request.form.get("first_solution"))
+        ans2 = -int(request.form.get("second_solution"))
 
-        if int(coeffC == 0):
-            roots = [0, -1 * coeffB / coeffA]
-        elif int(coeffA) == 1:
-            """ Easy mode
-            Steps:
-            1) Make a list of factors of C
-            2) Check which pairs of factors multiply to C, make list of those pairs
-            --- This is probably the hardest Part
-            3) Test each pair of factors, which ones add to B. Return pair if True
-            --- Unless C is negative, then test if they subtract to B
-            --- If that's the case, then order will matter. Return the pair in that specific order
-            --- If C is a perfect square this algorith should account for the factor_pairs having 2 of the square root in the last pair
-            
-            --- Stretch
-            4) If still none True, test determinate for solutions, and return expected result (ex. 2 real, 1 real, 2 imaginary sol.)
-            """
-            
-            # 1) 
-            """ Check over each number from 1 to C to see if it's a factor, and make a list of them """
-            factors_C = [x for x in range(1, abs(coeffC) + 1) if abs(coeffC) % x == 0]
-            
-            # 2)
-            """ Factors list is ordered (6 ---> [1, 2, 3, 6]) so only need to check sets of converging outers ([1, 6] , [2, 3])"""
-            iter = ceil(len(factors_C) / 2)
-            factor_pairs = []
-            for i in range(iter):
-                factor_pairs.append([factors_C[i], factors_C[-i - 1]])
-                
-            # 3)
-            op, flip = 1, 1 # to account for a negative C term, create variable named op to multiply by 2nd factor in pair check if they add to B, to simulate subtracting
-                            # Flip also accounts for if C is positive AND B is negative, meaning both zeroes become negative in the end
-            if coeffC < 0:
-                op = -1
-            elif coeffB < 0:
-                flip = -1
-                 
-            
-            for pair in factor_pairs:
-                if flip * pair[0] + (flip * op * pair[1]) == coeffB:
-                    # flash("Roots of the solution are: ")
-                    # flash([flip * pair[0], flip * op * pair[1]])
-                    roots = [-1 * flip * pair[0], -1 * flip * op * pair[1]] # -1 * because finding roots, not factored form
-                elif flip * pair[1] + (flip * op * pair[0]) == coeffB:
-                    # flash("Roots of the solution are: ")
-                    # flash([flip * pair[1], flip * op * pair[0]])
-                    roots = [-1 * flip * pair[1], -1 * flip * op * pair[0]]
+        if ((ans1 + ans2 == coeffB) and (ans1 * ans2 == coeffC)):
+            flash("That's correct! Well done!")
+            db.execute("UPDATE math_activities SET attempted = (attempted + 1) WHERE user_id = ? AND title = ?", user_no, "Test - Easier")
+            db.execute("UPDATE math_activities SET correct = (correct + 1) WHERE user_id = ? AND title = ?", user_no, "Test - Easier")
 
-            
-            
         else:
-            """ Hard mode"""
-            pass
+            flash("That's not quite correct! Have another go!")
+            db.execute("UPDATE math_activities SET attempted = (attempted + 1) WHERE user_id = ? AND title = ?", user_no, "Test - Easier")
 
-        if ans1 in roots and ans2 in roots:
-            flash("Yup!")
-        else:
-            flash(f"Nah, answers are {roots}")
-        
-        return render_template("activities/quadraticsEasyTest.html", problems=problems)
+        return render_template("activities/quadraticsEasyTest.html", coeffB=coeffB, coeffC=coeffC)
     else:
-        problems = [mathgen.genById(21), mathgen.genById(50)]
-
-        return render_template("activities/quadraticsEasyTest.html", problems=problems)
+        return render_template("activities/quadraticsEasyTest.html", coeffB=coeffB, coeffC=coeffC)
     
 @app.route("/quadraticsEasySolver", methods=["GET", "POST"])
 @login_required
@@ -236,7 +198,7 @@ def quadraticsEasySolver():
         pass
     else:
         problems = [mathgen.genById(21), mathgen.genById(50)]
-        return render_template("activities/quadraticsEasySolver.html", problems=problems)
+        return render_template("activities/quadraticsEasySolver.html", problems=problems, coeffB=coeffB, coeffC=coeffC)
 
 @app.route("/teacherSolverHard", methods=["GET", "POST"])
 @login_required
@@ -262,8 +224,8 @@ def SolverStudentEasy():
         ans1 = int(request.form.get("first_solution"))
         ans2 = int(request.form.get("second_solution"))
 
-        db.execute("UPDATE math_activities SET attempted = (attempted + 1) WHERE user_id = ?", user_no)
-        db.execute("UPDATE math_activities SET correct = (correct + 1) WHERE user_id = ?", user_no)
+        db.execute("UPDATE math_activities SET attempted = (attempted + 1) WHERE user_id = ? AND title = ?", user_no, "Practice - Easier")
+        db.execute("UPDATE math_activities SET correct = (correct + 1) WHERE user_id = ? AND title = ?", user_no, "Practice - Easier")
 
         return render_template("activities/SolverStudentEasy.html")
     else:
@@ -280,20 +242,74 @@ def SolverStudentEasy():
 
         return render_template("activities/SolverStudentEasy.html", p=p, q=q)
 
-@app.route("/studentTestHard")
+@app.route("/studentTestHard", methods=["GET", "POST"])
 @login_required
 def studentTestHard():
     if request.method == "POST":
-        # standCoeffA = request.form.get("standCoeffA")
-        # standCoeffB = request.form.get("standCoeffB")
-        # standCoeffC = request.form.get("standCoeffC")
-        pass
-    else:
+        factCoeffA = int(request.form.get("factCoeffA"))
+        factCoeffB = int(request.form.get("factCoeffB"))
+        factCoeffC = int(request.form.get("factCoeffC"))
+        factCoeffD = int(request.form.get("factCoeffD"))
+
+        standCoeffA = int(request.form.get("standCoeffA"))
+        standCoeffB = int(request.form.get("standCoeffB"))
+        standCoeffC = int(request.form.get("standCoeffC"))
+
+        ans1 = -1 * factCoeffB / factCoeffA
+        ans2 = -1 * factCoeffD / factCoeffC
+
+        guess1 = request.form.get("guess1")
+        guess2 = request.form.get("guess2")
+
+        if guess1 and guess2 is not "":
+            if "/" in guess1:
+                guess1 = strToFrac(guess1)
+            guess1 = float(guess1)
+
+            if "/" in guess2:
+                guess2 = strToFrac(guess2)
+            guess2 = float(guess2)
+
+            ans1 = round(ans1, 4)
+            ans2 = round(ans2, 4)
+
+            guess1 = round(guess1, 4)
+            guess2 = round(guess2, 4)
+
+            user_no = int(session["user_id"])
+
+
+            if ans1 == guess1:
+                if ans2 == guess2:
+                    flash(f"{standCoeffA}x^2 + {standCoeffB}x + {standCoeffC} = 0 ---> x = {ans1}, {ans2} ---> Good job! (+1 Point)")
+                    
+                    db.execute("UPDATE math_activities SET attempted = (attempted + 1) WHERE user_id = ? AND title = ?", user_no, "Test - Harder")
+                    db.execute("UPDATE math_activities SET correct = (correct + 1) WHERE user_id = ?  AND title = ?", user_no, "Test - Harder")
+
+            elif ans1 == guess2:
+                if ans2 == guess1:
+                    flash(f"{standCoeffA}x^2 + {standCoeffB}x + {standCoeffC} = 0 ---> x = {ans1}, {ans2} ---> Good job! (+1 Point)")
+                    
+                    db.execute("UPDATE math_activities SET attempted = (attempted + 1) WHERE user_id = ? AND title = ?", user_no, "Test - Harder")
+                    db.execute("UPDATE math_activities SET correct = (correct + 1) WHERE user_id = ?  AND title = ?", user_no, "Test - Harder")
+
+            else:
+                    flash(f"{standCoeffA}x^2 + {standCoeffB}x + {standCoeffC} = 0 ---> x = {ans1}, {ans2} ---> Not Quite")
+                    db.execute("UPDATE math_activities SET attempted = (attempted + 1) WHERE user_id = ? AND title = ?", user_no, "Test - Harder")
+
 
         factCoeffA = random.randint(-8, 8)
+        if factCoeffA == 0:
+            factCoeffA += 1
         factCoeffB = random.randint(-8, 8)
+        if factCoeffB == 0:
+            factCoeffB += 1
         factCoeffC = random.randint(-8, 8)
+        if factCoeffC == 0:
+            factCoeffC += 1
         factCoeffD = random.randint(-8, 8)
+        if factCoeffD == 0:
+            factCoeffD += 1
 
         standCoeffA = factCoeffA * factCoeffC
         standCoeffC = factCoeffB * factCoeffD
@@ -302,7 +318,29 @@ def studentTestHard():
         factCoeff = [factCoeffA, factCoeffB, factCoeffC, factCoeffD]
         standCoeff = [standCoeffA, standCoeffB, standCoeffC]
 
-        flash(standCoeffA)
+        return render_template("/activities/studentTestHard.html", factCoeff=factCoeff, standCoeff=standCoeff)
+    else:
+
+        factCoeffA = random.randint(-8, 8)
+        if factCoeffA == 0:
+            factCoeffA += 1
+        factCoeffB = random.randint(-8, 8)
+        if factCoeffB == 0:
+            factCoeffB += 1
+        factCoeffC = random.randint(-8, 8)
+        if factCoeffC == 0:
+            factCoeffC += 1
+        factCoeffD = random.randint(-8, 8)
+        if factCoeffD == 0:
+            factCoeffD += 1
+
+        standCoeffA = factCoeffA * factCoeffC
+        standCoeffC = factCoeffB * factCoeffD
+        standCoeffB = factCoeffA * factCoeffD + factCoeffB * factCoeffC
+
+        factCoeff = [factCoeffA, factCoeffB, factCoeffC, factCoeffD]
+        standCoeff = [standCoeffA, standCoeffB, standCoeffC]
+
 
         return render_template("/activities/studentTestHard.html", factCoeff=factCoeff, standCoeff=standCoeff)
 
