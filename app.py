@@ -175,8 +175,11 @@ def quadraticsEasyTest():
 
         user_no = int(session["user_id"])
 
-        ans1 = -int(request.form.get("first_solution"))
-        ans2 = -int(request.form.get("second_solution"))
+        ans1 = int(request.form.get("first_solution"))
+        ans2 = int(request.form.get("second_solution"))
+
+        flash(coeffB)
+        flash(coeffC)
 
         if ((ans1 + ans2 == coeffB) and (ans1 * ans2 == coeffC)):
             flash("That's correct! Well done!")

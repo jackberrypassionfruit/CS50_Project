@@ -80,6 +80,8 @@
     
         function solve() {
             annihilation();
+            
+            const linebreak = document.createElement("br");
 
             let button1 = document.createElement("button");
             let button2 = document.createElement("button");
@@ -271,7 +273,7 @@
 
                 if (op == -1)
                 {
-                    iter4 = Math.ceil(factors_C.length - 1);
+                    iter4 = Math.ceil(factors_C.length);
                 }
                 else
                 {
@@ -319,21 +321,39 @@
                 let step5 = document.getElementsByClassName("step5")[0];
                 let factorCheck5 = document.createElement("div");
                 factorCheck5.setAttribute("class", "solution");
-                
+
                 let para = document.createElement("p");
-                let A5Check = document.createTextNode(`${factCoeff["A"]}x * ${factCoeff["C"]}x = ${standCoeff["A"]}x^2`);
+                para.appendChild(document.createTextNode(`Standard Form:    ${standCoeff["A"]}x^2 + ${standCoeff["B"]}x + ${standCoeff["C"]}`));
+                factorCheck5.appendChild(para)
+
+                factorCheck5.appendChild(linebreak);
+
+
+                factorCheck5.appendChild(document.createTextNode(`Factors of A: ${factCoeff["A"]} and ${factCoeff["C"]}`))
+
+                factorCheck5.appendChild(linebreak);
+                
+                para = document.createElement("p");
+                let A5Check = document.createTextNode(`First ---> ${factCoeff["A"]}x * ${factCoeff["C"]}x = ${standCoeff["A"]}x^2`);
                 para.appendChild(A5Check);
                 factorCheck5.appendChild(para);
 
+                factorCheck5.appendChild(linebreak);
+
+                factorCheck5.appendChild(document.createTextNode(`Factors of C: ${factCoeff["B"]} and ${factCoeff["D"]}`))
+
                 para = document.createElement("p");
-                let C5Check = document.createTextNode(`${factCoeff["B"]} * ${factCoeff["D"]} = ${standCoeff["C"]}`);
+                let C5Check = document.createTextNode(`Last ---> ${factCoeff["B"]} * ${factCoeff["D"]} = ${standCoeff["C"]}`);
                 para.appendChild(C5Check);
                 factorCheck5.appendChild(para);
 
                 para = document.createElement("p");
-                let B5Check = document.createTextNode(`${factCoeff["A"]}x * ${factCoeff["D"]}x + ${factCoeff["B"]}x * ${factCoeff["C"]}x = ${standCoeff["B"]}`);
+                let B5Check = document.createTextNode(` Outer + Inner ---> ${factCoeff["A"]}x * ${factCoeff["D"]}x + ${factCoeff["B"]}x * ${factCoeff["C"]}x = ${standCoeff["B"]}x`);
                 para.appendChild(B5Check);
                 factorCheck5.appendChild(para);
+
+                factorCheck5.appendChild(document.createTextNode("Factored Form:    "));
+                factorCheck5.appendChild(document.createTextNode(`(${factCoeff["A"]}x + ${factCoeff["B"]})(${factCoeff["C"]}x + ${factCoeff["D"]})`));
                 
                 let buttonText5 = document.createTextNode("Next");
                 button5.appendChild(buttonText5);
@@ -456,6 +476,7 @@
             <div class="card-body">
                 5) Nearing the end, find which pairs of factors for A and C create a factored form of the equation with the correct B coefficient:
                 <br>
+                FOIL -> (F)irst , (O)uter , (I)nner, (L)ast
             </div>
             <div id="factorCheck5">
             </div>
