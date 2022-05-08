@@ -103,6 +103,7 @@
             else {
                 factoringError.setAttribute("hidden", true);
                 document.getElementsByClassName("step4")[0].removeAttribute("hidden");
+                document.getElementById("greatwork").removeAttribute("hidden");
                 factoringCheckBtn.setAttribute("hidden", true);
                 document.getElementById("first_solution").value=roots[0];
                 document.getElementById("second_solution").value=roots[1];
@@ -400,7 +401,7 @@
     
     <div class="step4" class="regular" hidden>
         <h2>
-            Great. Now we just need to solve for x:
+            Now we just need to solve for x:
         </h2>
         <div id="solve" class="solve">
             <div id="solve"  class="solve">
@@ -408,7 +409,7 @@
                     x = <input autocomplete="off" id="first_solution" name="first_solution" class="form-control" placeholder="First Solution" type="number">
                     x = <input autocomplete="off" id="second_solution" name="second_solution" class="form-control" placeholder="Second Solution" type="number">
                 </form> 
-                <button id="solvingCheckBtn" class="btn btn-info" type="button" onclick="solvingCheck()">Check</button>
+                <button id="solvingCheckBtn" class="btn btn-info" type="button" hidden onclick="solvingCheck()">Check</button>
             </div>
         </div>
     </div>
