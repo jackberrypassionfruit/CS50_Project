@@ -8,14 +8,16 @@
 
 {% block javascript %}
    <script>
-        const standCoeffuckfA = document.getElementById("standCoeffA");
-        const standCoeffB = document.getElementById("standCoeffB");
-        const standCoeffC = document.getElementById("standCoeffC");
+        function start()
+        {
+            const standCoeffA = document.getElementById("standCoeffA").value;
+            const standCoeffB = document.getElementById("standCoeffB").value;
+            const standCoeffC = document.getElementById("standCoeffC").value;
 
-        const standCoeff = document.getElementsByClassName("standCoeff")[0];
-        const standCoeffA = standCoeff.getElementsByTagName("input")[0].value;
-
-        console.log(standCoeffA)
+            document.getElementById("coeffA").innerHTML = standCoeffA;
+            document.getElementById("coeffB").innerHTML = standCoeffB;
+            document.getElementById("coeffC").innerHTML = standCoeffC;
+        }
     </script>
 {% endblock %}
 
@@ -36,21 +38,27 @@
     <br>
     <br>
 
-    <h2>Enter your Solutions here!</h2>
+    <h2>Enter your Solutions here! (For new question, leave empty and hit "Check")</h2>
     
-    
-    
-    <form class="answer" method="post" action="/quadraticsEasyTest">
+    <form class="answer" method="post" action="/studentTestHard">
         <div>
-            <input autocomplete="off" name="ans1" placeholder="1st Root" type="number">
-            <input autocomplete="off" name="ans2" placeholder="2nd Root" type="number">
+            <input autocomplete="off" name="guess1" placeholder="1st Root" type="text">
+            <input autocomplete="off" name="guess2" placeholder="2nd Root" type="text">
             <button class="btn btn-primary">Check</button>
         </div>
+
+        <div hidden class="standCoeff">
+            <input id="standCoeffA" name="standCoeffA" value="{{ standCoeff[0] }}">
+            <input id="standCoeffB" name="standCoeffB" value="{{ standCoeff[1] }}">
+            <input id="standCoeffC" name="standCoeffC" value="{{ standCoeff[2] }}">
+    
+            <input id="factCoeffA" name="factCoeffA" value="{{ factCoeff[0] }}">
+            <input id="factCoeffB" name="factCoeffB" value="{{ factCoeff[1] }}">
+            <input id="factCoeffC" name="factCoeffC" value="{{ factCoeff[2] }}">
+            <input id="factCoeffD" name="factCoeffD" value="{{ factCoeff[3] }}">
+        </div>
+
     </form>
 
-    <form hidden class="standCoeff">
-        <input id="standCoeffA" name="standCoeffA" value="{{ standCoeff[0] }}">
-        <input id="standCoeffB" name="standCoeffB" value="{{ standCoeff[1] }}">
-        <input id="standCoeffC" name="standCoeffC" value="{{ standCoeff[2] }}">
-    </form>
+
 {% endblock %}

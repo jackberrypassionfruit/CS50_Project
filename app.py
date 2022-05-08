@@ -11,6 +11,11 @@ from helpers import * # Right now, just apology() & login_required()
 from mathgenerator import mathgen
 import random
 
+def strToFrac(string):
+    ls = string.split("/")
+    string = int(ls[0]) / int(ls[1])
+    return string
+
 
 
 # Configure application
@@ -79,6 +84,8 @@ def register():
 
         # start to populate the math_activities database for this user. 
         db.execute("INSERT INTO math_activities (user_id, title, id, correct, attempted) values (?, ?, 0, 0, 0)", user_id, "SolverStudentEasy")
+        db.execute("INSERT INTO math_activities (user_id, title, id, correct, attempted) values (?, ?, 0, 0, 0)", user_id, "studentTestHard")
+
 
         return redirect("/")
     else:
@@ -262,8 +269,8 @@ def SolverStudentEasy():
         ans1 = int(request.form.get("first_solution"))
         ans2 = int(request.form.get("second_solution"))
 
-        db.execute("UPDATE math_activities SET attempted = (attempted + 1) WHERE user_id = ?", user_no)
-        db.execute("UPDATE math_activities SET correct = (correct + 1) WHERE user_id = ?", user_no)
+        db.execute("UPDATE math_activities SET attempted = (attempted + 1) WHERE user_id = ? AND title = ?", user_no, "SolverStudentEasy")
+        db.execute("UPDATE math_activities SET correct = (correct + 1) WHERE user_id = ? AND title = ?", user_no, "SolverStudentEasy")
 
         return render_template("activities/SolverStudentEasy.html")
     else:
@@ -280,20 +287,74 @@ def SolverStudentEasy():
 
         return render_template("activities/SolverStudentEasy.html", p=p, q=q)
 
-@app.route("/studentTestHard")
+@app.route("/studentTestHard", methods=["GET", "POST"])
 @login_required
 def studentTestHard():
     if request.method == "POST":
-        # standCoeffA = request.form.get("standCoeffA")
-        # standCoeffB = request.form.get("standCoeffB")
-        # standCoeffC = request.form.get("standCoeffC")
-        pass
-    else:
+        factCoeffA = int(request.form.get("factCoeffA"))
+        factCoeffB = int(request.form.get("factCoeffB"))
+        factCoeffC = int(request.form.get("factCoeffC"))
+        factCoeffD = int(request.form.get("factCoeffD"))
+
+        standCoeffA = int(request.form.get("standCoeffA"))
+        standCoeffB = int(request.form.get("standCoeffB"))
+        standCoeffC = int(request.form.get("standCoeffC"))
+
+        ans1 = -1 * factCoeffB / factCoeffA
+        ans2 = -1 * factCoeffD / factCoeffC
+
+        guess1 = request.form.get("guess1")
+        guess2 = request.form.get("guess2")
+
+        if guess1 and guess2 is not "":
+            if "/" in guess1:
+                guess1 = strToFrac(guess1)
+            guess1 = float(guess1)
+
+            if "/" in guess2:
+                guess2 = strToFrac(guess2)
+            guess2 = float(guess2)
+
+            ans1 = round(ans1, 4)
+            ans2 = round(ans2, 4)
+
+            guess1 = round(guess1, 4)
+            guess2 = round(guess2, 4)
+
+            user_no = int(session["user_id"])
+
+
+            if ans1 == guess1:
+                if ans2 == guess2:
+                    flash(f"{standCoeffA}x^2 + {standCoeffB}x + {standCoeffC} = 0 ---> x = {ans1}, {ans2} ---> Good job! (+1 Point)")
+                    
+                    db.execute("UPDATE math_activities SET attempted = (attempted + 1) WHERE user_id = ? AND title = ?", user_no, "studentTestHard")
+                    db.execute("UPDATE math_activities SET correct = (correct + 1) WHERE user_id = ?  AND title = ?", user_no, "studentTestHard")
+
+            elif ans1 == guess2:
+                if ans2 == guess1:
+                    flash(f"{standCoeffA}x^2 + {standCoeffB}x + {standCoeffC} = 0 ---> x = {ans1}, {ans2} ---> Good job! (+1 Point)")
+                    
+                    db.execute("UPDATE math_activities SET attempted = (attempted + 1) WHERE user_id = ? AND title = ?", user_no, "studentTestHard")
+                    db.execute("UPDATE math_activities SET correct = (correct + 1) WHERE user_id = ?  AND title = ?", user_no, "studentTestHard")
+
+            else:
+                    flash(f"{standCoeffA}x^2 + {standCoeffB}x + {standCoeffC} = 0 ---> x = {ans1}, {ans2} ---> Not Quite")
+                    db.execute("UPDATE math_activities SET attempted = (attempted + 1) WHERE user_id = ? AND title = ?", user_no, "studentTestHard")
+
 
         factCoeffA = random.randint(-8, 8)
+        if factCoeffA == 0:
+            factCoeffA += 1
         factCoeffB = random.randint(-8, 8)
+        if factCoeffB == 0:
+            factCoeffB += 1
         factCoeffC = random.randint(-8, 8)
+        if factCoeffC == 0:
+            factCoeffC += 1
         factCoeffD = random.randint(-8, 8)
+        if factCoeffD == 0:
+            factCoeffD += 1
 
         standCoeffA = factCoeffA * factCoeffC
         standCoeffC = factCoeffB * factCoeffD
@@ -302,7 +363,29 @@ def studentTestHard():
         factCoeff = [factCoeffA, factCoeffB, factCoeffC, factCoeffD]
         standCoeff = [standCoeffA, standCoeffB, standCoeffC]
 
-        flash(standCoeffA)
+        return render_template("/activities/studentTestHard.html", factCoeff=factCoeff, standCoeff=standCoeff)
+    else:
+
+        factCoeffA = random.randint(-8, 8)
+        if factCoeffA == 0:
+            factCoeffA += 1
+        factCoeffB = random.randint(-8, 8)
+        if factCoeffB == 0:
+            factCoeffB += 1
+        factCoeffC = random.randint(-8, 8)
+        if factCoeffC == 0:
+            factCoeffC += 1
+        factCoeffD = random.randint(-8, 8)
+        if factCoeffD == 0:
+            factCoeffD += 1
+
+        standCoeffA = factCoeffA * factCoeffC
+        standCoeffC = factCoeffB * factCoeffD
+        standCoeffB = factCoeffA * factCoeffD + factCoeffB * factCoeffC
+
+        factCoeff = [factCoeffA, factCoeffB, factCoeffC, factCoeffD]
+        standCoeff = [standCoeffA, standCoeffB, standCoeffC]
+
 
         return render_template("/activities/studentTestHard.html", factCoeff=factCoeff, standCoeff=standCoeff)
 

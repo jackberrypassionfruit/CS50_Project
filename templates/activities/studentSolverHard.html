@@ -46,7 +46,7 @@
         {
             document.getElementById("factCoeffA").innerHTML = factA1;
             document.getElementById("factCoeffC").innerHTML = factA2;
-            document.getElementById("standCoeffA").innerHTML - factA1 * factA2;
+            document.getElementById("standCoeffA").innerHTML = factA1 * factA2;
             currentGuess["A"] = factA1;
             currentGuess["C"] = factA2;
             if (currentGuess["B"] != undefined)
@@ -60,7 +60,7 @@
         {
             document.getElementById("factCoeffB").innerHTML = factC1;
             document.getElementById("factCoeffD").innerHTML = factC2;
-            document.getElementById("standCoeffC").innerHTML - factC1 * factC2;
+            document.getElementById("standCoeffC").innerHTML = factC1 * factC2;
             currentGuess["B"] = factC1;
             currentGuess["D"] = factC2;
             if (currentGuess["A"] != undefined)
@@ -375,6 +375,9 @@
                     button3.setAttribute("style", "font-size: 40px")
                     button3.setAttribute("class", "btn btn-secondary");
 
+                    console.log("i is:");
+                    console.log(i);
+
                     if (arrayEquals(factor_pairsA[i], [factCoeff["A"], factCoeff["C"]]) || arrayEquals(factor_pairsA[i], [factCoeff["C"], factCoeff["A"]]))
                     {
                         button3.addEventListener("click", function()
@@ -385,7 +388,15 @@
                             }
                             button3.setAttribute("style", "color: green; background-color: #CCCCFF; font-size: 40px");
 
-                            jedsVictoryA(factor_pairsA[i][0], factor_pairsA[i][1]);
+                            const jed = (function(j)
+                            {
+                                const k = j
+                                console.log("k is");
+                                console.log(k);
+                                jedsVictoryA(factor_pairsA[k][0], factor_pairsA[k][1]);
+                            })()
+
+                            jed(i);
                         });
                     }
                     else
@@ -412,13 +423,14 @@
                 let list3C = document.createElement("div");
                 list3C.setAttribute("class", "list3C");
                 list3C.appendChild(document.createTextNode(`Factor Pairs of coeffC, ${standCoeff["C"]}`));
-                console.log(factor_pairsC);
                 for (i in factor_pairsC)
                 {
                     let button3 = document.createElement("button");
                     button3.appendChild(document.createTextNode(factor_pairsC[i]));
                     button3.setAttribute("style", "font-size: 40px")
                     button3.setAttribute("class", "btn btn-secondary");
+
+                    console.log(i);
 
                     if (arrayEquals(factor_pairsC[i], [factCoeff["B"], factCoeff["D"]]) || arrayEquals(factor_pairsC[i], [factCoeff["D"], factCoeff["B"]]))
                     {
