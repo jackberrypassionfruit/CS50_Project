@@ -175,11 +175,13 @@ def quadraticsEasyTest():
 
         user_no = int(session["user_id"])
 
-        ans1 = int(request.form.get("first_solution"))
-        ans2 = int(request.form.get("second_solution"))
-
         flash(coeffB)
         flash(coeffC)
+        coeffB = int(request.form.get("CoeffB"))
+        coeffC = int(request.form.get("CoeffC"))
+
+        ans1 = -1 * int(request.form.get("first_solution"))
+        ans2 = -1 * int(request.form.get("second_solution"))
 
         if ((ans1 + ans2 == coeffB) and (ans1 * ans2 == coeffC)):
             flash("That's correct! Well done!")
@@ -190,18 +192,40 @@ def quadraticsEasyTest():
             flash("That's not quite correct! Have another go!")
             db.execute("UPDATE math_activities SET attempted = (attempted + 1) WHERE user_id = ? AND title = ?", user_no, "Test - Easier")
 
+        list1 = [-5,-4,-3,-2,-1, 1, 2, 3, 4, 5, 6]
+        rootP = int(random.choice(list1))
+        rootQ = int(random.choice(list1))
+
+        p = int(-1 * rootP)
+        q = int(-1 * rootQ)
+
+        coeffB = int(p + q)
+        coeffC = int(p * q)
+
         return render_template("activities/quadraticsEasyTest.html", coeffB=coeffB, coeffC=coeffC)
     else:
+
         return render_template("activities/quadraticsEasyTest.html", coeffB=coeffB, coeffC=coeffC)
     
 @app.route("/quadraticsEasySolver", methods=["GET", "POST"])
 @login_required
 def quadraticsEasySolver():
+
+    list1 = [-5,-4,-3,-2,-1, 1, 2, 3, 4, 5, 6]
+    rootP = random.choice(list1)
+    rootQ = random.choice(list1)
+
+    p = -1 * rootP
+    q = -1 * rootQ
+
+    coeffB = p + q
+    coeffC = p * q
+
     if request.method == "POST":
         pass
     else:
         problems = [mathgen.genById(21), mathgen.genById(50)]
-        return render_template("activities/quadraticsEasySolver.html", problems=problems, coeffB=coeffB, coeffC=coeffC)
+        return render_template("activities/quadraticsEasySolver.html", problems=problems, rootP=rootP, rootQ=rootQ)
 
 @app.route("/teacherSolverHard", methods=["GET", "POST"])
 @login_required
@@ -222,27 +246,28 @@ def studentSolverHard():
 @app.route("/SolverStudentEasy", methods=["GET", "POST"])
 @login_required
 def SolverStudentEasy():
+    list1 = [-5,-4,-3,-2,-1, 1, 2, 3, 4, 5, 6]
+    rootP = random.choice(list1)
+    rootQ = random.choice(list1)
+
+    p = -1 * rootP;
+    q = -1 * rootQ;
+
+    coeffB = p + q;
+    coeffC = p * q;
+    
     if request.method == "POST":
+
         user_no = int(session["user_id"])
+
         ans1 = int(request.form.get("first_solution"))
         ans2 = int(request.form.get("second_solution"))
 
         db.execute("UPDATE math_activities SET attempted = (attempted + 1) WHERE user_id = ? AND title = ?", user_no, "Practice - Easier")
         db.execute("UPDATE math_activities SET correct = (correct + 1) WHERE user_id = ? AND title = ?", user_no, "Practice - Easier")
 
-        return render_template("activities/SolverStudentEasy.html")
+        return render_template("activities/SolverStudentEasy.html", p=p, q=q)
     else:
-
-        list1 = [-5,-4,-3,-2,-1, 1, 2, 3, 4, 5, 6]
-        rootP = random.choice(list1)
-        rootQ = random.choice(list1)
-
-        p = -1 * rootP;
-        q = -1 * rootQ;
-
-        coeffB = p + q;
-        coeffC = p * q;
-
         return render_template("activities/SolverStudentEasy.html", p=p, q=q)
 
 @app.route("/studentTestHard", methods=["GET", "POST"])

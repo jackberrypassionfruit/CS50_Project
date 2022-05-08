@@ -38,28 +38,20 @@
 
             document.getElementsByClassName("solutionSolver")[0].removeAttribute("hidden");
             document.getElementsByClassName("tosolve")[0].removeAttribute("hidden");
-
             roots = [(Math.floor(Math.random() * 9) -4), (Math.floor(Math.random() * 9) -4)];
 
-            p = -1 * roots[0];
-            q = -1 * roots[1];
+            p = -1 * {{rootP}};
+            q = -1 * {{rootQ}};
 
             coeffB = p + q;
             document.getElementById("coeffB").innerHTML = `(${coeffB})`;
             coeffC = p * q;
             document.getElementById("coeffC").innerHTML = `(${coeffC})`;
 
-            if (p*q == 0){
-                difficulty();
-                solveButton.setAttribute("hidden", false);
-            }
-
             document.getElementsByClassName("problems")[0].removeAttribute("hidden");
-
             document.getElementById('coeffAcheck').value="1";
             document.getElementById('coeffBcheck').value=coeffB;
             document.getElementById('coeffCcheck').value=coeffC;
-
         }
 
         function factorsCheck() {
@@ -85,9 +77,8 @@
             factorPairError.setAttribute("hidden", true);
             document.getElementById("correct").setAttribute("class", "btn btn-success");
             document.getElementsByClassName("step3")[0].removeAttribute("hidden");
-            document.getElementById("first_factor").value=-roots[0];
-            document.getElementById("second_factor").value=-roots[1];
-
+            document.getElementById("first_factor").value=q;
+            document.getElementById("second_factor").value=p;
         }
 
         function factoringCheck() {
@@ -105,8 +96,8 @@
                 document.getElementsByClassName("step4")[0].removeAttribute("hidden");
                 document.getElementById("greatwork").removeAttribute("hidden");
                 factoringCheckBtn.setAttribute("hidden", true);
-                document.getElementById("first_solution").value=roots[0];
-                document.getElementById("second_solution").value=roots[1];
+                document.getElementById("first_solution").value=-q;
+                document.getElementById("second_solution").value=-p;
             }
         }
         
@@ -253,8 +244,8 @@
             let roots = []
             for (let i = 0; i < factor_pairs.length; i++)
             {
-                let pair0 = factor_pairs[i][0];
-                let pair1 = factor_pairs[i][1];
+                let pair1 = factor_pairs[i][0];
+                let pair0 = factor_pairs[i][1];
 
                 if (flip * pair0 + (flip  * pair1) == coeffB)
                 {
@@ -358,7 +349,6 @@
         <form><input class="form-control" autocomplete="off" id="coeffCcheck" placeholder="Coeffient C" type="number"></form>     
         <br>    
         <button id="solveButton" class="btn btn-info" value ="submit" onclick="coeffCheck()">Check</button>
-
     </div>
 
     <br>
@@ -418,7 +408,6 @@
     <br>
 
     <! Success message>
-
 
     <div id="greatwork" hidden>
         <div class="factor">
