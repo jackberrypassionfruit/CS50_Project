@@ -109,7 +109,7 @@ h2 {
   font-size: medium;
 }
 
-#question {
+#question, #easyquestion, #easyquestionsubmit {
   font-size: larger;
   color:#ea433b;
 }
