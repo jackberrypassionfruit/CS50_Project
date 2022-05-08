@@ -142,15 +142,22 @@ def logout():
     # Redirect user to login form
     return redirect("/")
 
-@app.route("/profile")
+@app.route("/profile", methods=["GET", "POST"])
 def profile():
     """ Shows current user's profile"""
 
     user_no = int(session["user_id"])
 
-    rows = db.execute("SELECT * FROM math_activities WHERE user_id = ?", user_no)
+    if request.method == "POST":
+        db.execute("DELETE FROM math_activities WHERE user_id = ?", user_no)
+        db.execute("DELETE FROM users WHERE id = ?", user_no)
+        
+        return render_template("register.html")
 
-    return render_template("profile.html", rows=rows)
+    else:
+        user_no = int(session["user_id"])
+        rows = db.execute("SELECT * FROM math_activities WHERE user_id = ?", user_no)
+        return render_template("profile.html", rows=rows)
 
 @app.route("/activities")
 def activities():
