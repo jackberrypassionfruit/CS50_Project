@@ -70,6 +70,29 @@
             }
         }
 
+        function checkAns()
+        {
+            let step4 = document.getElementsByClassName("step4")[0];
+            
+            let guess1 = document.getElementById("guess1");
+            let guess2 = document.getElementById("guess2");
+
+            console.log(guess1);
+            console.log(guess2);
+
+            let success = document.getElementById("success");
+            
+            if (guess1 == roots[0] || guess1 == roots[1] && guess2 == roots[0] || guess2 == roots[1])
+            {
+                success.append
+            }
+            else
+            {
+                success.setAttribute("innerText", "Sorry, not quite")
+
+            }
+        }
+
 
         // Erase all steps of solution
         function annihilation()
@@ -92,7 +115,7 @@
         
         function newproblem() 
         {
-            
+            document.getElementById("start").removeAttribute("hidden");
             annihilation();
 
             roots = [];
@@ -239,7 +262,7 @@
                 button1.appendChild(buttonText1);
                 button1.setAttribute("class", "btn btn-secondary");
                 list1.appendChild(button1);
-
+                /*
                 for (i in factors_A)
                 {
                     let item = document.createElement("li");
@@ -247,7 +270,7 @@
                     item.appendChild(text);
                     list1.appendChild(item);
                 }
-
+                */
                 step1.appendChild(list1);
                 list1 = document.createTextNode("fart");
                 step1.removeAttribute("hidden");
@@ -272,6 +295,7 @@
                 let step2 = document.getElementsByClassName("regular")[0].getElementsByClassName("step2")[0];
                 let list2 = document.createElement("ul");
                 list2.setAttribute("class", "solution")
+                /*
                 for (i in factors_C)
                 {
                     let item = document.createElement("li");
@@ -279,6 +303,7 @@
                     item.appendChild(text);
                     list2.appendChild(item);
                 }
+                */
                 let buttonText2 = document.createTextNode("Next");
                 button2.appendChild(buttonText2);
                 button2.setAttribute("class", "btn btn-secondary");
@@ -332,31 +357,6 @@
 
                 console.log("factor_pairsC are:");
                 console.log(factor_pairsC[0], factor_pairsC[1], factor_pairsC[2]);
-
-
-                /*
-
-
-                This is dogshit, but we can salvage it
-
-                Instead of spoonfeeding an answer, let them make guesses of factor pairs
-
-                Let THEM pick factor pairs, then THE COMPUTER shows them all the possible factorizations that can come from that 
-
-                2 for C=(+)
-
-                4 for C=(-)
-
-
-
-
-                Next step will be them writing the answer out to verify
-
-
-
-
-                */
-
                 
 
                 let step3 = document.getElementsByClassName("step3")[0];
@@ -387,7 +387,7 @@
                                 but.setAttribute("style", "background-color: white; font-size: 40px; color: black")
                             }
                             button3.setAttribute("style", "color: green; background-color: #CCCCFF; font-size: 40px");
-
+                            /*                              I tried, so hard
                             const jed = (function(j)
                             {
                                 const k = j
@@ -397,6 +397,7 @@
                             })()
 
                             jed(i);
+                            */
                         });
                     }
                     else
@@ -409,7 +410,7 @@
                             }
                             button3.setAttribute("style", "color: red; background-color: #CCCCFF; font-size: 40px");
 
-                            jedsVictoryA(factor_pairsA[i][0], factor_pairsA[i][1]);
+                            // jedsVictoryA(factor_pairsA[i][0], factor_pairsA[i][1]);
                         });
                     }
 
@@ -442,7 +443,7 @@
                             }
                             button3.setAttribute("style", "color: green; background-color: #CCCCFF; font-size: 40px");
                             
-                            jedsVictoryC(factor_pairsC[i][0], factor_pairsC[i][1]);
+                            // jedsVictoryC(factor_pairsC[i][0], factor_pairsC[i][1]);
 
                         });
                     }
@@ -456,7 +457,7 @@
                             }
                             button3.setAttribute("style", "color: red; background-color: #CCCCFF; font-size: 40px");
                         
-                            jedsVictoryC(factor_pairsC[i][0], factor_pairsC[i][1]);
+                            // jedsVictoryC(factor_pairsC[i][0], factor_pairsC[i][1]);
                         });
                     }
                     list3C.appendChild(button3);
@@ -470,25 +471,38 @@
 
                 let factorCheck5 = document.createElement("div");
                 factorCheck5.setAttribute("class", "solution");
-                
+
                 let para = document.createElement("p");
-                let A5Check = document.createTextNode(`${factCoeff["A"]}x * ${factCoeff["C"]}x = ${standCoeff["A"]}x^2`);
+                para.appendChild(document.createTextNode(`Standard Form:    ${standCoeff["A"]}x^2 + ${standCoeff["B"]}x + ${standCoeff["C"]}`));
+                factorCheck5.appendChild(para)
+
+                factorCheck5.appendChild(document.createTextNode(`Factors of A: ${factCoeff["A"]} and ${factCoeff["C"]}`))
+                
+                para = document.createElement("p");
+                let A5Check = document.createTextNode(`First ---> ${factCoeff["A"]}x * ${factCoeff["C"]}x = ${standCoeff["A"]}x^2`);
                 para.appendChild(A5Check);
                 factorCheck5.appendChild(para);
 
+                factorCheck5.appendChild(document.createTextNode(`Factors of C: ${factCoeff["B"]} and ${factCoeff["D"]}`))
+
                 para = document.createElement("p");
-                let C5Check = document.createTextNode(`${factCoeff["B"]} * ${factCoeff["D"]} = ${standCoeff["C"]}`);
+                let C5Check = document.createTextNode(`Last ---> ${factCoeff["B"]} * ${factCoeff["D"]} = ${standCoeff["C"]}`);
                 para.appendChild(C5Check);
                 factorCheck5.appendChild(para);
 
                 para = document.createElement("p");
-                let B5Check = document.createTextNode(`${factCoeff["A"]}x * ${factCoeff["D"]}x + ${factCoeff["B"]}x * ${factCoeff["C"]}x = ${standCoeff["B"]}`);
+                let B5Check = document.createTextNode(`Outer + Inner ---> ${factCoeff["A"]}x * ${factCoeff["D"]}x + ${factCoeff["B"]}x * ${factCoeff["C"]}x = ${standCoeff["B"]}`);
                 para.appendChild(B5Check);
                 factorCheck5.appendChild(para);
+
+                
+                factorCheck5.appendChild(document.createTextNode("Factored Form:    "));
+                factorCheck5.appendChild(document.createTextNode(`(${factCoeff["A"]}x + ${factCoeff["B"]})(${factCoeff["C"]}x + ${factCoeff["D"]})`));
                 
                 let buttonText5 = document.createTextNode("Next");
                 button5.appendChild(buttonText5);
                 button5.setAttribute("class", "btn btn-secondary");
+                button5.setAttribute("id", "button5")
                 factorCheck5.appendChild(button5);
 
                 step3.appendChild(factorCheck5);
@@ -497,21 +511,35 @@
 
 // Step 4 - Display the factored form
                 let step4 = document.getElementsByClassName("step4")[0];
-                let factorSolve4 = document.createElement("div");
-                factorSolve4.setAttribute("class", "solution")
+                let factorToSolve4 = document.createElement("div");
+                factorToSolve4.setAttribute("class", "solution")
 
 
                 let factoredEQ = document.createTextNode(`(${factCoeff["A"]}x + ${factCoeff["B"]})(${factCoeff["C"]}x + ${factCoeff["D"]}) = 0`);
                 
                 para = document.createElement("p");
                 para.appendChild(factoredEQ);
-                factorSolve4.appendChild(para);
+                factorToSolve4.appendChild(para);
+
+                step4.appendChild(factorToSolve4);
+
+
+                let solution = document.createElement("div");
+                solution.setAttribute("class", "solution")
 
                 para = document.createElement("p");
                 para.append(document.createTextNode(`x = ${roots}`));
-                factorSolve4.appendChild(para);
+                solution.appendChild(para);
+                step4.appendChild(para)
+
                 
-                step4.appendChild(factorSolve4);
+                /*
+                success = document.createElement("p")
+                success.setAttribute("id", "success");
+                success.appendChild(document.createTextNode("hello"));
+                step4.appendChild(success);
+                */
+
             }
 
 // Button Functions
@@ -576,6 +604,7 @@
             button5.addEventListener("click", function()
             {
                 document.getElementsByClassName("step4")[0].removeAttribute("hidden");
+                document.getElementById("button5").setAttribute("hidden", true);
             });
 
 
@@ -609,7 +638,7 @@
 
 
     <h1>Practice with the Solution solver!</h1>
-    <button class="btn btn-primary" onclick="solve()">Solve</button>
+    <button hidden id="start" class="btn btn-primary" onclick="solve()">Solve</button>
 
 
     <div class="regular">
@@ -617,7 +646,7 @@
             <div class="card-body">
                 1) First, make a list of the positive factors of the coefficient A:
             </div>
-            <input type="text">
+            <input type="text" placeholder="(ex. 1,4,16) No spaces!">
             <p class="message"></p>
         </div>
 
@@ -625,7 +654,7 @@
             <div class="card-body">
                 2) Now, make a list of the positive factors of the coefficient C:
             </div>
-            <input type="text">
+            <input type="text" placeholder="(ex. 1,4,16) No spaces!">
             <p class="message"></p>
         </div>
         
@@ -637,8 +666,10 @@
                     <li>Both factors of C multiply to C, and</li>
                     <li>When used in a factored-form polynomial, FOILing that will give us the necessary B coefficient
                 </ol>
+                <br>
+                FOIL -> (F)irst , (O)uter , (I)nner, (L)ast
             </div>
-            <div class="jedsVictory">
+            <div hidden class="jedsVictory">
                 <div class="factoredForm">
                     (<span id="factCoeffA"> A </span>x +<span id="factCoeffB"> B </span>) (<span id="factCoeffC">C</span> x +<span id="factCoeffD"> D </span>) = 0
                 </div>
@@ -648,14 +679,13 @@
                 </div>
 
             </div>
-            <br><br><br><br><br><br>
+            <br><br>
         </div>
 
         <div class="step4 card" hidden>
             <div class="card-body">
                 4) Finally, with the quadratic equation in factored form, use the Zero Product Property to solve for the roots
-                <br>
-            </div>
+            <br>
         </div>
         
     </div>

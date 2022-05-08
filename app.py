@@ -182,6 +182,8 @@ def quadraticsEasyTest():
 
         user_no = int(session["user_id"])
 
+        flash(coeffB)
+        flash(coeffC)
         coeffB = int(request.form.get("CoeffB"))
         coeffC = int(request.form.get("CoeffC"))
 
