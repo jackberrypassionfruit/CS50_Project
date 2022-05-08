@@ -11,6 +11,9 @@
         function difficulty() {
             document.getElementsByClassName("problems")[0].removeAttribute("hidden");
             document.getElementById("easysolver").removeAttribute("hidden");
+            document.getElementById('CoeffB').value={{coeffB}};
+            document.getElementById('CoeffC').value={{coeffC}};
+
             console.log({{coeffB}});
             console.log({{coeffC}});
         }
@@ -49,6 +52,10 @@
             <div class="solve">
                 x = <input autocomplete="off" id="first_solution" name="first_solution" class="form-control" placeholder="First Solution" type="number">
                 x = <input autocomplete="off" id="second_solution" name="second_solution" class="form-control" placeholder="Second Solution" type="number">
+                <input id="CoeffB" name="CoeffB" hidden type="number">
+                <input id="CoeffC" name="CoeffC" hidden type="number">
+
+
                 <button class="btn btn-info">Check</button>
             </div>
         </form>

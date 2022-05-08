@@ -55,11 +55,9 @@
             }
 
             document.getElementsByClassName("problems")[0].removeAttribute("hidden");
-
             document.getElementById('coeffAcheck').value="1";
             document.getElementById('coeffBcheck').value=coeffB;
             document.getElementById('coeffCcheck').value=coeffC;
-
         }
 
         function factorsCheck() {
@@ -87,7 +85,6 @@
             document.getElementsByClassName("step3")[0].removeAttribute("hidden");
             document.getElementById("first_factor").value=-roots[0];
             document.getElementById("second_factor").value=-roots[1];
-
         }
 
         function factoringCheck() {
@@ -358,7 +355,6 @@
         <form><input class="form-control" autocomplete="off" id="coeffCcheck" placeholder="Coeffient C" type="number"></form>     
         <br>    
         <button id="solveButton" class="btn btn-info" value ="submit" onclick="coeffCheck()">Check</button>
-
     </div>
 
     <br>
