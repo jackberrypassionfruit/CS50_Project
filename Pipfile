@@ -10,6 +10,7 @@ cs50 = "*"
 flask-session = "*"
 requests = "*"
 mathgenerator = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
