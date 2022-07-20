@@ -296,7 +296,7 @@ def studentTestHard():
         guess1 = request.form.get("guess1")
         guess2 = request.form.get("guess2")
 
-        if guess1 and guess2 is not "":
+        if guess1 and guess2 != "":
             if "/" in guess1:
                 guess1 = strToFrac(guess1)
             guess1 = float(guess1)
@@ -387,3 +387,7 @@ def practiceQuiz():
         pass
     else:
         return render_template("practiceQuiz.html")
+
+if __name__ == "__main__":
+        app.run()
+        
