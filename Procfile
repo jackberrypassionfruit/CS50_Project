@@ -1,1 +1,1 @@
-web: gunicorn CS50_Project.wsgi
+web: gunicorn app:app
