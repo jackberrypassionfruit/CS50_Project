@@ -1,4 +1,4 @@
-# CS50_Project
+# Quadratic Equation Student Solver
 
 - https://quadratic-eq-solver-app.herokuapp.com/
 - Try It! Because of the Heroku free tier, page will take ~10 seconds to load the first time
