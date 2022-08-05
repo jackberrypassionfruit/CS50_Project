@@ -1,5 +1,7 @@
 # CS50_Project
 
+https://quadratic-eq-solver-app.herokuapp.com/
+
 To access the project, unzip the folder, navigate to the app.py file and execute the command "flask run". You will then be able to launch a development server by clicking on the port which appears in the terminal window.
  
 You will be taken to a login page of our math activity website. Click register in the top right to create an account and log in.
