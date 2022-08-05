@@ -1,6 +1,7 @@
 # CS50_Project
 
 https://quadratic-eq-solver-app.herokuapp.com/
+https://www.youtube.com/watch?v=3xOoQUSpvyI
 
 Upon loading the heroku app, you will be taken to a login page of our math activity website. Click register in the top right to create an account and log in.
  
