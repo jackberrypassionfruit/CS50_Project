@@ -1,7 +1,7 @@
 # CS50_Project
 
 - https://quadratic-eq-solver-app.herokuapp.com/
-- Because of the Heroku free tier, page will take ~10 seconds to load the first time
+- Try It! Because of the Heroku free tier, page will take ~10 seconds to load the first time
 - https://www.youtube.com/watch?v=3xOoQUSpvyI
 - A demonstration of our project on YouTube
 
