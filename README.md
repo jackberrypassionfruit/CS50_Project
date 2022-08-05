@@ -1,8 +1,8 @@
 # CS50_Project
 
-https://quadratic-eq-solver-app.herokuapp.com/
+- https://quadratic-eq-solver-app.herokuapp.com/
 - Because of the Heroku free tier, page will take ~10 seconds to load the first time
-https://www.youtube.com/watch?v=3xOoQUSpvyI
+- https://www.youtube.com/watch?v=3xOoQUSpvyI
 - A summary of our project on YouTube
 
 Upon loading the heroku app, you will be taken to a login page of our math activity website. Click register in the top right to create an account and log in.
